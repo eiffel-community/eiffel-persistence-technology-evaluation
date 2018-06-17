@@ -1,0 +1,6 @@
+.DS_Store
+*
+!*/
+!/Neo4j/Project/neo4j/src/**
+!/ArangoDB/Project/ArangoDB/src/**
+!.gitignore
