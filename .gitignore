@@ -4,3 +4,8 @@
 !/Neo4j/Project/neo4j/src/**
 !/ArangoDB/Project/ArangoDB/src/**
 !.gitignore
+
+/ArangoDB/Project/ArangoDB/src/main/java/com/multimodel/ArangoDB/.DS_Store
+/Neo4j/Project/neo4j/neo4j-community-3.3.5/
+/Neo4j/Project/neo4j/src/main/java/com/graphmodel/neo4j/.DS_Store
+/Neo4j/neo4j-java-driver-1.5.1/
