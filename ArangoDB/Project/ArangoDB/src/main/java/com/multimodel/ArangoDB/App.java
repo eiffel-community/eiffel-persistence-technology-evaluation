@@ -2,6 +2,8 @@ package com.multimodel.ArangoDB;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.time.Duration;
@@ -15,6 +17,10 @@ import java.util.concurrent.ConcurrentMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 
 /**
@@ -38,7 +44,22 @@ public class App
 	        return jsonArr;
 	}
 	
-	public static void testV1(ArangoDBDatabaseHelperV1 dbV1, JSONArray jsonArr, FilterParameterList filterList, int amount, PrintStream p){
+	public static List<JSONObject> readJsonStream(InputStream in) throws IOException{
+		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+		List<JSONObject> messages = new ArrayList<JSONObject>();
+		Gson gson = new Gson();
+		reader.beginArray();
+		while (reader.hasNext()) {
+			JSONObject message = gson.fromJson(reader, JSONObject.class);
+			messages.add(message);
+		}
+		reader.endArray();
+		reader.close();
+		return messages;
+		
+	}
+	
+	public static void testV1(ArangoDBDatabaseHelperV1 dbV1, List<JSONObject> jsonArr, FilterParameterList filterList, int amount, PrintStream p) throws Exception{
         
 		dbV1.arangoDBSetUp();
 		
@@ -56,7 +77,8 @@ public class App
 		
 		// Get event by id test part
         p.append ("Get event by id test part \r\n");
-    	JSONObject test1 = (JSONObject) jsonArr.get(40);
+    	//JSONObject test1 = (JSONObject) jsonArr.get(2);
+        JSONObject test1 = (JSONObject) new JSONParser().parse(jsonArr.get(40).toString());
     	Instant start2 = Instant.now();
     	JSONObject test2 = dbV1.getEvent(((JSONObject) test1.get("meta")).get("id").toString());
     	Instant end2 = Instant.now();
@@ -203,7 +225,7 @@ public class App
     	
 	}
 	
-	public static void testV2(ArangoDBDatabaseHelperV2 dbV2, JSONArray jsonArr, FilterParameterList filterList, int amount, PrintStream p){
+	public static void testV2(ArangoDBDatabaseHelperV2 dbV2, List<JSONObject> jsonArr, FilterParameterList filterList, int amount, PrintStream p) throws Exception{
 		dbV2.arangoDBGraphSetUp();
 		
 		// Storing test part
@@ -220,7 +242,8 @@ public class App
         
      // Get event by id test part
         p.append ("Get event by id test part \r\n");
-    	JSONObject test1 = (JSONObject) jsonArr.get(40);
+    	//JSONObject test1 = (JSONObject) jsonArr.get(40);
+        JSONObject test1 = (JSONObject) new JSONParser().parse(jsonArr.get(40).toString());
     	Instant start2 = Instant.now();
     	JSONObject test2 = dbV2.getEvent(((JSONObject) test1.get("meta")).get("id").toString());
     	Instant end2 = Instant.now();
@@ -300,18 +323,21 @@ public class App
         ArangoDBDatabaseHelperV1 dbV1 = new ArangoDBDatabaseHelperV1();
         ArangoDBDatabaseHelperV2 dbV2 = new ArangoDBDatabaseHelperV2();
         
-        String filePath1 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/events.json";
-        String filePath2 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example.json";
-        String filePath3 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example2.json";
+        String filePath1 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events.json";
+        String filePath2 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events_test.json";
+        //String filePath3 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example2.json";
         
-        JSONArray jsonArr = new JSONArray();
+        //JSONArray jsonArr = new JSONArray();
         int testNr = 0;
         int amount = 100;
         App temp = new App();
-        jsonArr = temp.readJSONFromFile(filePath1);
+        //jsonArr = temp.readJSONFromFile(filePath1);
+        List<JSONObject> jsonArr = new ArrayList<JSONObject>();
+        InputStream infile = new FileInputStream(filePath1);
+        jsonArr = readJsonStream(infile);
        
         
-        String file = "/Users/Jakub1/Documents/Universitet/Exjobb/Test_Results/ArangoDB_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
+        String file = "C:/Users/ebinjak/Documents/Exjobb/TestsResults/ArangoDB_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
     	FileOutputStream out;
         PrintStream p;
         out = new FileOutputStream(file);

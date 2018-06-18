@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoCursor;
@@ -134,12 +136,19 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 	}
 
 	
-	public boolean storeManyEvents(JSONArray jsonArr, int amount) {
+	public boolean storeManyEvents(List<JSONObject> jsonArr, int amount) {
     	int i = 0;
     	boolean work = false;
     	if(amount <= jsonArr.size()){
 	    	for(; i < amount; i++){
-	    		work = store((JSONObject)jsonArr.get(i));	
+	    		try {
+					JSONObject json = (JSONObject) new JSONParser().parse(jsonArr.get(i).toString());
+					work = store(json);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		//work = store((JSONObject)jsonArr.get(i));	
 	    	}
     	}
     	System.out.println(i);

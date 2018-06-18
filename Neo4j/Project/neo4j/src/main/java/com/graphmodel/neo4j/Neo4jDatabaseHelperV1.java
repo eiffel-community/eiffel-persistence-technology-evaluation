@@ -13,6 +13,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
@@ -21,6 +23,9 @@ import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.TransactionWork;
 import org.neo4j.driver.v1.exceptions.Neo4jException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class Neo4jDatabaseHelperV1 implements AutoCloseable, DatabaseHelper  {
 	
@@ -450,13 +455,24 @@ public class Neo4jDatabaseHelperV1 implements AutoCloseable, DatabaseHelper  {
     	return true;
 	}
 	
-	public boolean storeManyEvents(JSONArray jsonArr, int amount) {
+	public boolean storeManyEvents(List<JSONObject> jsonArr, int amount) {
 		// TODO Auto-generated method stub
     	int i = 0;
     	boolean work = false;
     	if(amount <= jsonArr.size()){
 	    	for(; i < amount; i++){
-	    		work = store((JSONObject)jsonArr.get(i));	
+	    		//JsonParser parser = new JsonParser();
+	    		//JsonObject o = parser.parse(jsonArr.get(i).toString()).getAsJsonObject();
+	    		//work = store((JSONObject) o);
+	    		//JsonObject gson = new JsonParser().parse(jsonArr.get(i).toString()).getAsJsonObject();
+	    		try {
+					JSONObject json = (JSONObject) new JSONParser().parse(jsonArr.get(i).toString());
+					work = store(json);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		//work = store((JSONObject)jsonArr.get(i));	
 	    	}
     	}
     	System.out.println(i);
@@ -627,7 +643,11 @@ public class Neo4jDatabaseHelperV1 implements AutoCloseable, DatabaseHelper  {
 							+ "RETURN collect(properties(n))";
 		
 		NodeListV1 nodeList = execGetQueryV1(query);
-		return createResult(nodeList, 0, nodeList.getSizeOfNodeList(), false).getEventFromEventsArray(0);
+		if(nodeList.getSizeOfNodeList() != 0){
+			return createResult(nodeList, 0, nodeList.getSizeOfNodeList(), false).getEventFromEventsArray(0);
+		}else{
+			return null;
+		}
 	}
 	
 	

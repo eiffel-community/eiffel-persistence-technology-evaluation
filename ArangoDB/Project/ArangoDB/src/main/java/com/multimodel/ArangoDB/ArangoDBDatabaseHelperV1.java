@@ -95,12 +95,19 @@ public class ArangoDBDatabaseHelperV1 implements DatabaseHelper{
 		}
 	}
 	
-	public boolean storeManyEvents(JSONArray jsonArr, int amount) {
+	public boolean storeManyEvents(List<JSONObject> jsonArr, int amount) {
     	int i = 0;
     	boolean work = false;
     	if(amount <= jsonArr.size()){
 	    	for(; i < amount; i++){
-	    		work = store((JSONObject)jsonArr.get(i));	
+	    		try {
+					JSONObject json = (JSONObject) new JSONParser().parse(jsonArr.get(i).toString());
+					work = store(json);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		//work = store((JSONObject)jsonArr.get(i));	
 	    	}
     	}
     	System.out.println(i);
@@ -240,19 +247,19 @@ public class ArangoDBDatabaseHelperV1 implements DatabaseHelper{
 	        int i = lowerIndex;
 	        int j = higherIndex;
 	        
-	        long pivot = (long) ((Map) ((Map) list.get(lowerIndex+(higherIndex-lowerIndex)/2)).get("meta")).get("time");
+	        long pivot = (long)(double) ((Map) ((Map) list.get(lowerIndex+(higherIndex-lowerIndex)/2)).get("meta")).get("time");
 	        
 	        while (i <= j) {
 
-	        	long tempI = (long) ((Map) ((Map) list.get(i)).get("meta")).get("time");
+	        	long tempI = (long)(double) ((Map) ((Map) list.get(i)).get("meta")).get("time");
 	            while (tempI < pivot) {
 	                i++;
-	                tempI = (long) ((Map) ((Map) list.get(i)).get("meta")).get("time");
+	                tempI = (long)(double) ((Map) ((Map) list.get(i)).get("meta")).get("time");
 	            }
-	            long tempJ = (long) ((Map) ((Map) list.get(j)).get("meta")).get("time");
+	            long tempJ = (long)(double) ((Map) ((Map) list.get(j)).get("meta")).get("time");
 	            while (tempJ > pivot) {
 	                j--;
-	                tempJ = (long) ((Map) ((Map) list.get(j)).get("meta")).get("time");
+	                tempJ = (long)(double) ((Map) ((Map) list.get(j)).get("meta")).get("time");
 	            }
 	            if (i <= j) {
 	                exchangeNumbers(list, i, j);

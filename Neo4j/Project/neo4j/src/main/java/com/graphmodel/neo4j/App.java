@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.time.Duration;
@@ -20,27 +22,11 @@ import java.util.concurrent.ConcurrentMap;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
+
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 //import org.json.*;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import com.graphmodel.neo4j.Neo4jDatabaseHelper;
 
 
 /**
@@ -66,9 +52,24 @@ public class App
         return jsonArr;
 	}
 	
+	public static List<JSONObject> readJsonStream(InputStream in) throws IOException{
+		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+		List<JSONObject> messages = new ArrayList<JSONObject>();
+		Gson gson = new Gson();
+		reader.beginArray();
+		while (reader.hasNext()) {
+			JSONObject message = gson.fromJson(reader, JSONObject.class);
+			messages.add(message);
+		}
+		reader.endArray();
+		reader.close();
+		return messages;
+		
+	}
 	
 	
-	public static void V1(String url, String user, String password, JSONArray jsonArr, int amount, FilterParameterList filterList, PrintStream p) throws Exception{
+	
+	public static void V1(String url, String user, String password, List<JSONObject> jsonArr, int amount, FilterParameterList filterList, PrintStream p) throws Exception{
 		//___Version 1___
         try ( Neo4jDatabaseHelperV1 con = new Neo4jDatabaseHelperV1( url, user, password ) )
         {
@@ -88,7 +89,8 @@ public class App
             
             // Get event by id test part
             p.append ("Get event by id test part \r\n");
-        	JSONObject test1 = (JSONObject) jsonArr.get(40);
+        	JSONObject test1 = (JSONObject) new JSONParser().parse(jsonArr.get(40).toString());
+        	//JSONObject test1 = (JSONObject) jsonArr.get(40);
         	Instant start2 = Instant.now();
         	JSONObject test2 = con.getEvent(((JSONObject) test1.get("meta")).get("id").toString());
         	Instant end2 = Instant.now();
@@ -236,7 +238,7 @@ public class App
         }
 	}
 	
-	public static void V2(String url, String user, String password, JSONArray jsonArr, int amount, FilterParameterList filterList, PrintStream p) throws Exception{
+	public static void V2(String url, String user, String password, List<JSONObject> jsonArr, int amount, FilterParameterList filterList, PrintStream p) throws Exception{
         //___Version 2___
         try ( Neo4jDatabaseHelperV2 con = new Neo4jDatabaseHelperV2( url, user, password ) )
         {
@@ -255,7 +257,8 @@ public class App
             
             // Get event by id test part
             p.append ("Get event by id test part \r\n");
-        	JSONObject test1 = (JSONObject) jsonArr.get(40);
+        	JSONObject test1 = (JSONObject) new JSONParser().parse(jsonArr.get(40).toString());
+        	//JSONObject test1 = (JSONObject) jsonArr.get(40);
         	Instant start2 = Instant.now();
         	JSONObject test2 = con.getEvent(((JSONObject) test1.get("meta")).get("id").toString());
         	Instant end2 = Instant.now();
@@ -410,19 +413,22 @@ public class App
         String url = "bolt://localhost:7687";
         String user = "neo4j";
         String password = "Dekret66";
-        String filePath1 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/events.json";
-        String filePath2 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example.json";
-        String filePath3 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example2.json";
+        String filePath1 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events.json";
+        String filePath2 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events_test.json";
+       // String filePath2 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example.json";
+       // String filePath3 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example2.json";
         
     	
         
-        JSONArray jsonArr = new JSONArray();
+        //JSONArray jsonArr = new JSONArray();
         int testNr = 0;
         int amount = 100;
         App temp = new App();
-        jsonArr = temp.readJSONFromFile(filePath1);
-        
-        String file = "/Users/Jakub1/Documents/Universitet/Exjobb/Test_Results/Neo4j_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
+       // jsonArr = temp.readJSONFromFile(filePath2);
+        List<JSONObject> jsonArr = new ArrayList<JSONObject>();
+        InputStream infile = new FileInputStream(filePath1);
+        jsonArr = readJsonStream(infile);
+        String file = "C:/Users/ebinjak/Documents/Exjobb/TestsResults/Neo4j_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
     	FileOutputStream out;
         PrintStream p;
         out = new FileOutputStream(file);
@@ -437,6 +443,8 @@ public class App
         filterList.addFilterParameter("meta_version", "1.0.0", "=");
         filterList.addFilterParameter("meta_version", "2.0.0", "<");
         int n = 1;
+        System.out.println(jsonArr.size());
+        System.out.println(jsonArr.get(0));
         Scanner reader = new Scanner(System.in);
         while(n == 1 || n == 2 || n == 3){
         	
