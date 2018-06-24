@@ -270,19 +270,30 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 		HashMap<String, String> meta = (HashMap<String, String>) event.get("meta");
 		String metaId = meta.get("id").toString();
 		//String query = "FOR doc IN " + collectionName + " FILTER doc.meta.id == '" + metaId + "' FOR v IN 1..2 OUTBOUND doc " + EDGE_COLLECTION_NAME + " RETURN v";
-		String query = "FOR doc IN " + collectionName 
-					+ " FILTER doc.meta.id == '" + metaId 
-					+ "' FOR v, e, p IN 1.." + levels + " OUTBOUND doc GRAPH '" + GRAPH_NAME + "' "
-					+ " FILTER " + createLinkTypes(linkTypes) + " " // LIMIT 0, " + limit + " "
-					//+ "RETURN DISTINCT v";
-					+ "COLLECT res = v SORT res.meta.time DESC LIMIT " + limit + " RETURN res";
+		String query1 = "FOR doc IN Events FILTER doc.meta.id == '" + metaId 
+						+ "' FOR v, e, p IN 1.." + levels + " OUTBOUND doc GRAPH '" 
+						+ GRAPH_NAME + "' FILTER " + createLinkTypes(linkTypes) 
+						+ " UPDATE e with {theTruth: false} IN edges";
+		String query2 = "FOR doc IN Events FILTER doc.meta.id == '" + metaId 
+						+ "' FOR v, e, p IN 1.." + levels + " OUTBOUND doc GRAPH '" 
+						+ GRAPH_NAME + "' FILTER p.edges[*].theTruth All == false "
+						+ "COLLECT res = v SORT res.meta.time DESC LIMIT " 
+						+ limit + " RETURN res";
+		String query3 = "FOR doc IN Events FILTER doc.meta.id == '" + metaId 
+						+ "' FOR v, e, p IN 1.." + levels + " OUTBOUND doc GRAPH '" 
+						+ GRAPH_NAME + "' FILTER " + createLinkTypes(linkTypes) 
+						+ " UPDATE e with {theTruth: true} IN edges";
 		try {	 
 			if(arangoDB.db(dbName).collection(collectionName).documentExists(metaId)){
-				  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
-				      BaseDocument.class);
-				  cursor.forEachRemaining(aDocument -> {
-					  events.add(new JSONObject(aDocument.getProperties()));	  
-				  });
+				  	ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query1, null, null,
+					      BaseDocument.class);
+					ArangoCursor<BaseDocument> cursor2 = arangoDB.db(dbName).query(query2, null, null,
+						      BaseDocument.class);
+						cursor2.forEachRemaining(aDocument -> {
+							events.add(new JSONObject(aDocument.getProperties()));	  
+					});
+					ArangoCursor<BaseDocument> cursor3 = arangoDB.db(dbName).query(query3, null, null,
+						      BaseDocument.class);
 			}else{
 				throw new ArangoDBException("Document is not in Database");
 			}
@@ -317,20 +328,31 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 			int limit, int levels, List<Object> events) {
 		// TODO Auto-generated method stub
 		//String query = "FOR doc IN " + collectionName + " FILTER doc.meta.id == '" + metaId + "' FOR v IN 1..2 OUTBOUND doc " + EDGE_COLLECTION_NAME + " RETURN v";
-		String query = "FOR doc IN " + collectionName 
-					+ " FILTER doc.meta.id == '" + eventId 
-					+ "' FOR v, e, p IN 1.." + levels + " INBOUND doc GRAPH '" + GRAPH_NAME + "' "
-					+ " FILTER " + createLinkTypes(linkTypes) + " " //LIMIT 0, " + limit + " "
-					//+ "RETURN DISTINCT v";
-					+ "COLLECT res = v SORT res.meta.time ASC LIMIT " + limit + " RETURN res";
+		String query1 = "FOR doc IN Events FILTER doc.meta.id == '" + eventId 
+						+ "' FOR v, e, p IN 1.." + levels + " INBOUND doc GRAPH '" 
+						+ GRAPH_NAME + "' FILTER " + createLinkTypes(linkTypes) 
+						+ " UPDATE e with {theTruth: false} IN edges";
+		String query2 = "FOR doc IN Events FILTER doc.meta.id == '" 
+						+ eventId + "' FOR v, e, p IN 1.." + levels 
+						+ " INBOUND doc GRAPH '" + GRAPH_NAME + "' FILTER "
+						+ "p.edges[*].theTruth All == false COLLECT res = v"
+						+ " SORT res.meta.time ASC LIMIT " + limit + " RETURN res";
+		String query3 = "FOR doc IN Events FILTER doc.meta.id == '" + eventId 
+						+ "' FOR v, e, p IN 1.." + levels + " INBOUND doc GRAPH '" 
+						+ GRAPH_NAME + "' FILTER " + createLinkTypes(linkTypes) 
+						+ " UPDATE e with {theTruth: true} IN edges";
 		System.out.println(query);
 		try {	 
 			if(arangoDB.db(dbName).collection(collectionName).documentExists(eventId)){
-				  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
+				ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query1, null, null,
 				      BaseDocument.class);
-				  cursor.forEachRemaining(aDocument -> {
-					  events.add(new JSONObject(aDocument.getProperties()));	  
-				  });
+				ArangoCursor<BaseDocument> cursor2 = arangoDB.db(dbName).query(query2, null, null,
+					      BaseDocument.class);
+					cursor2.forEachRemaining(aDocument -> {
+						events.add(new JSONObject(aDocument.getProperties()));	  
+					});
+				ArangoCursor<BaseDocument> cursor3 = arangoDB.db(dbName).query(query3, null, null,
+					      BaseDocument.class);
 			}else{
 				throw new ArangoDBException("Document is not in Database");
 			}
