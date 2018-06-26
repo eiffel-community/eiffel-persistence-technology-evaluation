@@ -239,10 +239,10 @@ public class App
         System.out.println("ArangoDB V2: Duration of storing " + amount + " event(s): " + Duration.between(start, end));
         p.append ("ArangoDB V2: Duration of storing " + amount + " event(s): " + Duration.between(start, end) + "\r\n");
         p.append ("\r\n");
-        
-     // Get event by id test part
+		
+		// Get event by id test part
         p.append ("Get event by id test part \r\n");
-    	//JSONObject test1 = (JSONObject) jsonArr.get(40);
+    	//JSONObject test1 = (JSONObject) jsonArr.get(2);
         JSONObject test1 = (JSONObject) new JSONParser().parse(jsonArr.get(40).toString());
     	Instant start2 = Instant.now();
     	JSONObject test2 = dbV2.getEvent(((JSONObject) test1.get("meta")).get("id").toString());
@@ -257,6 +257,72 @@ public class App
     	p.append("\r\n");
     	System.out.println(test2);
     	p.append (test2 + "\r\n"); 
+    	p.append("\r\n");
+    	System.out.println();
+    	System.out.println("---------------------");
+    	System.out.println();
+    	
+    	// Get events test part
+    	p.append ("Get events test part \r\n");
+    	DataStoreResult result = new DataStoreResult();
+    	Instant start3 = Instant.now();
+    	result = dbV2.getEvents(filterList, "<", 0, 5, false);
+    	Instant end3 = Instant.now();
+    	System.out.println("ArangoDB V2: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3));
+    	p.append ("ArangoDB V2: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3) + "\r\n");
+    	p.append ("\r\n");
+    	System.out.println();
+    	result.printResult(p);
+    	System.out.println();
+    	System.out.println("---------------------");
+    	System.out.println();
+    	
+    	// GAV test part
+    	p.append ("GAV test part \r\n");
+    	String groupId = "com.mycompany.myproduct";
+    	String artifactId = "component-3";
+    	String version = "1.0.0";
+    	int gavLimit = 30;
+    	
+    	// Get events by groupId
+    	p.append ("Get events by groupId \r\n");
+    	Instant start4 = Instant.now();
+    	result = dbV2.getArtifactsByGroup(groupId, filterList, "<", 0, gavLimit);
+    	Instant end4 = Instant.now();
+    	System.out.println("ArangoDB V2: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4));
+    	p.append ("ArangoDB V2: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4) + "\r\n");
+    	p.append ("\r\n");
+    	System.out.println();
+    	result.printResult(p);
+    	System.out.println();
+    	System.out.println("---------------------");
+    	System.out.println();
+    	
+    	// Get events by groupId and artifactId
+    	p.append ("Get events by groupId and artifactId \r\n");
+    	Instant start5 = Instant.now();
+    	result = dbV2.getArtifactsByGroupAndArtifactId(groupId, artifactId, filterList, "<", 0, gavLimit);
+    	Instant end5 = Instant.now();
+    	System.out.println("ArangoDB V2: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5));
+    	p.append ("ArangoDB V2: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5) + "\r\n");
+    	p.append ("\r\n");
+    	System.out.println();
+    	result.printResult(p);
+    	System.out.println();
+    	System.out.println("---------------------");
+    	System.out.println();
+    	
+    	// Get events by groupId, artifactId and version
+    	p.append ("Get events by groupId, artifactId and version \r\n");
+    	Instant start6 = Instant.now();
+    	JSONObject resGAV = dbV2.getArtifactByGAV(groupId, artifactId, version);
+    	Instant end6 = Instant.now();
+    	System.out.println("ArangoDB V2: Duration of getArtifactByGAV with " + amount + " events in database: " + Duration.between(start6, end6));
+    	p.append ("ArangoDB V2: Duration of getArtifactsByGAV with " + amount + " events in database: " + Duration.between(start6, end6) + "\r\n");
+    	p.append ("\r\n");
+    	System.out.println();
+    	System.out.println(resGAV);
+    	p.append (resGAV + "\r\n");
     	p.append("\r\n");
     	System.out.println();
     	System.out.println("---------------------");
@@ -314,6 +380,13 @@ public class App
     	System.out.println();
     	System.out.println("---------------------");
     	System.out.println();
+    	
+    	// Remove all nodes part
+    	dbV2.removeAllEvents();
+    	p.append ("Removed all events \r\n");
+    	p.append ("\r\n");
+    	p.append ("------------------------------------------------------------------ \r\n");
+    	p.append ("\r\n");
 	}
 	
     public static void main( String[] args ) throws Exception

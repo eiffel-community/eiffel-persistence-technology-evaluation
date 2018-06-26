@@ -225,14 +225,43 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 	public DataStoreResult getEvents(FilterParameterList filterList,
 			String comparator, int skip, int limit, boolean lazy) {
 		// TODO Auto-generated method stub
-		
-		return null;
+		DataStoreResult result = new DataStoreResult();
+		JSONArray jArr = new JSONArray();
+		String sort = (comparator.equals("<"))? "ASC"  : "DESC";
+		String query = "FOR document IN " + collectionName + " FILTER " 
+						+ createQueryParameters(filterList) 
+						+ " SORT document.meta.time " + sort 
+						+ " LIMIT " + skip + ", " + limit 
+						+ " RETURN document";
+		//System.out.println(query);
+		try {	  
+			  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
+			      BaseDocument.class);
+			  cursor.forEachRemaining(aDocument -> {
+			    jArr.add(new JSONObject(aDocument.getProperties()));
+			  });
+		} catch (ArangoDBException e) {
+			System.err.println("Failed to execute query. " + e.getMessage());
+		}
+		result.setEventsArray(jArr);
+		long number = (lazy)? -1:jArr.size();
+		result.setCount(number);
+		return result;
 	}
 
 	@Override
 	public void removeAllEvents() {
 		// TODO Auto-generated method stub
-		
+		String query = "FOR document IN " + collectionName + " REMOVE document IN " + collectionName;
+		String query2 = "FOR document IN " + EDGE_COLLECTION_NAME + " REMOVE document IN " + EDGE_COLLECTION_NAME;
+		try {	  
+			  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
+			      BaseDocument.class);
+			  ArangoCursor<BaseDocument> cursor2 = arangoDB.db(dbName).query(query2, null, null,
+				      BaseDocument.class);
+		} catch (ArangoDBException e) {
+			System.err.println("Failed to execute query. " + e.getMessage());
+		}
 	}
 
 	@Override
@@ -269,10 +298,10 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 		// TODO Auto-generated method stub
 		HashMap<String, String> meta = (HashMap<String, String>) event.get("meta");
 		String metaId = meta.get("id").toString();
-		//String query = "FOR doc IN " + collectionName + " FILTER doc.meta.id == '" + metaId + "' FOR v IN 1..2 OUTBOUND doc " + EDGE_COLLECTION_NAME + " RETURN v";
+		String linkTypesStr = createLinkTypes(linkTypes);
 		String query1 = "FOR doc IN Events FILTER doc.meta.id == '" + metaId 
 						+ "' FOR v, e, p IN 1.." + levels + " OUTBOUND doc GRAPH '" 
-						+ GRAPH_NAME + "' FILTER " + createLinkTypes(linkTypes) 
+						+ GRAPH_NAME + "' FILTER " + linkTypesStr 
 						+ " UPDATE e with {theTruth: false} IN edges";
 		String query2 = "FOR doc IN Events FILTER doc.meta.id == '" + metaId 
 						+ "' FOR v, e, p IN 1.." + levels + " OUTBOUND doc GRAPH '" 
@@ -281,7 +310,7 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 						+ limit + " RETURN res";
 		String query3 = "FOR doc IN Events FILTER doc.meta.id == '" + metaId 
 						+ "' FOR v, e, p IN 1.." + levels + " OUTBOUND doc GRAPH '" 
-						+ GRAPH_NAME + "' FILTER " + createLinkTypes(linkTypes) 
+						+ GRAPH_NAME + "' FILTER " + linkTypesStr
 						+ " UPDATE e with {theTruth: true} IN edges";
 		try {	 
 			if(arangoDB.db(dbName).collection(collectionName).documentExists(metaId)){
@@ -327,10 +356,10 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 			List<String> linkTypes, ConcurrentMap<String, String> visitedMap,
 			int limit, int levels, List<Object> events) {
 		// TODO Auto-generated method stub
-		//String query = "FOR doc IN " + collectionName + " FILTER doc.meta.id == '" + metaId + "' FOR v IN 1..2 OUTBOUND doc " + EDGE_COLLECTION_NAME + " RETURN v";
+		String linkTypesStr = createLinkTypes(linkTypes);
 		String query1 = "FOR doc IN Events FILTER doc.meta.id == '" + eventId 
 						+ "' FOR v, e, p IN 1.." + levels + " INBOUND doc GRAPH '" 
-						+ GRAPH_NAME + "' FILTER " + createLinkTypes(linkTypes) 
+						+ GRAPH_NAME + "' FILTER " + linkTypesStr 
 						+ " UPDATE e with {theTruth: false} IN edges";
 		String query2 = "FOR doc IN Events FILTER doc.meta.id == '" 
 						+ eventId + "' FOR v, e, p IN 1.." + levels 
@@ -339,9 +368,8 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 						+ " SORT res.meta.time ASC LIMIT " + limit + " RETURN res";
 		String query3 = "FOR doc IN Events FILTER doc.meta.id == '" + eventId 
 						+ "' FOR v, e, p IN 1.." + levels + " INBOUND doc GRAPH '" 
-						+ GRAPH_NAME + "' FILTER " + createLinkTypes(linkTypes) 
+						+ GRAPH_NAME + "' FILTER " + linkTypesStr 
 						+ " UPDATE e with {theTruth: true} IN edges";
-		System.out.println(query);
 		try {	 
 			if(arangoDB.db(dbName).collection(collectionName).documentExists(eventId)){
 				ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query1, null, null,
@@ -368,22 +396,83 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 			FilterParameterList filterList, String comparator, int skip,
 			int limit) {
 		// TODO Auto-generated method stub
-		return null;
+		DataStoreResult result = new DataStoreResult();
+		JSONArray jArr = new JSONArray();
+		String gId = "document.data.gav.groupId == '" + groupId + "' ";
+		gId += (filterList.getFilterList().isEmpty())? "" : "AND ";
+		String sort = (comparator.equals("<"))? "ASC"  : "DESC";
+		String query = "FOR document IN " + collectionName + " FILTER " 
+						+ gId
+						+ createQueryParameters(filterList) 
+						+ " SORT document.meta.time " + sort 
+						+ " LIMIT " + skip + ", " + limit 
+						+ " RETURN document";
+		//System.out.println(query);
+		try {	  
+			  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
+			      BaseDocument.class);
+			  cursor.forEachRemaining(aDocument -> {
+			    jArr.add(new JSONObject(aDocument.getProperties()));
+			  });
+		} catch (ArangoDBException e) {
+			System.err.println("Failed to execute query. " + e.getMessage());
+		}
+		result.setEventsArray(jArr);
+		result.setCount(jArr.size());
+		return result;
 	}
+	
 
 	@Override
 	public DataStoreResult getArtifactsByGroupAndArtifactId(String groupId,
 			String artifactId, FilterParameterList filterList,
 			String comparator, int skip, int limit) {
 		// TODO Auto-generated method stub
-		return null;
+		DataStoreResult result = new DataStoreResult();
+		JSONArray jArr = new JSONArray();
+		String gIdAId = "document.data.gav.groupId == '" + groupId + "' AND document.data.gav.artifactId == '" + artifactId + "' ";
+		gIdAId += (filterList.getFilterList().isEmpty())? "" : "AND ";
+		String sort = (comparator.equals("<"))? "ASC"  : "DESC";
+		String query = "FOR document IN " + collectionName + " FILTER " 
+						+ gIdAId
+						+ createQueryParameters(filterList) 
+						+ " SORT document.meta.time " + sort 
+						+ " LIMIT " + skip + ", " + limit 
+						+ " RETURN document";
+		//System.out.println(query);
+		try {	  
+			  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
+			      BaseDocument.class);
+			  cursor.forEachRemaining(aDocument -> {
+			    jArr.add(new JSONObject(aDocument.getProperties()));
+			  });
+		} catch (ArangoDBException e) {
+			System.err.println("Failed to execute query. " + e.getMessage());
+		}
+		result.setEventsArray(jArr);
+		result.setCount(jArr.size());
+		return result;
 	}
 
 	@Override
 	public JSONObject getArtifactByGAV(String groupId, String artifactId,
 			String version) {
 		// TODO Auto-generated method stub
-		return null;
+		JSONObject json = new JSONObject();
+		String query = "FOR document IN " + collectionName + " FILTER document.data.gav.groupId == '" + groupId 
+						+ "' AND document.data.gav.artifactId == '" + artifactId 
+						+ "' AND document.data.gav.version == '" + version
+						+ "'  RETURN document";
+		try {	 
+			  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
+			      BaseDocument.class);
+			  cursor.forEachRemaining(aDocument -> {
+			    json.putAll(new JSONObject(aDocument.getProperties()));
+			  });
+		} catch (ArangoDBException e) {
+			System.err.println("Failed to execute query. " + e.getMessage());
+		}
+		return json;
 	}
 
 }
