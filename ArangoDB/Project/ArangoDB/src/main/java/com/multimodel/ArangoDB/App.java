@@ -172,8 +172,8 @@ public class App
      	linkTypes.add("CAUSE");
      	linkTypes.add("ELEMENT");
      	ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
-     	int limit = 7;
-     	int levels = 4;
+     	int limit = 5;
+     	int levels = 5;
      	Instant start7 = Instant.now();
     	result2 = dbV1.getUpstreamEvents( eventId, linkTypes, visitedMap,  limit,  levels);
     	Instant end7 = Instant.now();

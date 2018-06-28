@@ -351,7 +351,7 @@ public class App
          	linkTypes.add("CAUSE");
            	linkTypes.add("ELEMENT");
          	ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
-         	int limit = 5;
+         	int limit = 7;
          	int levels = 4;
          	Instant start7 = Instant.now();
         	result2 = con.getUpstreamEvents( eventId, linkTypes, visitedMap,  limit,  levels);
@@ -443,8 +443,8 @@ public class App
         filterList.addFilterParameter("meta_version", "1.0.0", "=");
         filterList.addFilterParameter("meta_version", "2.0.0", "<");
         int n = 1;
-        System.out.println(jsonArr.size());
-        System.out.println(jsonArr.get(0));
+       // System.out.println(jsonArr.size());
+      //  System.out.println(jsonArr.get(0));
         Scanner reader = new Scanner(System.in);
         while(n == 1 || n == 2 || n == 3){
         	
