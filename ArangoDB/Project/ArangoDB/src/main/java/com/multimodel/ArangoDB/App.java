@@ -100,8 +100,9 @@ public class App
     	// Get events test part
     	p.append ("Get events test part \r\n");
     	DataStoreResult result = new DataStoreResult();
+    	int skip = 2;
     	Instant start3 = Instant.now();
-    	result = dbV1.getEvents(filterList, "<", 0, 5, false);
+    	result = dbV1.getEvents(filterList, "<", skip, 5, false);
     	Instant end3 = Instant.now();
     	System.out.println("ArangoDB V1: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3));
     	p.append ("ArangoDB V1: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3) + "\r\n");
@@ -122,7 +123,7 @@ public class App
     	// Get events by groupId
     	p.append ("Get events by groupId \r\n");
     	Instant start4 = Instant.now();
-    	result = dbV1.getArtifactsByGroup(groupId, filterList, "<", 0, gavLimit);
+    	result = dbV1.getArtifactsByGroup(groupId, filterList, "<", skip, gavLimit);
     	Instant end4 = Instant.now();
     	System.out.println("ArangoDB V1: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4));
     	p.append ("ArangoDB V1: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4) + "\r\n");
@@ -136,7 +137,7 @@ public class App
     	// Get events by groupId and artifactId
     	p.append ("Get events by groupId and artifactId \r\n");
     	Instant start5 = Instant.now();
-    	result = dbV1.getArtifactsByGroupAndArtifactId(groupId, artifactId, filterList, "<", 0, gavLimit);
+    	result = dbV1.getArtifactsByGroupAndArtifactId(groupId, artifactId, filterList, "<", skip, gavLimit);
     	Instant end5 = Instant.now();
     	System.out.println("ArangoDB V1: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5));
     	p.append ("ArangoDB V1: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5) + "\r\n");
@@ -172,8 +173,8 @@ public class App
      	linkTypes.add("CAUSE");
      	linkTypes.add("ELEMENT");
      	ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
-     	int limit = 5;
-     	int levels = 5;
+     	int limit = 7;
+     	int levels = 4;
      	Instant start7 = Instant.now();
     	result2 = dbV1.getUpstreamEvents( eventId, linkTypes, visitedMap,  limit,  levels);
     	Instant end7 = Instant.now();
@@ -265,8 +266,9 @@ public class App
     	// Get events test part
     	p.append ("Get events test part \r\n");
     	DataStoreResult result = new DataStoreResult();
+    	int skip = 2;
     	Instant start3 = Instant.now();
-    	result = dbV2.getEvents(filterList, "<", 0, 5, false);
+    	result = dbV2.getEvents(filterList, "<", skip, 5, false);
     	Instant end3 = Instant.now();
     	System.out.println("ArangoDB V2: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3));
     	p.append ("ArangoDB V2: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3) + "\r\n");
@@ -287,7 +289,7 @@ public class App
     	// Get events by groupId
     	p.append ("Get events by groupId \r\n");
     	Instant start4 = Instant.now();
-    	result = dbV2.getArtifactsByGroup(groupId, filterList, "<", 0, gavLimit);
+    	result = dbV2.getArtifactsByGroup(groupId, filterList, "<", skip, gavLimit);
     	Instant end4 = Instant.now();
     	System.out.println("ArangoDB V2: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4));
     	p.append ("ArangoDB V2: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4) + "\r\n");
@@ -301,7 +303,7 @@ public class App
     	// Get events by groupId and artifactId
     	p.append ("Get events by groupId and artifactId \r\n");
     	Instant start5 = Instant.now();
-    	result = dbV2.getArtifactsByGroupAndArtifactId(groupId, artifactId, filterList, "<", 0, gavLimit);
+    	result = dbV2.getArtifactsByGroupAndArtifactId(groupId, artifactId, filterList, "<", skip, gavLimit);
     	Instant end5 = Instant.now();
     	System.out.println("ArangoDB V2: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5));
     	p.append ("ArangoDB V2: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5) + "\r\n");
@@ -406,7 +408,7 @@ public class App
         App temp = new App();
         //jsonArr = temp.readJSONFromFile(filePath1);
         List<JSONObject> jsonArr = new ArrayList<JSONObject>();
-        InputStream infile = new FileInputStream(filePathMac);
+        InputStream infile = new FileInputStream(filePath1);
         jsonArr = readJsonStream(infile);
        
         
@@ -415,7 +417,7 @@ public class App
 
         FileOutputStream out;
         PrintStream p;
-        out = new FileOutputStream(fileMac);
+        out = new FileOutputStream(file);
         p = new PrintStream( out );
         
        // dbV1.arangoDBSetUp();

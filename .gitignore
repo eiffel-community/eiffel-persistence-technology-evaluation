@@ -3,6 +3,7 @@
 !*/
 !/Neo4j/Project/neo4j/src/**
 !/ArangoDB/Project/ArangoDB/src/**
+!/Test/Test/src/**
 !.gitignore
 
 /ArangoDB/Project/ArangoDB/src/main/java/com/multimodel/ArangoDB/.DS_Store
@@ -11,3 +12,4 @@
 /Neo4j/neo4j-java-driver-1.5.1/
 /ArangoDB/Project/ArangoDB/.gitignore
 /Neo4j/Project/neo4j/.gitignore
+/Test/Test/.gitignore

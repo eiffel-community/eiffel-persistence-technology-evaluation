@@ -430,14 +430,14 @@ public class App
         App temp = new App();
        // jsonArr = temp.readJSONFromFile(filePath2);
         List<JSONObject> jsonArr = new ArrayList<JSONObject>();
-        InputStream infile = new FileInputStream(filePathMac);
+        InputStream infile = new FileInputStream(filePath1);
         jsonArr = readJsonStream(infile);
         String file = "C:/Users/ebinjak/Documents/Exjobb/TestsResults/Neo4j_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
         String fileMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Test_Results/Neo4j_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
         
         FileOutputStream out;
         PrintStream p;
-        out = new FileOutputStream(fileMac);
+        out = new FileOutputStream(file);
         p = new PrintStream( out );
         
         //Map<String, String> parameterList = new HashMap<String,String>();
