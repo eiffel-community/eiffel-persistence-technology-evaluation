@@ -308,6 +308,18 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 	    return true;
 	}
 	
+	public static boolean isDouble(String s) {
+	    try
+	    {
+	        Double.parseDouble(s);
+	    }
+	    catch(NumberFormatException ex)
+	    {
+	        return false;
+	    }
+	    return true;
+	}
+	
 	public ArrayList<String> stringToList(String str){
 		str = str.replace("[", "");
 		str = str.replace("]", "");
@@ -466,6 +478,31 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
         
     }
 	
+	public boolean checkInDatabase(String eventId){
+		boolean isTrue = false;
+		String greeting;
+		try	(Session session = driver.session())
+    	{
+    		greeting = session.writeTransaction( new TransactionWork<String>()
+    		{
+    			 @Override
+                 public String execute( Transaction tx )
+                 { 
+    				 StatementResult result = tx.run("Match (n) Where n.id = '" 
+    						 						+ eventId + "' Return count(n)");
+
+    				 return result.list().get(0).get(0).toString();
+    				 
+                 }
+    		});
+		//System.out.println( greeting );
+    	}
+		if(greeting.equals("1")){
+			isTrue = true;
+		}
+		return isTrue;
+	}
+	
 	@Override
 	public boolean store(JSONObject json) {
 		// TODO Auto-generated method stub
@@ -476,39 +513,43 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
     	String metaType = eventMeta.get("type").toString();
     	String metaId = eventMeta.get("id").toString();
     	
-    	Object[] metaKeysList =  eventMeta.keySet().toArray();
-    	Object[] dataKeysList =  eventData.keySet().toArray();
-    	
-    	execQuery("CREATE (a:" + metaType + "{ id:'"  + metaId + "' }) RETURN a");
-    	
-    	for(Object e: metaKeysList){
-			if(eventMeta.get(e) instanceof JSONObject){
-				 extraNodeObject(metaId, "", 0, e.toString(), "jsonObject" , (JSONObject) eventMeta.get(e));
-			}else if (eventMeta.get(e) instanceof JSONArray){
-				 extraNodeArray(metaId, "", 0, e, (JSONArray) eventMeta.get(e));
-			}else if(e.toString().matches("id")){
-			}else{
-				 execQuery("MATCH (a:" + metaType + ") WHERE a.id = '" + metaId + "' SET a." +  e + "= '" + eventMeta.get(e) + "' RETURN a");
-			}
+    	if(! checkInDatabase(metaId)){
+	    	Object[] metaKeysList =  eventMeta.keySet().toArray();
+	    	Object[] dataKeysList =  eventData.keySet().toArray();
+	    	
+	    	execQuery("CREATE (a:" + metaType + "{ id:'"  + metaId + "' }) RETURN a");
+	    	
+	    	for(Object e: metaKeysList){
+				if(eventMeta.get(e) instanceof JSONObject){
+					 extraNodeObject(metaId, "", 0, e.toString(), "jsonObject" , (JSONObject) eventMeta.get(e));
+				}else if (eventMeta.get(e) instanceof JSONArray){
+					 extraNodeArray(metaId, "", 0, e, (JSONArray) eventMeta.get(e));
+				}else if(e.toString().matches("id")){
+				}else{
+					 execQuery("MATCH (a:" + metaType + ") WHERE a.id = '" + metaId + "' SET a." +  e + "= '" + eventMeta.get(e) + "' RETURN a");
+				}
+	    	}
+	    	if(dataKeysList.length != 0){
+	    		extraNodeObject(metaId, "", 0, "data", "jsonObject", eventData);
+	    	}
+	    	
+	    	if(eventLinks.size() != 0){
+	    		for(Object o : eventLinks){
+	   			 
+	   			 String linkTarget = ((JSONObject) o).get("target").toString();
+	   			 String linkType = ((JSONObject) o).get("type").toString();
+	   			 execQuery("MATCH (a),(b) WHERE a.id = '" 
+	       				+ metaId + "' AND b.id = '" 
+	    					+ linkTarget 
+	    					+ "' CREATE (a)-[r:"+ linkType +  "{type:'Connection'}]->(b)" 
+	    					+ " RETURN r");
+	   			 
+	   		 	}
+	    	}
+	    	return true;
+    	}else{
+    		return false;
     	}
-    	if(dataKeysList.length != 0){
-    		extraNodeObject(metaId, "", 0, "data", "jsonObject", eventData);
-    	}
-    	
-    	if(eventLinks.size() != 0){
-    		for(Object o : eventLinks){
-   			 
-   			 String linkTarget = ((JSONObject) o).get("target").toString();
-   			 String linkType = ((JSONObject) o).get("type").toString();
-   			 execQuery("MATCH (a),(b) WHERE a.id = '" 
-       				+ metaId + "' AND b.id = '" 
-    					+ linkTarget 
-    					+ "' CREATE (a)-[r:"+ linkType +  "{type:'Connection'}]->(b)" 
-    					+ " RETURN r");
-   			 
-   		 	}
-    	}
-    	return true;
 	}
 	
 	public boolean storeManyEvents(List<JSONObject> jsonArr, int amount){
@@ -546,42 +587,45 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 		
 		listOfNodes = execGetQueryV2(query1);
 		
-		
-		tempEventMeta = listOfNodes.getPropertyFromList(0).getPropertyJson();
-		
-		if(tempEventMeta.containsKey("time")){
-			String temp = (String) tempEventMeta.get("time");
-			if(isLong(temp)){
-				Long tempValue = Long.parseLong(temp);
-				tempEventMeta.remove("time");
-				tempEventMeta.put("time", tempValue);
+		if(listOfNodes.getSizeOfPropertiesList() != 0){
+			tempEventMeta = listOfNodes.getPropertyFromList(0).getPropertyJson();
+			
+			if(tempEventMeta.containsKey("time")){
+				String temp = (String) tempEventMeta.get("time");
+				if(isDouble(temp)){
+					Long tempValue = (long) Double.parseDouble(temp);
+					tempEventMeta.remove("time");
+					tempEventMeta.put("time", tempValue);
+				}
 			}
-		}
-		
-		listOfNodes = execGetQueryV2(query2);
-		
-		
-		for(int c=0; c<listOfNodes.getSizeOfPropertiesList(); c++){
-			ArrayList<String> linkTypesList = stringToList(listOfNodes.getPropertyFromList(c).getLinkType());
-			ArrayList<String> linkValueList = stringToList(listOfNodes.getPropertyFromList(c).getLinkValue());
-			JSONObject temp = new JSONObject();
-			if(! linkTypesList.get(0).equals("data")){
-				temp = createJsonObject(linkTypesList, linkValueList , listOfNodes.getPropertyFromList(c).getPropertyJson());
-				tempEventMeta = mergeTwoJson(tempEventMeta, temp);
-				
-			}else if(linkTypesList.get(0).equals("data")){
-				temp = createJsonObject(linkTypesList, linkValueList , listOfNodes.getPropertyFromList(c).getPropertyJson());
-				eventData = mergeTwoJson(eventData, temp);
+			
+			listOfNodes = execGetQueryV2(query2);
+			
+			
+			for(int c=0; c<listOfNodes.getSizeOfPropertiesList(); c++){
+				ArrayList<String> linkTypesList = stringToList(listOfNodes.getPropertyFromList(c).getLinkType());
+				ArrayList<String> linkValueList = stringToList(listOfNodes.getPropertyFromList(c).getLinkValue());
+				JSONObject temp = new JSONObject();
+				if(! linkTypesList.get(0).equals("data")){
+					temp = createJsonObject(linkTypesList, linkValueList , listOfNodes.getPropertyFromList(c).getPropertyJson());
+					tempEventMeta = mergeTwoJson(tempEventMeta, temp);
+					
+				}else if(linkTypesList.get(0).equals("data")){
+					temp = createJsonObject(linkTypesList, linkValueList , listOfNodes.getPropertyFromList(c).getPropertyJson());
+					eventData = mergeTwoJson(eventData, temp);
+				}
 			}
+			eventMeta.put("meta", tempEventMeta);
+			eventJson.putAll(eventMeta);
+			eventJson.putAll(eventData);
+			
+			
+			eventJson.put("links", returnLinks(metaId));
+	    			
+			return eventJson;
+		}else{
+			return null;
 		}
-		eventMeta.put("meta", tempEventMeta);
-		eventJson.putAll(eventMeta);
-		eventJson.putAll(eventData);
-		
-		
-		eventJson.put("links", returnLinks(metaId));
-    			
-		return eventJson;
 	}
 	
 	

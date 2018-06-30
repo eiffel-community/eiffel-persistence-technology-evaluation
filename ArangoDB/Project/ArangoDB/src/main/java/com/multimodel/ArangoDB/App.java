@@ -398,22 +398,24 @@ public class App
         
         String filePath1 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events.json";
         String filePath2 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events_test.json";
-        //String filePath3 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example2.json";
+        String filePathMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/json_example/events.json";
         
         //JSONArray jsonArr = new JSONArray();
-        int testNr = 0;
+        int testNr = 1;
         int amount = 100;
         App temp = new App();
         //jsonArr = temp.readJSONFromFile(filePath1);
         List<JSONObject> jsonArr = new ArrayList<JSONObject>();
-        InputStream infile = new FileInputStream(filePath1);
+        InputStream infile = new FileInputStream(filePathMac);
         jsonArr = readJsonStream(infile);
        
         
         String file = "C:/Users/ebinjak/Documents/Exjobb/TestsResults/ArangoDB_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
-    	FileOutputStream out;
+        String fileMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Test_Results/ArangoDB_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
+
+        FileOutputStream out;
         PrintStream p;
-        out = new FileOutputStream(file);
+        out = new FileOutputStream(fileMac);
         p = new PrintStream( out );
         
        // dbV1.arangoDBSetUp();

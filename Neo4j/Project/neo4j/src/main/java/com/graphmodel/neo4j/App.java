@@ -229,7 +229,7 @@ public class App
         	
         	
         	// Remove all nodes part
-        	con.removeAllNodes();
+        	//con.removeAllNodes();
         	p.append ("Removed all nodes \r\n");
         	p.append ("\r\n");
         	p.append ("------------------------------------------------------------------ \r\n");
@@ -260,6 +260,7 @@ public class App
         	JSONObject test1 = (JSONObject) new JSONParser().parse(jsonArr.get(40).toString());
         	//JSONObject test1 = (JSONObject) jsonArr.get(40);
         	Instant start2 = Instant.now();
+        	System.out.println(con.getEvent("8948"));
         	JSONObject test2 = con.getEvent(((JSONObject) test1.get("meta")).get("id").toString());
         	Instant end2 = Instant.now();
             System.out.println("Neo4j V2: Duration of geting " + "1" + " event(s): " + Duration.between(start2, end2));
@@ -397,7 +398,7 @@ public class App
         	
         	
         	// Remove all nodes part
-        	con.removeAllNodes();
+        	//con.removeAllNodes();
         	p.append ("Removed all nodes \r\n");
         	p.append ("\r\n");
         	p.append ("------------------------------------------------------------------ \r\n");
@@ -415,6 +416,7 @@ public class App
         String password = "Dekret66";
         String filePath1 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events.json";
         String filePath2 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events_test.json";
+        String filePathMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/json_example/events.json";
        // String filePath2 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example.json";
        // String filePath3 = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Neo4j/Project/neo4j/json_example/example2.json";
         
@@ -426,12 +428,14 @@ public class App
         App temp = new App();
        // jsonArr = temp.readJSONFromFile(filePath2);
         List<JSONObject> jsonArr = new ArrayList<JSONObject>();
-        InputStream infile = new FileInputStream(filePath1);
+        InputStream infile = new FileInputStream(filePathMac);
         jsonArr = readJsonStream(infile);
         String file = "C:/Users/ebinjak/Documents/Exjobb/TestsResults/Neo4j_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
-    	FileOutputStream out;
+        String fileMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Test_Results/Neo4j_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
+        
+        FileOutputStream out;
         PrintStream p;
-        out = new FileOutputStream(file);
+        out = new FileOutputStream(fileMac);
         p = new PrintStream( out );
         
         //Map<String, String> parameterList = new HashMap<String,String>();
