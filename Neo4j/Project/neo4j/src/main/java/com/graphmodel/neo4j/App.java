@@ -112,7 +112,8 @@ public class App
         	// Get events test part
         	p.append ("Get events test part \r\n");
         	Instant start3 = Instant.now();
-        	result = con.getEvents(filterList, "<", 0, 5, false);
+        	int skip = 2;
+        	result = con.getEvents(filterList, "<", skip, 5, false);
         	Instant end3 = Instant.now();
         	System.out.println("Neo4j V1: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3));
         	p.append ("Neo4j V1: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3) + "\r\n");
@@ -133,7 +134,7 @@ public class App
         	// Get events by groupId
         	p.append ("Get events by groupId \r\n");
         	Instant start4 = Instant.now();
-        	result = con.getArtifactsByGroup(groupId, filterList, "<", 0, gavLimit);
+        	result = con.getArtifactsByGroup(groupId, filterList, "<", skip, gavLimit);
         	Instant end4 = Instant.now();
         	System.out.println("Neo4j V1: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4));
         	p.append ("Neo4j V1: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4) + "\r\n");
@@ -147,7 +148,7 @@ public class App
         	// Get events by groupId and artifactId
         	p.append ("Get events by groupId and artifactId \r\n");
         	Instant start5 = Instant.now();
-        	result = con.getArtifactsByGroupAndArtifactId(groupId, artifactId, filterList, "<", 0, gavLimit);
+        	result = con.getArtifactsByGroupAndArtifactId(groupId, artifactId, filterList, "<", skip, gavLimit);
         	Instant end5 = Instant.now();
         	System.out.println("Neo4j V1: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5));
         	p.append ("Neo4j V1: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5) + "\r\n");
@@ -229,7 +230,7 @@ public class App
         	
         	
         	// Remove all nodes part
-        	//con.removeAllNodes();
+        	con.removeAllNodes();
         	p.append ("Removed all nodes \r\n");
         	p.append ("\r\n");
         	p.append ("------------------------------------------------------------------ \r\n");
@@ -260,7 +261,7 @@ public class App
         	JSONObject test1 = (JSONObject) new JSONParser().parse(jsonArr.get(40).toString());
         	//JSONObject test1 = (JSONObject) jsonArr.get(40);
         	Instant start2 = Instant.now();
-        	System.out.println(con.getEvent("8948"));
+        	//System.out.println(con.getEvent("8948"));
         	JSONObject test2 = con.getEvent(((JSONObject) test1.get("meta")).get("id").toString());
         	Instant end2 = Instant.now();
             System.out.println("Neo4j V2: Duration of geting " + "1" + " event(s): " + Duration.between(start2, end2));
@@ -280,8 +281,9 @@ public class App
         	
         	// Get events test part
         	p.append ("Get events test part \r\n");
+        	int skip = 2;
         	Instant start3 = Instant.now();
-        	result = con.getEvents(filterList, "<", 0, 5, false);
+        	result = con.getEvents(filterList, "<", skip, 5, false);
         	Instant end3 = Instant.now();
         	System.out.println("Neo4j V2: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3));
         	p.append ("Neo4j V2: Duration of getEvents with " + amount + " events in database: " + Duration.between(start3, end3) + "\r\n");
@@ -302,7 +304,7 @@ public class App
         	// Get events by groupId
         	p.append ("Get events by groupId \r\n");
         	Instant start4 = Instant.now();
-        	result = con.getArtifactsByGroup(groupId, filterList, "<", 0, gavLimit);
+        	result = con.getArtifactsByGroup(groupId, filterList, "<", skip, gavLimit);
         	Instant end4 = Instant.now();
         	System.out.println("Neo4j V2: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4));
         	p.append ("Neo4j V2: Duration of getArtifactsByGroup with " + amount + " events in database: " + Duration.between(start4, end4) + "\r\n");
@@ -316,7 +318,7 @@ public class App
         	// Get events by groupId and artifactId
         	p.append ("Get events by groupId and artifactId \r\n");
         	Instant start5 = Instant.now();
-        	result = con.getArtifactsByGroupAndArtifactId(groupId, artifactId, filterList, "<", 0, gavLimit);
+        	result = con.getArtifactsByGroupAndArtifactId(groupId, artifactId, filterList, "<", skip, gavLimit);
         	Instant end5 = Instant.now();
         	System.out.println("Neo4j V2: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5));
         	p.append ("Neo4j V2: Duration of getArtifactsByGroupAndArtifactId with " + amount + " events in database: " + Duration.between(start5, end5) + "\r\n");
@@ -398,7 +400,7 @@ public class App
         	
         	
         	// Remove all nodes part
-        	//con.removeAllNodes();
+        	con.removeAllNodes();
         	p.append ("Removed all nodes \r\n");
         	p.append ("\r\n");
         	p.append ("------------------------------------------------------------------ \r\n");

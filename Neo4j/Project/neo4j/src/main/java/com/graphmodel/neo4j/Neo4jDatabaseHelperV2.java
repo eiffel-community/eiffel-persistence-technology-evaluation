@@ -495,7 +495,6 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
     				 
                  }
     		});
-		//System.out.println( greeting );
     	}
 		if(greeting.equals("1")){
 			isTrue = true;
@@ -637,7 +636,7 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 			res += key + "." + param.getKey() + " " + param.getComparator() + " '" + param.getValue() + "' AND ";
 		}
 		res = res.substring(0, res.length() - 4);
-		//System.out.println(res);
+
 		return res;
 	}
 	
@@ -688,8 +687,7 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 					+ nodeParams
 					+ conectionParameters
 					+ " Return distinct collect(" + returnInfo + ")";
-		
-		//System.out.println(query);
+
 		return query;
 	}
 
@@ -722,12 +720,10 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 		
 		String query = createGetQuery(filterList, paramList, isMeta);
 		List<String> idList = execGetIdWithQueryV2(query, isMeta);
-		//System.out.println(idList);
 		for(int i=0; i<idList.size(); i++){
 			tempArray.add(getEvent(idList.get(i)));
 		}
 		tempArray = sortJsonArray(tempArray, "meta_time", comparator);
-		//System.out.println(tempArray);
 
 		int max = (skip+limit > tempArray.size()) ? tempArray.size() : skip+limit;
 		for(int c=skip;c<max;c++){
@@ -834,13 +830,13 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 			}	
 		}
 
+		int tempLimit = limit -1;
 		String query = "MATCH (a {id: '" + metaId + "'})-[r" + linkTypesParams + "*.." + levels + "]->(endNode) "
-					+"WITH endNode ORDER BY endNode.time DESC RETURN collect( DISTINCT endNode.id)";
+					+"WITH endNode ORDER BY endNode.time DESC RETURN collect( DISTINCT endNode.id)[.." + tempLimit + "]";
 		
 		
 		List<String> idList = execGetIdWithQueryV2(query, false);
-		limit = (limit < idList.size()) ? limit-1 : idList.size();
-		for(int i=0; i<limit; i++){
+		for(int i=0; i<idList.size(); i++){
 			events.add(getEvent(idList.get(i)));
 		}
 		return false;
@@ -881,15 +877,13 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 			}	
 		}
 
+		int tempLimit = limit -1;
 		String query = "MATCH (a {id: '" + eventId + "'})<-[r" + linkTypesParams + "*.." + levels + "]-(endNode) "
-					+"WITH endNode ORDER BY endNode.time RETURN collect( DISTINCT endNode.id)";
+					+"WITH endNode ORDER BY endNode.time RETURN collect( DISTINCT endNode.id)[.." + tempLimit + "]";
 		
 		
 		List<String> idList = execGetIdWithQueryV2(query, false);
-		System.out.println("List");
-		System.out.println(idList);
-		limit = (limit < idList.size()) ? limit-1 : idList.size();
-		for(int i=0; i<limit; i++){
+		for(int i=0; i<idList.size(); i++){
 			events.add(getEvent(idList.get(i)));
 		}
 		return false;

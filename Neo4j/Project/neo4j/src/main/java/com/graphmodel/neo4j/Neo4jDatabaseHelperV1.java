@@ -299,69 +299,6 @@ public class Neo4jDatabaseHelperV1 implements AutoCloseable, DatabaseHelper  {
 		return links;
 	}
 	
-	public JSONArray sortJsonArray(JSONArray jsonArr, String parameter, String comparator){
-	    	
-        JSONArray sortedJsonArray = new JSONArray();
-        String[] param = parameter.substring(0).split("_");
-        
-        List<JSONObject> jsonValues = new ArrayList<JSONObject>();
-        for (int i = 0; i < jsonArr.size(); i++) {
-            jsonValues.add((JSONObject) jsonArr.get(i));
-        }
-        Collections.sort( jsonValues, new Comparator<JSONObject>() {
-            //You can change "Name" with "ID" if you want to sort by ID
-            private static final String KEY_NAME = "meta_id";
-
-            @Override
-            public int compare(JSONObject a, JSONObject b) {
-            	JSONObject jA = new JSONObject();
-            	JSONObject jB = new JSONObject();
-                String valA = new String();
-                String valB = new String();
-
-                try {
-                	jA = a;
-                	jB = b;
-                	for(int c=0; c< param.length-1; c++){
-                		jA = (JSONObject) jA.get(param[c]);
-                		jB = (JSONObject) jB.get(param[c]);
-                	}
-                    //valA = (String) ((JSONObject) a.get("meta")).get("id");
-                   // valB = (String) ((JSONObject) b.get("meta")).get("id");
-                	//System.out.println(jA.get(param[param.length-1]));
-                	valA = (jA.get(param[param.length-1]) instanceof Long) ? Long.toString((long) jA.get(param[param.length-1])) 
-                															: (String) jA.get(param[param.length-1]);
-                	
-                    valB = (jB.get(param[param.length-1]) instanceof Long) ? Long.toString((long) jB.get(param[param.length-1])) 
-                    														: (String) jB.get(param[param.length-1]);
-                } 
-                catch (JSONException e) {
-                    //do something
-                }
-
-                return valA.compareTo(valB);
-                //if you want to change the sort order, simply use the following:
-                //return -valA.compareTo(valB);
-            }
-        });
-        
-        switch (comparator) {
-        case "<":
-        	for (int i = 0; i < jsonArr.size(); i++) {
-                sortedJsonArray.add(jsonValues.get(i));
-            }
-        	return sortedJsonArray;
-        case ">":
-        	for (int i = jsonArr.size()-1; i >= 0; i--) {
-                sortedJsonArray.add(jsonValues.get(i));
-            }
-        	return sortedJsonArray;
-        default:
-            throw new IllegalArgumentException("Invalid comparator: " + comparator);
-        }
-        
-        
-    }
      
 	public DataStoreResult createResult(NodeListV1 nodeList, boolean lazy){
 		
@@ -413,11 +350,13 @@ public class Neo4jDatabaseHelperV1 implements AutoCloseable, DatabaseHelper  {
 			
 			//tempArray = sortJsonArray(tempArray, "meta_time" , comparator);
 			//int max = (skip+limit > tempArray.size()) ? tempArray.size() : skip+limit;
-			int max = tempArray.size();
+			/*int max = tempArray.size();
 			for(int e = 0; e < max; e++){
 				result.addToEventsArray((JSONObject) tempArray.get(e));
 				count++;
-			}
+			}*/
+			result.getEventsArray().addAll(tempArray);
+			count = tempArray.size();
 			
 			result.setCount(lazy ? -1: count);
 			
@@ -555,14 +494,15 @@ public class Neo4jDatabaseHelperV1 implements AutoCloseable, DatabaseHelper  {
 		}
 		params = (!tempFilterList.isEmpty()) ? params.substring(0, params.length() - 4) : "";
 		String query = "";
+		int tempLimit = limit + skip;
 		if(comparator.equals("<")){
 			query = "MATCH (n) " + params + "WITH n ORDER BY n.meta_time "
-						+ "RETURN collect(properties(n))[" + skip + ".." + limit + "]";
+						+ "RETURN collect(properties(n))[" + skip + ".." + tempLimit + "]";
 		}else if(comparator.equals(">")){
 			query = "MATCH (n) " + params + "WITH n ORDER BY n.meta_time DESC "
-						+ "RETURN collect(properties(n))[" + skip + ".." + limit + "]";
+						+ "RETURN collect(properties(n))[" + skip + ".." + tempLimit + "]";
 		}
-		//String query = "MATCH (n) WHERE " + params + "RETURN collect(properties(n))";
+		System.out.println(query);
 
 		NodeListV1 nodeList = execGetQueryV1(query);
 		DataStoreResult res = createResult(nodeList, lazy);
@@ -586,16 +526,16 @@ public class Neo4jDatabaseHelperV1 implements AutoCloseable, DatabaseHelper  {
 		}
 		params = (!tempFilterList.isEmpty()) ? params.substring(0, params.length() - 4) : "";
 		String query = "";
+		int tempLimit = limit + skip;
 		if(comparator.equals("<")){
 			query = "MATCH (n {data_gav_groupId: '" + groupId + "' }) "
 						+ params + "WITH n ORDER BY n.meta_time "
-						+ "RETURN collect(properties(n))[" + skip + ".." + limit + "]";
+						+ "RETURN collect(properties(n))[" + skip + ".." + tempLimit + "]";
 		}else if(comparator.equals(">")){
 			query = "MATCH (n {data_gav_groupId: '" + groupId + "' }) "
 						+ params + "WITH n ORDER BY n.meta_time DESC "
-						+ "RETURN collect(properties(n))[" + skip + ".." + limit + "]";
+						+ "RETURN collect(properties(n))[" + skip + ".." + tempLimit + "]";
 		}
-		//String query = "MATCH (n) WHERE " + params + "RETURN collect(properties(n))";
 		
 		NodeListV1 nodeList = execGetQueryV1(query);
 		DataStoreResult res = createResult(nodeList, false);
@@ -618,18 +558,19 @@ public class Neo4jDatabaseHelperV1 implements AutoCloseable, DatabaseHelper  {
 		}
 		params = (!tempFilterList.isEmpty()) ? params.substring(0, params.length() - 4) : "";
 		String query = "";
+		int tempLimit = limit + skip;
 		if(comparator.equals("<")){
 			query = "MATCH (n {data_gav_groupId: '" + groupId 
 						+ "', data_gav_artifactId: '" + artifactId + "' }) "
 						+ params + "WITH n ORDER BY n.meta_time "
-						+ "RETURN collect(properties(n))[" + skip + ".." + limit + "]";
+						+ "RETURN collect(properties(n))[" + skip + ".." + tempLimit + "]";
 		}else if(comparator.equals(">")){
 			query = "MATCH (n {data_gav_groupId: '" + groupId 
 						+ ", data_gav_artifactId: '" + artifactId + "' }) "
 						+ params + "WITH n ORDER BY n.meta_time DESC "
-						+ "RETURN collect(properties(n))[" + skip + ".." + limit + "]";
+						+ "RETURN collect(properties(n))[" + skip + ".." + tempLimit + "]";
 		}
-		//String query = "MATCH (n) WHERE " + params + "RETURN collect(properties(n))";
+		
 		NodeListV1 nodeList = execGetQueryV1(query);
 		DataStoreResult res = createResult(nodeList, false);
 		return res;
@@ -745,12 +686,7 @@ public class Neo4jDatabaseHelperV1 implements AutoCloseable, DatabaseHelper  {
 		
 		NodeListV1 listOfNodes = new NodeListV1();
 		listOfNodes = execGetQueryV1(query);
-		/*System.out.println("List");
-		for(int c= 0; c< listOfNodes.getSizeOfNodeList(); c++){
-			for(int f = 0; f< listOfNodes.getNodeFromList(c).getSizeOfPropertyList(); f++){
-				System.out.println(listOfNodes.getNodeFromList(c).getPropertyList().get(f).getJsonProperty());
-			}
-		}*/
+
 		DataStoreResult res = createResult(listOfNodes, false);
 		events.addAll(res.getEventsArray());
 		return false;
