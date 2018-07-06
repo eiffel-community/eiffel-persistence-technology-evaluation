@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
@@ -167,17 +168,26 @@ public class App
     	// Get upstream events
     	p.append ("Get upstream events \r\n");
       	List<Object> result2 = new ArrayList<>();
-     	String eventId = ((JSONObject) test1.get("meta")).get("id").toString();
+     	//String eventId = ((JSONObject) test1.get("meta")).get("id").toString();
+      	JSONObject test5 = (JSONObject) new JSONParser().parse(jsonArr.get(99).toString());
+      	String eventId = ((JSONObject) test5.get("meta")).get("id").toString();
       	//String eventId = "2decd614-860d-4be0-bff9-70c8c80283c6";
-     	List<String> linkTypes = new ArrayList<>();
+     	/*List<String> linkTypes = new ArrayList<>();
      	linkTypes.add("CAUSE");
      	linkTypes.add("ELEMENT");
+     	linkTypes.add("TEST_CASE_EXECUTION");*/
+    	List<String> linkTypes = Arrays.asList("CAUSE", "ELEMENT", "CONTEXT", "COMPOSITION", "BASE", "FLOW_CONTEXT","ACTIVITY_EXECUTION",
+    			"PREVIOUS_ACTIVITY_EXECUTION", "PREVIOUS_VERSION", "ENVIRONMENT",
+    			"ARTIFACT", "SUBJECT", "CHANGE", "TEST_SUITE_EXECUTION",
+    			"TEST_CASE_EXECUTION","IUT","TERC","MODIFIED_ANNOUNCEMENT","SUB_CONFIDENCE_LEVEL",
+    			"REUSED_ARTIFACT","VERIFICATION_BASIS");
      	ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
-     	int limit = 7;
-     	int levels = 4;
+     	int limit = 1000;
+     	int levels = 10;
      	Instant start7 = Instant.now();
     	result2 = dbV1.getUpstreamEvents( eventId, linkTypes, visitedMap,  limit,  levels);
     	Instant end7 = Instant.now();
+    	System.out.println(result2.size());
     	System.out.println("ArangoDB V1: Duration of getUpstreamEvents with " + amount + " events in database: " + Duration.between(start7, end7));
     	p.append ("ArangoDB V1: Duration of getUpstreamEvents with " + amount + " events in database: " + Duration.between(start7, end7) + "\r\n");
     	p.append ("\r\n");
@@ -332,18 +342,28 @@ public class App
     	
     	// Get upstream events
     	p.append ("Get upstream events \r\n");
+    	
       	List<Object> result2 = new ArrayList<>();
-     	String eventId = ((JSONObject) test1.get("meta")).get("id").toString();
+     	//String eventId = ((JSONObject) test1.get("meta")).get("id").toString();
+      	JSONObject test5 = (JSONObject) new JSONParser().parse(jsonArr.get(99).toString());
+      	String eventId = ((JSONObject) test5.get("meta")).get("id").toString();
       	//String eventId = "2decd614-860d-4be0-bff9-70c8c80283c6";
-     	List<String> linkTypes = new ArrayList<>();
+     	List<String> linkTypes = Arrays.asList("CAUSE", "ELEMENT", "CONTEXT", "COMPOSITION", "BASE", "FLOW_CONTEXT","ACTIVITY_EXECUTION",
+    			"PREVIOUS_ACTIVITY_EXECUTION", "PREVIOUS_VERSION", "ENVIRONMENT",
+    			"ARTIFACT", "SUBJECT", "CHANGE", "TEST_SUITE_EXECUTION",
+    			"TEST_CASE_EXECUTION","IUT","TERC","MODIFIED_ANNOUNCEMENT","SUB_CONFIDENCE_LEVEL",
+    			"REUSED_ARTIFACT","VERIFICATION_BASIS");
+    	
+     	/*List<String> linkTypes = new ArrayList<>();
      	linkTypes.add("CAUSE");
-     	linkTypes.add("ELEMENT");
+     	linkTypes.add("ELEMENT");*/
      	ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
-     	int limit = 7;
-     	int levels = 4;
+     	int limit = 1000;
+     	int levels = 10;
      	Instant start7 = Instant.now();
     	result2 = dbV2.getUpstreamEvents( eventId, linkTypes, visitedMap,  limit,  levels);
     	Instant end7 = Instant.now();
+    	System.out.println(result2.size());
     	System.out.println("ArangoDB V2: Duration of getUpstreamEvents with " + amount + " events in database: " + Duration.between(start7, end7));
     	p.append ("ArangoDB V2: Duration of getUpstreamEvents with " + amount + " events in database: " + Duration.between(start7, end7) + "\r\n");
     	p.append ("\r\n");
@@ -403,12 +423,12 @@ public class App
         String filePathMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/json_example/events.json";
         
         //JSONArray jsonArr = new JSONArray();
-        int testNr = 1;
+        int testNr = 2;
         int amount = 100;
         App temp = new App();
         //jsonArr = temp.readJSONFromFile(filePath1);
         List<JSONObject> jsonArr = new ArrayList<JSONObject>();
-        InputStream infile = new FileInputStream(filePath1);
+        InputStream infile = new FileInputStream(filePathMac);
         jsonArr = readJsonStream(infile);
        
         
@@ -417,7 +437,7 @@ public class App
 
         FileOutputStream out;
         PrintStream p;
-        out = new FileOutputStream(file);
+        out = new FileOutputStream(fileMac);
         p = new PrintStream( out );
         
        // dbV1.arangoDBSetUp();

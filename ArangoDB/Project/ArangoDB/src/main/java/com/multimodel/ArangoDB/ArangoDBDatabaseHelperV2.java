@@ -206,18 +206,28 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 	
 	public String createQueryParameters(FilterParameterList filterList){
 		String params = "";
-		ArrayList<FilterParameter> tempList = filterList.getFilterList();
-		for(int i = 0; i < tempList.size(); i++){
-			FilterParameter p = tempList.get(i);
-			String[] keys = p.getKey().split("_");
-			params += "document.";
-			for(String s: keys){
-				params += s + ".";
+		if(filterList.getFilterList().size() > 0){
+			ArrayList<FilterParameter> tempList = filterList.getFilterList();
+			for(int i = 0; i < tempList.size(); i++){
+				boolean isTime = false;
+				FilterParameter p = tempList.get(i);
+				String[] keys = p.getKey().split("_");
+				params += "document.";
+				for(String s: keys){
+					params += s + ".";
+					if(s.equals("time")){
+						isTime = true;
+					}
+				}
+				params = params.substring(0, params.length() - 1);
+				if(isTime){
+					params += " " + p.getComparator() + " " + p.getValue() + " AND ";
+				}else{
+					params += " " + p.getComparator() + " '" + p.getValue() + "' AND ";
+				}
 			}
-			params = params.substring(0, params.length() - 1);
-			params += " " + p.getComparator() + " '" + p.getValue() + "' AND ";
+			params = params.substring(0, params.length() - 4);
 		}
-		params = params.substring(0, params.length() - 4);
 		return params;
 	}
 

@@ -503,7 +503,7 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 	}
 	
 	@Override
-	public boolean store(JSONObject json) {
+	public boolean store(JSONObject json) throws Exception {
 		// TODO Auto-generated method stub
 		JSONObject eventMeta = (JSONObject) json.get("meta");
     	JSONObject eventData = (JSONObject) json.get("data");
@@ -551,13 +551,15 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
     	}
 	}
 	
-	public boolean storeManyEvents(List<JSONObject> jsonArr, int amount){
+	public boolean storeManyEvents(List<JSONObject> jsonArr, int amount) throws Exception{
     	int i = 0;
     	boolean work = false;
     	if(amount <= jsonArr.size()){
 	    	for(; i < amount; i++){
 	    		try {
 					JSONObject json = (JSONObject) new JSONParser().parse(jsonArr.get(i).toString());
+					long time = (long) (double) ((JSONObject) json.get("meta")).get("time");
+					((JSONObject) json.get("meta")).put("time", time);
 					work = store(json);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -566,7 +568,7 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 	    		//work = store((JSONObject)jsonArr.get(i));	
 	    	}
     	}
-    	System.out.println(i);
+    	//System.out.println(i);
     	return work;
     }
 	
@@ -834,7 +836,7 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 		String query = "MATCH (a {id: '" + metaId + "'})-[r" + linkTypesParams + "*.." + levels + "]->(endNode) "
 					+"WITH endNode ORDER BY endNode.time DESC RETURN collect( DISTINCT endNode.id)[.." + tempLimit + "]";
 		
-		
+
 		List<String> idList = execGetIdWithQueryV2(query, false);
 		for(int i=0; i<idList.size(); i++){
 			events.add(getEvent(idList.get(i)));

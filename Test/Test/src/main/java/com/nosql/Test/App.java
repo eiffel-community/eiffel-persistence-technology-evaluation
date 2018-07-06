@@ -19,10 +19,6 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.stereotype.Component;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 /**
@@ -49,26 +45,7 @@ public class App
 		
 	}
 	
-	public static void testMongo() throws Exception{
 
-        
-	    String filePath2 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events_test.json";
-	    List<JSONObject> jsonArr = new ArrayList<JSONObject>();
-        InputStream infile = new FileInputStream(filePath2);
-        jsonArr = readJsonStream(infile);
-	   // MongoDataStore temp = new MongoDataStore();
-	    //temp.start();
-	    for(int i = 0; i < 13; i++){
-    		try {
-				JSONObject json = (JSONObject) new JSONParser().parse(jsonArr.get(i).toString());
-				//temp.store(json.toJSONString());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-    	}
-	   // System.out.println(temp.getEvent("3ae8debd-9cd4-4895-8fc3-2aaa45c5c415"));
-	    
-	}
 	
 	
 	
@@ -81,6 +58,5 @@ public class App
         String filePath1 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events.json";
        // Neo4jDatabaseHelperV1 neo4jV1 = new Neo4jDatabaseHelperV1(url, user, password);
        // Neo4jDatabaseHelperV2 neo4jV2 = new Neo4jDatabaseHelperV2(url, user, password);
-        testMongo();
     }
 }

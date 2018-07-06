@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 
 public interface DatabaseHelper {
 	
-	boolean store(JSONObject json);
+	boolean store(JSONObject json) throws Exception;
 	
 	JSONObject getEvent(String metaId);
 	

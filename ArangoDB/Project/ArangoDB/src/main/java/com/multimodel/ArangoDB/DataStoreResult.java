@@ -42,16 +42,16 @@ public class DataStoreResult {
 	   if(!(eventsArray == null)){
 		   int i = 0;
 		   System.out.println("Events: ");
-		   p.append("Events: \r\n");
+		  // p.append("Events: \r\n");
 		   for(Object e: eventsArray){
 			   i++;
 			   System.out.println(e);
-			   p.append(i + ": " + e + "\r\n");
-			   p.append("\r\n");
+			   //p.append(i + ": " + e + "\r\n");
+			   //p.append("\r\n");
 		   }
 		   System.out.println("Count: " + count);
-		   p.append("Count: " + count + "\r\n");
-		   p.append("\r\n");
+		   //p.append("Count: " + count + "\r\n");
+		   //p.append("\r\n");
 	   }
    }
 }

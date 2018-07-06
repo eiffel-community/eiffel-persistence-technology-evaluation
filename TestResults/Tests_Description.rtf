@@ -1,0 +1,266 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf400
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Calibri;\f2\fswiss\fcharset0 ArialMT;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red26\green26\blue26;\red255\green255\blue255;
+}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\cssrgb\c13333\c13333\c13333;\cssrgb\c100000\c100000\c100000;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww33400\viewh21000\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 *	Answer in Microseconds\
+\
+1 		: 	store()\
+\
+2		: 	getEvent()\
+\
+3 		: 	getEvents()	:\
+	3_0	:	param	:	\cf2 meta.time !=; skip = 0; limit = 5000\
+\cf0 \
+	3_1	:	\cf2 param	: 	meta.type = ; limit 1000; skip = 0\cf0 \
+	3_2	:	\cf2 param	:	meta.type =; meta.version =  ; limit 1000; skip = 0\cf0 \
+	3_3	:	\cf2 param	: 	meta.type =; meta.version =  ; data.name=; limit 1000; skip = 0\cf0 \
+	3_4	:	\cf2 param	: 	meta.type = "EiffelConfidenceLevelModifiedEvent"; meta.version =  ; data.version =; data.name =; limit 1000; skip = 0\cf0 \
+	3_5	:	\cf2 param	: 	meta.type = "EiffelConfidenceLevelModifiedEvent"; meta.version =  ; meta.time =; data.name =; data.version =; limit 1000; skip = 0\
+\cf0 \
+	3_6	:	\cf2 param	: 	meta.time != ; limit 10; skip = 0\cf0 \
+	3_7	:	\cf2 param	: 	meta.time != ; limit 100; skip = 0\cf0 \
+	3_8	:	\cf2 param	: 	meta.time != ; limit 1000; skip = 0\cf0 \
+	3_9	:	\cf2 param	: 	meta.time != ; limit 10000; skip = 0\cf0 \
+	3_10	:	\cf2 param	: 	meta.time != ; limit 100000; skip = 0\
+\cf0 \
+	3_11	:	\cf2 param	: 	meta.time != ; limit 100000; skip = 1\cf0 \
+	3_12	:	\cf2 param	: 	meta.time != ; limit 100000;; skip = 5\cf0 \
+	3_13	:	\cf2 param	: 	meta.time != ; limit 100000; skip = 10\cf0 \
+	3_14	:	\cf2 param	: 	meta.time != ; limit 100000; skip = 20\cf0 \
+	3_15	:	\cf2 param	: 	meta.time != ; limit 100000; skip = 50\
+\cf0 \
+	3_16	:	\cf2 param	: 	meta.time = ; limit 1000; skip = 0\cf0 \
+	3_17	:	\cf2 param	: 	meta.time > ; limit 1000; skip = 0\cf0 \
+	3_18	:	\cf2 param	: 	meta.time < ; limit 1000; skip = 0\cf0 \
+	3_19	:	\cf2 param	: 	meta.time >= ; limit 1000; skip = 0\cf0 \
+	3_20	:	\cf2 param	: 	meta.time <= ; limit 1000; skip = 0\cf0 \
+	3_21	:	\cf2 param	: 	meta.time != ; limit 1000; skip = 0\cf0 \
+	3_22	:	\cf2 param	: 	meta.time > ; meta.time <; limit 1000; skip = 0\
+\
+4		:	getArtifactsByGroup()	:\
+\cf0 	4_0	:	param	:	\cf2 gav.groupid = ; skip = 0; limit = 1\
+\cf0 \
+	4_1	:	\cf2 param	: 	gav.groupid = ; limit 1000; skip = 0\cf0 \
+	4_2	:	\cf2 param	:	gav.groupid = ; meta.type = ; limit 1000; skip = 0\cf0 \
+	4_3	:	\cf2 param	: 	gav.groupid = ; meta.type =; meta.version =  ; limit 1000; skip = 0\cf0 \
+	4_4	:	\cf2 param	: 	gav.groupid = ; meta.type =; meta.version =  ; meta.time =; limit 1000; skip = 0\
+\cf0 \
+	4_5	:	\cf2 param	: 	gav.groupid = ; limit 10; skip = 0\cf0 \
+	4_6	:	\cf2 param	: 	gav.groupid =  ; limit 100; skip = 0\cf0 \
+	4_7	:	\cf2 param	: 	gav.groupid =  ; limit 1000; skip = 0\cf0 \
+	4_8	:	\cf2 param	: 	gav.groupid = ; limit 10000; skip = 0\cf0 \
+	4_9	:	\cf2 param	: 	gav.groupid = ; limit 100000; skip = 0\
+\cf0 \
+	4_10	:	\cf2 param	: 	gav.groupid = ; limit 100000; skip = 1\cf0 \
+	4_11	:	\cf2 param	: 	gav.groupid =  ; limit 100000;; skip = 5\cf0 \
+	4_12	:	\cf2 param	: 	gav.groupid =  ; limit 100000; skip = 10\cf0 \
+	4_13	:	\cf2 param	: 	gav.groupid = ; limit 100000; skip = 20\cf0 \
+	4_14	:	\cf2 param	: 	gav.groupid = ; limit 100000; skip = 50\
+\
+5		:	getArtifactsByGroupAndArtifactId()	:\
+\cf0 	5_0	:	param	:	\cf2 gav.groupid = ; gav.artifactId() = ; skip = 0; limit = 5000\
+\cf0 \
+	5_1	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 1000; skip = 0\cf0 \
+	5_2	:	\cf2 param	:	gav.groupid = ; gav.artifactId() = ; meta.type = ; limit 1000; skip = 0\cf0 \
+	5_3	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; meta.type =; meta.version =  ; limit 1000; skip = 0\cf0 \
+	5_4	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; meta.type =; meta.version =  ; meta.time =; limit 1000; skip = 0\
+\cf0 \
+	5_5	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 10; skip = 0\cf0 \
+	5_6	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 100; skip = 0\cf0 \
+	5_7	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 1000; skip = 0\cf0 \
+	5_8	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 10000; skip = 0\cf0 \
+	5_9	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 100000; skip = 0\
+\cf0 \
+	5_10	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 100000; skip = 1\cf0 \
+	5_11	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 100000;; skip = 5\cf0 \
+	5_12	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 100000; skip = 10\cf0 \
+	5_13	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 100000; skip = 20\cf0 \
+	5_14	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; limit 100000; skip = 50\
+\
+6		:	getArtifactByGAV()	:\cf0 \
+	6_1	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;\cf0 \
+	6_2	:	\cf2 param	:	gav.groupid = ; gav.artifactId() = ; gav.version = ;\cf0 \
+	6_3	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;\cf0 \
+	6_4	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;\cf0 \
+	6_5	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;\cf0 \
+	6_6	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;\cf0 \
+	6_7	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;\cf0 \
+	6_8	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;\cf0 \
+	\cf2 \
+\cf0 7 		: 	\cf2 getUpstreamEvents()\cf0 		:\
+	7_0	:	param	:	\cf2 meta.id =; linkTypes : "ALL" ; levels = 100; limit = 5000\
+\cf0 \
+	7_1	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE ; limit = 1000; levels = 10;\cf0 \
+	7_2	:	\cf2 param	:	meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;\cf0 \
+	7_3	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;\cf0 \
+	7_4	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;\cf0 \
+	7_5	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;\
+\cf0 \
+	7_6	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10;\cf0 \
+	7_7	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 50;\cf0 \
+	7_8	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 100;\cf0 \
+	7_9	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 1000;\cf0 \
+	7_10	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10000;\
+\cf0 \
+	7_11	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 10; levels = 10;\cf0 \
+	7_12	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 100; levels = 10;\cf0 \
+	7_13	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10;\cf0 \
+	7_14	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 10000; levels = 10;\cf0 \
+	7_15	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 100000; levels = 10;\
+\
+\cf0 8 		: 	\cf2 getDownstreamEvents()	\cf0 :\
+	8_0	:	param	:	\cf2 meta.time !=; skip = 0; limit = 5000\
+\cf0 \
+	8_1	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE ; limit = 1000; levels = 10;\cf0 \
+	8_2	:	\cf2 param	:	meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;\cf0 \
+	8_3	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;\cf0 \
+	8_4	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;\cf0 \
+	8_5	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;\
+\cf0 \
+	8_6	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10;\cf0 \
+	8_7	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 50;\cf0 \
+	8_8	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 100;\cf0 \
+	8_9	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 1000;\cf0 \
+	8_10	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10000;\
+\cf0 \
+	8_11	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 10; levels = 10;\cf0 \
+	8_12	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 100; levels = 10;\cf0 \
+	8_13	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10;\cf0 \
+	8_14	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 10000; levels = 10;\cf0 \
+	8_15	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 100000; levels = 10;\
+\
+\
+\cf0 9 		: 	\cf2 Combinations	\cf0 :\
+			\cf2 getEvent() + getUpstreamEvents()	:\
+\cf0 \
+	9_1	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE ; limit = 1000; levels = 10;\cf0 \
+	9_2	:	\cf2 param	:	meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;\cf0 \
+	9_3	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;\cf0 \
+	9_4	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;\cf0 \
+	9_5	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;\
+\
+\cf0 	9_6	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10;\cf0 \
+	9_7	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 50;\cf0 \
+	9_8	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 100;\cf0 \
+	9_9	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 1000;\cf0 \
+	9_10	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10000;\
+\cf0 \
+	9_11	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 10; levels = 10;\cf0 \
+	9_12	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 100; levels = 10;\cf0 \
+	9_13	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10;\cf0 \
+	9_14	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 10000; levels = 10;\cf0 \
+	9_15	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 100000; levels = 10;\
+\
+\cf0 			\cf2 getEvent()  + getDownstreamEvents()	:\
+\cf0 \
+	9_16	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE ; limit = 1000; levels = 10;\cf0 \
+	9_17	:	\cf2 param	:	meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;\cf0 \
+	9_18	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;\cf0 \
+	9_19	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;\cf0 \
+	9_20	:	\cf2 param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;\
+\
+\cf0 	9_21	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10;\cf0 \
+	9_22	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 50;\cf0 \
+	9_23	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 100;\cf0 \
+	9_24	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 1000;\cf0 \
+	9_25	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10000;\
+\cf0 \
+	9_26	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 10; levels = 10;\cf0 \
+	9_27	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 100; levels = 10;\cf0 \
+	9_28	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10;\cf0 \
+	9_29	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 10000; levels = 10;\cf0 \
+	9_30	:	\cf2 param	: 	meta.id =; linkTypes : "ALL" ; limit = 100000; levels = 10;\
+\
+\cf0 			\cf2 getArtifactsByGroup() + getUpstreamEvents()	:\
+\cf0 \
+	9_31	:	\cf2 param	: 	gav.groupid = ; linkTypes : CAUSE ; limit = 1000; levels = 10;\cf0 \
+	9_32	:	\cf2 param	:	gav.groupid = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;\cf0 \
+	9_33	:	\cf2 param	: 	gav.groupid = ; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;\cf0 \
+	9_34	:	\cf2 param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;\cf0 \
+	9_35	:	\cf2 param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;\
+\
+			getArtifactsByGroup() + getDownstreamEvents():\
+\
+\cf0 	9_36	:	\cf2 param	: 	gav.groupid = ; linkTypes : CAUSE ; limit = 1000; levels = 10;\cf0 \
+	9_37	:	\cf2 param	:	gav.groupid = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;\cf0 \
+	9_38	:	\cf2 param	: 	gav.groupid = ; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;\cf0 \
+	9_39	:	\cf2 param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;\cf0 \
+	9_40	:	\cf2 param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
+\f1 \
+
+\f0 \
+\cf0 			\cf2 getArtifactByGAV() + getUpstreamEvents()	:\
+\cf0 \
+	9_41	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE ; limit = 1000; levels = 10;\cf0 \
+	9_42	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;\cf0 \
+	9_43	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;\cf0 \
+	9_44	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;\cf0 \
+	9_45	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;\
+\
+\cf0 			\cf2 getArtifactByGAV() + getDownstreamEvents()	:\
+\cf0 \
+	9_46	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE ; limit = 1000; levels = 10;\cf0 \
+	9_47	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;\cf0 \
+	9_48	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;\cf0 \
+	9_49	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;\cf0 \
+	9_50	:	\cf2 param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;\
+\
+\cf0 10		: 	\cf2 Different amount of threads	\cf0 :\
+			1 - 7 Threads 	:\
+	10_1	:	
+\f2\fs25\fsmilli12800 \cf3 \cb4 \expnd0\expndtw0\kerning0
+3_16
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+	10_2	:	
+\f2\fs25\fsmilli12800 \cf3 \cb4 \expnd0\expndtw0\kerning0
+3_16, 3_17
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+	10_3	:	
+\f2\fs25\fsmilli12800 \cf3 \cb4 \expnd0\expndtw0\kerning0
+3_16, 3_17, 3_18
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+	10_4	:	
+\f2\fs25\fsmilli12800 \cf3 \cb4 \expnd0\expndtw0\kerning0
+3_16, 3_17, 3_18, 3_19
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+	10_5	:	
+\f2\fs25\fsmilli12800 \cf3 \cb4 \expnd0\expndtw0\kerning0
+3_16, 3_17, 3_18, 3_19, 3_20
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+	10_6	:	
+\f2\fs25\fsmilli12800 \cf3 \cb4 \expnd0\expndtw0\kerning0
+3_16, 3_17, 3_18, 3_19, 3_20,3_21
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+	10_7	:	
+\f2\fs25\fsmilli12800 \cf3 \cb4 \expnd0\expndtw0\kerning0
+3_16, 3_17, 3_18, 3_19, 3_20,3_21, 3_22
+\f0\fs24 \cf2 \cb1 \kerning1\expnd0\expndtw0 \
+		\
+			1-10 Threads	:\
+	10_8	:	7_1\
+	10_9	:	7_1, 7_2\
+	10_10:	7_1, 7_2, 7_3\
+	10_11:	7_1, 7_2, 7_3, 7_4\
+	10_12:	7_1, 7_2, 7_3, 7_4, 7_5\
+	10_13:	7_1, 7_2, 7_3, 7_4, 7_5, 8_1\
+	10_14:	7_1, 7_2, 7_3, 7_4, 7_5, 8_1, 8_2\
+	10_15:	7_1, 7_2, 7_3, 7_4, 7_5, 8_1, 8_2, 8_3\
+	10_16:	7_1, 7_2, 7_3, 7_4, 7_5, 8_1, 8_2, 8_3, 8_4\
+	10_17:	7_1, 7_2, 7_3, 7_4, 7_5, 8_1, 8_2, 8_3, 8_4, 8_5\
+\
+	\
+\
+\
+\
+\
+\
+\
+\
+\
+	}
