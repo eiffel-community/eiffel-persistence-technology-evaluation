@@ -373,23 +373,24 @@ public class ArangoDBDatabaseHelperV1 implements DatabaseHelper{
         String query = "";
         ArrayList links =  (ArrayList) event.get("links");
         if(levels == 0){
-        	System.out.println("levels");
+        	//System.out.println("levels");
         	return true;
         }
         if (limit == events.size()) {
-        	System.out.println("limit");
+        	//System.out.println("limit");
             return true;
         }
         for(Object o: links){
         	for(int i= 0; i< linkTypes.size(); i++){
         		
         		if(((Map) o).get("type").equals(linkTypes.get(i))){
+        			JSONObject tempEvent = getEvent(((Map)o).get("target").toString());
         			if(!visitedMap.containsKey(((Map) o).get("target"))){
-	        			visitedMap.put(((Map) o).get("target").toString(), "true");
-	        			JSONObject tempEvent = getEvent(((Map)o).get("target").toString());
+	        			visitedMap.put(((Map) o).get("target").toString(), "true");	
 	        			events.add(tempEvent);
-	        			performUpstreamSearch(tempEvent, linkTypes, visitedMap, limit, levels - 1, events);
+	        			
         			}
+        			performUpstreamSearch(tempEvent, linkTypes, visitedMap, limit, levels - 1, events);
         		}
         	}
         }
@@ -467,8 +468,8 @@ public class ArangoDBDatabaseHelperV1 implements DatabaseHelper{
 			if(!visitedMap.containsKey(tempId)){
 				visitedMap.putIfAbsent(tempId, "true");
 				events.add(o);
-				performDownstreamSearch(tempId, linkTypes, visitedMap, limit, levels - 1, events);
 			}
+			performDownstreamSearch(tempId, linkTypes, visitedMap, limit, levels - 1, events);
 		}
 		
 		

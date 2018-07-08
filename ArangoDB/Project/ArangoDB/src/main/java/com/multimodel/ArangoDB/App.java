@@ -205,6 +205,7 @@ public class App
     	System.out.println();
     	
     	// Get downstream events
+    	visitedMap.clear();
     	p.append ("Get downstream events \r\n");
     	List<Object> result3 = new ArrayList<>();
     	eventId = "d0bb40e6-6361-4b92-8abc-c21087f43190";
