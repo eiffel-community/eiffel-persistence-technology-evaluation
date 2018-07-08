@@ -346,11 +346,11 @@ public class ArangoDBDatabaseHelperV1 implements DatabaseHelper{
 		if(!(startEvent == null)){
 			upstreamEvents.add(startEvent);
 			visitedMap.put(eventId, "true");
-			System.out.println(levels);
+			//System.out.println(levels);
 			performUpstreamSearch(startEvent, linkTypes, visitedMap, limit-1, levels, tempUpstreamEvents);
-			System.out.println(tempUpstreamEvents.size());
-			//sort(tempUpstreamEvents);
-			limit = (limit < tempUpstreamEvents.size()) ? limit-1 : tempUpstreamEvents.size();
+			//System.out.println("size : " + tempUpstreamEvents.size());
+			sort(tempUpstreamEvents);
+			limit = (limit <= tempUpstreamEvents.size()) ? limit-1 : tempUpstreamEvents.size();
 			for(int i = tempUpstreamEvents.size()-1; i >= (tempUpstreamEvents.size() - limit); i--){
 				upstreamEvents.add(tempUpstreamEvents.get(i));
 			}

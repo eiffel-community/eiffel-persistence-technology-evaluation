@@ -168,22 +168,22 @@ public class App
     	// Get upstream events
     	p.append ("Get upstream events \r\n");
       	List<Object> result2 = new ArrayList<>();
-     	//String eventId = ((JSONObject) test1.get("meta")).get("id").toString();
-      	JSONObject test5 = (JSONObject) new JSONParser().parse(jsonArr.get(99).toString());
-      	String eventId = ((JSONObject) test5.get("meta")).get("id").toString();
+     	String eventId = ((JSONObject) test1.get("meta")).get("id").toString();
+      	//JSONObject test5 = (JSONObject) new JSONParser().parse(jsonArr.get(99).toString());
+      	//String eventId = ((JSONObject) test5.get("meta")).get("id").toString();
       	//String eventId = "2decd614-860d-4be0-bff9-70c8c80283c6";
-     	/*List<String> linkTypes = new ArrayList<>();
+     	List<String> linkTypes = new ArrayList<>();
      	linkTypes.add("CAUSE");
      	linkTypes.add("ELEMENT");
-     	linkTypes.add("TEST_CASE_EXECUTION");*/
-    	List<String> linkTypes = Arrays.asList("CAUSE", "ELEMENT", "CONTEXT", "COMPOSITION", "BASE", "FLOW_CONTEXT","ACTIVITY_EXECUTION",
+     	//linkTypes.add("TEST_CASE_EXECUTION");
+    	/*List<String> linkTypes = Arrays.asList("CAUSE", "ELEMENT", "CONTEXT", "COMPOSITION", "BASE", "FLOW_CONTEXT","ACTIVITY_EXECUTION",
     			"PREVIOUS_ACTIVITY_EXECUTION", "PREVIOUS_VERSION", "ENVIRONMENT",
     			"ARTIFACT", "SUBJECT", "CHANGE", "TEST_SUITE_EXECUTION",
     			"TEST_CASE_EXECUTION","IUT","TERC","MODIFIED_ANNOUNCEMENT","SUB_CONFIDENCE_LEVEL",
-    			"REUSED_ARTIFACT","VERIFICATION_BASIS");
+    			"REUSED_ARTIFACT","VERIFICATION_BASIS");*/
      	ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
-     	int limit = 1000;
-     	int levels = 10;
+     	int limit = 7;
+     	int levels = 5;
      	Instant start7 = Instant.now();
     	result2 = dbV1.getUpstreamEvents( eventId, linkTypes, visitedMap,  limit,  levels);
     	Instant end7 = Instant.now();
@@ -345,22 +345,22 @@ public class App
     	p.append ("Get upstream events \r\n");
     	
       	List<Object> result2 = new ArrayList<>();
-     	//String eventId = ((JSONObject) test1.get("meta")).get("id").toString();
-      	JSONObject test5 = (JSONObject) new JSONParser().parse(jsonArr.get(99).toString());
-      	String eventId = ((JSONObject) test5.get("meta")).get("id").toString();
+     	String eventId = ((JSONObject) test1.get("meta")).get("id").toString();
+      	//JSONObject test5 = (JSONObject) new JSONParser().parse(jsonArr.get(99).toString());
+      	//String eventId = ((JSONObject) test5.get("meta")).get("id").toString();
       	//String eventId = "2decd614-860d-4be0-bff9-70c8c80283c6";
-     	List<String> linkTypes = Arrays.asList("CAUSE", "ELEMENT", "CONTEXT", "COMPOSITION", "BASE", "FLOW_CONTEXT","ACTIVITY_EXECUTION",
+     	/*List<String> linkTypes = Arrays.asList("CAUSE", "ELEMENT", "CONTEXT", "COMPOSITION", "BASE", "FLOW_CONTEXT","ACTIVITY_EXECUTION",
     			"PREVIOUS_ACTIVITY_EXECUTION", "PREVIOUS_VERSION", "ENVIRONMENT",
     			"ARTIFACT", "SUBJECT", "CHANGE", "TEST_SUITE_EXECUTION",
     			"TEST_CASE_EXECUTION","IUT","TERC","MODIFIED_ANNOUNCEMENT","SUB_CONFIDENCE_LEVEL",
-    			"REUSED_ARTIFACT","VERIFICATION_BASIS");
+    			"REUSED_ARTIFACT","VERIFICATION_BASIS");*/
     	
-     	/*List<String> linkTypes = new ArrayList<>();
+     	List<String> linkTypes = new ArrayList<>();
      	linkTypes.add("CAUSE");
-     	linkTypes.add("ELEMENT");*/
+     	linkTypes.add("ELEMENT");
      	ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
-     	int limit = 1000;
-     	int levels = 10;
+     	int limit = 7;
+     	int levels = 5;
      	Instant start7 = Instant.now();
     	result2 = dbV2.getUpstreamEvents( eventId, linkTypes, visitedMap,  limit,  levels);
     	Instant end7 = Instant.now();
