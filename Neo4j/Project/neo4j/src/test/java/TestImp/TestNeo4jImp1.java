@@ -25,9 +25,11 @@ import org.json.simple.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.graphmodel.neo4j.DataStoreResult;
 import com.graphmodel.neo4j.FilterParameterList;
 import com.graphmodel.neo4j.Neo4jDatabaseHelperV1;
 import com.graphmodel.neo4j.Neo4jDatabaseHelperV2;
+
 
 //import java.lang.management.ManagementFactory.getThreadMXBean
 
@@ -117,12 +119,34 @@ public class TestNeo4jImp1 {
 		    	    	test.testGetArtifactsByGroupAndArtifactId2("5", amount);
 		    	    	test.testGetArtifactsByGroupAndArtifactId3("5", amount);
 		    	    	
-		    	    	test.testGetArtifactByGAV("6", amount);*/
+		    	    	test.testGetArtifactByGAV("6", amount);
 		    	    	
 		    	    	test.testGetUpstreamEvents0("7", amount);
 		    	    	test.testGetUpstreamEvents1("7", amount);
 		    	    	test.testGetUpstreamEvents2("7", amount);
-		    	    	test.testGetUpstreamEvents3("7", amount);
+		    	    	test.testGetUpstreamEvents3("7", amount);*/
+		    		    
+		    		   /* test.testGetDownstreamEvents0("8", amount);
+		    	    	test.testGetDownstreamEvents1("8", amount);
+		    	    	test.testGetDownstreamEvents2("8", amount);
+		    	    	test.testGetDownstreamEvents3("8", amount);
+		    	    	
+		    	    	
+		    	    	test.testCombinations1("9_1", amount);
+		    	    	test.testCombinations2("9_1", amount);
+		    	    	test.testCombinations3("9_1", amount);
+		    	    	
+		    	    	test.testCombinations4("9_2", amount);
+		    	    	test.testCombinations5("9_2", amount);
+		    	    	test.testCombinations6("9_2", amount);*/
+		    		    
+		    		    test.testCombinations7("9_3", amount);
+		    		    
+		    		    test.testCombinations8("9_4", amount);
+		    		    
+		    		    test.testCombinations9("9_5", amount);
+		    		    
+		    		    test.testCombinations10("9_6", amount);
 		    	    	
 		    	    	test.resetVariables();
 		    	    	con.removeAllNodes();
@@ -1393,7 +1417,7 @@ public class TestNeo4jImp1 {
 		
 		for(int i = 1; i < 6; i++){
 			String tempCaseNr = caseNr + "_" + i;
-			System.out.println(tempCaseNr);
+			//System.out.println(tempCaseNr);
 			tempLinkTypes.add(linkTypes.get(i-1));
 
 			try{
@@ -1453,7 +1477,7 @@ public class TestNeo4jImp1 {
 		
 		for(int i = 6; i < 11; i++){
 			String tempCaseNr = caseNr + "_" + i;
-			System.out.println(tempCaseNr);
+			//System.out.println(tempCaseNr);
 			switch (i) {
 				case 6:
 					levels = 10;
@@ -1531,7 +1555,7 @@ public class TestNeo4jImp1 {
 		
 		for(int i = 11; i < 16; i++){
 			String tempCaseNr = caseNr + "_" + i;
-			System.out.println(tempCaseNr);
+			//System.out.println(tempCaseNr);
 			try{
 			
 				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
@@ -1841,14 +1865,13 @@ public class TestNeo4jImp1 {
 	
 	
 	public void testCombinations1(String caseNr, int amount) throws Exception{
-		String functionName = "getUpstreamEvents";
+		String functionName = "getEvent_getUpstreamEvents";
 		List<String> tempLinkTypes = new ArrayList<String>();
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
 		String metaId = metaIdList.get(99);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
-		List<Object> res = new ArrayList<>();
 		
 		for(int i = 1; i < 6; i++){
 			String tempCaseNr = caseNr + "_" + i;
@@ -1861,13 +1884,508 @@ public class TestNeo4jImp1 {
 				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
 				
 				double sumWhole = 0;
-				double sumQuery = 0;
 				
 		    	for(int c = 0; c < iterationsNumb; c++) {
 		    		
 		    		long startTime = System.nanoTime();
 		    		
 		    		count = getEventGetUpstreamEvents(metaId, tempLinkTypes, limit, levels, visitedMap);
+		    				
+		    		long endTime = System.nanoTime();
+		    		
+		    		long elapsedTime = (endTime-startTime) / timeDivision;
+		    		sumWhole += elapsedTime;
+		    		double wIPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+		    			
+		    		visitedMap.clear();	    		    		
+		    		con.setElapsedTime(0);
+		    	}
+		    	
+		    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+		    	
+		    	logDone(tempCaseNr, functionName, amount);
+			
+			}catch(Exception e){
+				logError(tempCaseNr, functionName, amount, e);
+			}
+		}
+	}
+	
+	public void testCombinations2(String caseNr, int amount) throws Exception{
+		String functionName = "getEvent_getUpstreamEvents";
+		int levels = 10;
+		int limit = 1000;
+		long count = 0;
+		String metaId = metaIdList.get(99);
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+		
+		for(int i = 6; i < 11; i++){
+			String tempCaseNr = caseNr + "_" + i;
+			
+			switch (i) {
+			case 6:
+				levels = 10;
+				break;
+			case 7:
+				levels = 50;
+				break;
+			case 8:
+				levels = 100;
+				break;
+			case 9:
+				levels = 1000;
+				break;
+			case 10:
+				levels = 10000;
+				break;
+			default :
+				break;
+			}
+
+			try{
+			
+				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+				
+				double sumWhole = 0;
+				
+		    	for(int c = 0; c < iterationsNumb; c++) {
+		    		
+		    		long startTime = System.nanoTime();
+		    		
+		    		count = getEventGetUpstreamEvents(metaId, linkTypes, limit, levels, visitedMap);
+		    				
+		    		long endTime = System.nanoTime();
+		    		
+		    		long elapsedTime = (endTime-startTime) / timeDivision;
+		    		sumWhole += elapsedTime;
+		    		double wIPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+		    			
+		    		visitedMap.clear();	    		    		
+		    		con.setElapsedTime(0);
+		    	}
+		    	
+		    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+		    	
+		    	logDone(tempCaseNr, functionName, amount);
+			
+			}catch(Exception e){
+				logError(tempCaseNr, functionName, amount, e);
+			}
+		}
+	}
+	
+	public void testCombinations3(String caseNr, int amount) throws Exception{
+		String functionName = "getEvent_getUpstreamEvents";
+		int levels = 10;
+		int limit = 10;
+		long count = 0;
+		String metaId = metaIdList.get(99);
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+		
+		for(int i = 11; i < 16; i++){
+			String tempCaseNr = caseNr + "_" + i;
+
+			try{
+			
+				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+				
+				double sumWhole = 0;
+				
+		    	for(int c = 0; c < iterationsNumb; c++) {
+		    		
+		    		long startTime = System.nanoTime();
+		    		
+		    		count = getEventGetUpstreamEvents(metaId, linkTypes, limit, levels, visitedMap);
+		    				
+		    		long endTime = System.nanoTime();
+		    		
+		    		long elapsedTime = (endTime-startTime) / timeDivision;
+		    		sumWhole += elapsedTime;
+		    		double wIPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+		    			
+		    		visitedMap.clear();	    		    		
+		    		con.setElapsedTime(0);
+		    	}
+		    	
+		    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+		    	
+		    	logDone(tempCaseNr, functionName, amount);
+			
+			}catch(Exception e){
+				logError(tempCaseNr, functionName, amount, e);
+			}
+			limit = limit * 10;
+		}
+	}
+	
+	public int getEventGetDownstreamEvents(String metaId, List<String> linkTypesList, int limit, int levels, ConcurrentMap<String, String> visitedMap){
+		List<Object> res = new ArrayList<>();
+		con.getEvent(metaId);
+		res = con.getUpstreamEvents(metaId, linkTypesList, visitedMap, limit, levels);
+		return res.size();	
+	}
+	
+	
+	public void testCombinations4(String caseNr, int amount) throws Exception{
+		String functionName = "getEvent_getDownstreamEvents";
+		List<String> tempLinkTypes = new ArrayList<String>();
+		int levels = 10;
+		int limit = 1000;
+		long count = 0;
+		String metaId = metaIdList.get(0);
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+		
+		for(int i = 1; i < 6; i++){
+			String tempCaseNr = caseNr + "_" + i;
+			
+			tempLinkTypes.add(linkTypes.get(i-1));
+
+			try{
+			
+				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+				
+				double sumWhole = 0;
+				
+		    	for(int c = 0; c < iterationsNumb; c++) {
+		    		
+		    		long startTime = System.nanoTime();
+		    		
+		    		count = getEventGetDownstreamEvents(metaId, tempLinkTypes, limit, levels, visitedMap);
+		    				
+		    		long endTime = System.nanoTime();
+		    		
+		    		long elapsedTime = (endTime-startTime) / timeDivision;
+		    		sumWhole += elapsedTime;
+		    		double wIPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+		    			
+		    		visitedMap.clear();	    		    		
+		    		con.setElapsedTime(0);
+		    	}
+		    	
+		    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+		    	
+		    	logDone(tempCaseNr, functionName, amount);
+			
+			}catch(Exception e){
+				logError(tempCaseNr, functionName, amount, e);
+			}
+		}
+	}
+	
+	public void testCombinations5(String caseNr, int amount) throws Exception{
+		String functionName = "getEvent_getDownstreamEvents";
+		int levels = 10;
+		int limit = 1000;
+		long count = 0;
+		String metaId = metaIdList.get(0);
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+		
+		for(int i = 6; i < 11; i++){
+			String tempCaseNr = caseNr + "_" + i;
+			
+			switch (i) {
+			case 6:
+				levels = 10;
+				break;
+			case 7:
+				levels = 50;
+				break;
+			case 8:
+				levels = 100;
+				break;
+			case 9:
+				levels = 1000;
+				break;
+			case 10:
+				levels = 10000;
+				break;
+			default :
+				break;
+			}
+
+			try{
+			
+				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+				
+				double sumWhole = 0;
+				
+		    	for(int c = 0; c < iterationsNumb; c++) {
+		    		
+		    		long startTime = System.nanoTime();
+		    		
+		    		count = getEventGetDownstreamEvents(metaId, linkTypes, limit, levels, visitedMap);
+		    				
+		    		long endTime = System.nanoTime();
+		    		
+		    		long elapsedTime = (endTime-startTime) / timeDivision;
+		    		sumWhole += elapsedTime;
+		    		double wIPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+		    			
+		    		visitedMap.clear();	    		    		
+		    		con.setElapsedTime(0);
+		    	}
+		    	
+		    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+		    	
+		    	logDone(tempCaseNr, functionName, amount);
+			
+			}catch(Exception e){
+				logError(tempCaseNr, functionName, amount, e);
+			}
+		}
+	}
+	
+	public void testCombinations6(String caseNr, int amount) throws Exception{
+		String functionName = "getEvent_getDownstreamEvents";
+		int levels = 10;
+		int limit = 10;
+		long count = 0;
+		String metaId = metaIdList.get(0);
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+		
+		for(int i = 11; i < 16; i++){
+			String tempCaseNr = caseNr + "_" + i;
+
+			try{
+			
+				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+				
+				double sumWhole = 0;
+				
+		    	for(int c = 0; c < iterationsNumb; c++) {
+		    		
+		    		long startTime = System.nanoTime();
+		    		
+		    		count = getEventGetDownstreamEvents(metaId, linkTypes, limit, levels, visitedMap);
+		    				
+		    		long endTime = System.nanoTime();
+		    		
+		    		long elapsedTime = (endTime-startTime) / timeDivision;
+		    		sumWhole += elapsedTime;
+		    		double wIPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+		    			
+		    		visitedMap.clear();	    		    		
+		    		con.setElapsedTime(0);
+		    	}
+		    	
+		    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+		    	
+		    	logDone(tempCaseNr, functionName, amount);
+			
+			}catch(Exception e){
+				logError(tempCaseNr, functionName, amount, e);
+			}
+			limit = limit * 10;
+		}
+	}
+	
+	public void testCombinations7(String caseNr, int amount) throws Exception{
+		String functionName = "getArtifactsByGroup_getUpstreamEvents";
+		List<String> tempLinkTypes = new ArrayList<String>();
+		int levels = 10;
+		int limit = 1000;
+		int skip = 0;
+		long count = 0;
+		FilterParameterList tempFilterList = new FilterParameterList();
+		//String metaId = metaIdList.get(0);
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+		DataStoreResult ABGresult = new DataStoreResult();
+		
+		for(int i = 1; i < 6; i++){
+			String tempCaseNr = caseNr + "_" + i;
+			
+			tempLinkTypes.add(linkTypes.get(i-1));
+
+			try{
+			
+				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+				
+				double sumWhole = 0;
+				
+		    	for(int c = 0; c < iterationsNumb; c++) {
+		    		int amountRecEvents = 0;
+		    		
+		    		long startTime = System.nanoTime();
+		    		
+		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, "<", skip, limit);
+
+		    		for(int d = 0; d < ABGresult.getCount(); d++){
+		    			JSONObject event = ABGresult.getEventFromEventsArray(d);
+		    			String eventId = ((Map) event.get("meta")).get("id").toString();
+		    			amountRecEvents += con.getUpstreamEvents(eventId, tempLinkTypes, visitedMap, limit, levels).size();
+		    		}
+		    				
+		    		long endTime = System.nanoTime();
+		    		
+		    		count = amountRecEvents;
+		    		
+		    		long elapsedTime = (endTime-startTime) / timeDivision;
+		    		sumWhole += elapsedTime;
+		    		double wIPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+		    			
+		    		visitedMap.clear();	    		    		
+		    		con.setElapsedTime(0);
+		    	}
+		    	
+		    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+		    	
+		    	logDone(tempCaseNr, functionName, amount);
+			
+			}catch(Exception e){
+				logError(tempCaseNr, functionName, amount, e);
+			}
+		}
+	}
+	
+	public void testCombinations8(String caseNr, int amount) throws Exception{
+		String functionName = "getArtifactsByGroup_getDownstreamEvents";
+		List<String> tempLinkTypes = new ArrayList<String>();
+		int levels = 10;
+		int limit = 1000;
+		int skip = 0;
+		long count = 0;
+		FilterParameterList tempFilterList = new FilterParameterList();
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+		DataStoreResult ABGresult = new DataStoreResult();
+		
+		for(int i = 1; i < 6; i++){
+			String tempCaseNr = caseNr + "_" + i;
+			
+			tempLinkTypes.add(linkTypes.get(i-1));
+
+			try{
+			
+				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+				
+				double sumWhole = 0;
+				
+		    	for(int c = 0; c < iterationsNumb; c++) {
+		    		int amountRecEvents = 0;
+		    		
+		    		long startTime = System.nanoTime();
+		    		
+		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, "<", skip, limit);
+
+		    		for(int d = 0; d < ABGresult.getCount(); d++){
+		    			JSONObject event = ABGresult.getEventFromEventsArray(d);
+		    			String eventId = ((Map) event.get("meta")).get("id").toString();
+		    			amountRecEvents += con.getDownstreamEvents(eventId, tempLinkTypes, visitedMap, limit, levels).size();
+		    			visitedMap.clear();	
+		    		}
+		    				
+		    		long endTime = System.nanoTime();
+		    		
+		    		count = amountRecEvents;
+		    		
+		    		long elapsedTime = (endTime-startTime) / timeDivision;
+		    		sumWhole += elapsedTime;
+		    		double wIPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+		    			
+		    		visitedMap.clear();	    		    		
+		    		con.setElapsedTime(0);
+		    	}
+		    	
+		    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+		    	
+		    	logDone(tempCaseNr, functionName, amount);
+			
+			}catch(Exception e){
+				logError(tempCaseNr, functionName, amount, e);
+			}
+		}
+	}
+	
+	public void testCombinations9(String caseNr, int amount) throws Exception{
+		String functionName = "getArtifactByGAV_getUpstreamEvents";
+		List<String> tempLinkTypes = new ArrayList<String>();
+		int levels = 10;
+		int limit = 1000;
+		long count = 0;
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+		
+		for(int i = 1; i < 6; i++){
+			String tempCaseNr = caseNr + "_" + i;
+			
+			tempLinkTypes.add(linkTypes.get(i-1));
+
+			try{
+			
+				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+				
+				double sumWhole = 0;
+				
+		    	for(int c = 0; c < iterationsNumb; c++) {
+		    		
+		    		long startTime = System.nanoTime();
+		    		
+		    		JSONObject event = con.getArtifactByGAV(groupId, artifactId, gavVersion);
+	    			String eventId = ((Map) event.get("meta")).get("id").toString();
+	    			count = con.getUpstreamEvents(eventId, tempLinkTypes, visitedMap, limit, levels).size();
+	    				
+		    		long endTime = System.nanoTime();
+		    		
+		    		long elapsedTime = (endTime-startTime) / timeDivision;
+		    		sumWhole += elapsedTime;
+		    		double wIPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+		    			
+		    		visitedMap.clear();	    		    		
+		    		con.setElapsedTime(0);
+		    	}
+		    	
+		    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+		    	
+		    	logDone(tempCaseNr, functionName, amount);
+			
+			}catch(Exception e){
+				logError(tempCaseNr, functionName, amount, e);
+			}
+		}
+	}
+	
+	public void testCombinations10(String caseNr, int amount) throws Exception{
+		String functionName = "getArtifactByGAV_getDownstreamEvents";
+		List<String> tempLinkTypes = new ArrayList<String>();
+		int levels = 10;
+		int limit = 1000;
+		long count = 0;
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+		
+		for(int i = 1; i < 6; i++){
+			String tempCaseNr = caseNr + "_" + i;
+			
+			tempLinkTypes.add(linkTypes.get(i-1));
+
+			try{
+			
+				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+				String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+				
+				double sumWhole = 0;
+				
+		    	for(int c = 0; c < iterationsNumb; c++) {
+		    		
+		    		long startTime = System.nanoTime();
+		    		
+		    		JSONObject event = con.getArtifactByGAV(groupId, artifactId, gavVersion);
+	    			String eventId = ((Map) event.get("meta")).get("id").toString();
+	    			count = con.getDownstreamEvents(eventId, tempLinkTypes, visitedMap, limit, levels).size();
 		    				
 		    		long endTime = System.nanoTime();
 		    		
