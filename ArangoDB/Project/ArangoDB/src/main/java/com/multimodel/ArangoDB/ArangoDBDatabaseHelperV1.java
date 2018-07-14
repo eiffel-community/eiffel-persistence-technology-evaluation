@@ -338,7 +338,8 @@ public class ArangoDBDatabaseHelperV1 implements DatabaseHelper{
 		final List<Object> upstreamEvents = new ArrayList<>();
 		List<Object> tempUpstreamEvents = new ArrayList<>();
 		JSONObject startEvent = new JSONObject();
-		long startTime1 = System.nanoTime();
+		
+		long startTime2 = System.nanoTime();
 		
 		startEvent = getEvent(eventId);
 		
@@ -355,8 +356,8 @@ public class ArangoDBDatabaseHelperV1 implements DatabaseHelper{
 				upstreamEvents.add(tempUpstreamEvents.get(i));
 			}
 			
-			long endTime1 = System.nanoTime();
-			elapsedTime = (endTime1 - startTime1);
+			long endTime2 = System.nanoTime();
+			elapsedTime = (endTime2 - startTime2);
 			
 			return upstreamEvents;
 		}else{
@@ -407,7 +408,7 @@ public class ArangoDBDatabaseHelperV1 implements DatabaseHelper{
 		List<Object> tempDownstreamEvents = new ArrayList<>();
 		JSONObject startEvent = new JSONObject();
 		
-		long startTime1 = System.nanoTime();
+		long startTime2 = System.nanoTime();
 		
 		startEvent = getEvent(eventId);
 		if(!(startEvent == null)){
@@ -420,8 +421,8 @@ public class ArangoDBDatabaseHelperV1 implements DatabaseHelper{
 				downstreamEvents.add(tempDownstreamEvents.get(i));
 			}
 			
-			long endTime1 = System.nanoTime();
-			elapsedTime = (endTime1 - startTime1);
+			long endTime2 = System.nanoTime();
+			elapsedTime = (endTime2 - startTime2);
 			
 			return downstreamEvents;
 		}else{

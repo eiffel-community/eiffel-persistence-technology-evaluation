@@ -28,6 +28,10 @@ import org.neo4j.driver.v1.TransactionWork;
 public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 
 	private final Driver driver;
+	private long startTime = 0;
+	private long endTime = 0;
+	private long elapsedTime = 0;
+	private ArrayList<Long> timeRes = new ArrayList<Long>();
 
     public Neo4jDatabaseHelperV2( String uri, String user, String password )
     {
@@ -512,6 +516,7 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
     	String metaType = eventMeta.get("type").toString();
     	String metaId = eventMeta.get("id").toString();
     	
+    	startTime = System.nanoTime();
     	if(! checkInDatabase(metaId)){
 	    	Object[] metaKeysList =  eventMeta.keySet().toArray();
 	    	Object[] dataKeysList =  eventData.keySet().toArray();
@@ -545,10 +550,21 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 	   			 
 	   		 	}
 	    	}
+	    	
+	    	endTime = System.nanoTime();
+			long time = (endTime - startTime);
+			timeRes.add(time);
+			
 	    	return true;
     	}else{
+    		
+    		endTime = System.nanoTime();
+    		long time = (endTime - startTime);
+    		timeRes.add(time);
+    		
     		return false;
     	}
+    
 	}
 	
 	public boolean storeManyEvents(List<JSONObject> jsonArr, int amount) throws Exception{
@@ -586,7 +602,10 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 						"WHERE ALL(rel IN r WHERE rel.type='jsonObject' or rel.type='jsonArray')" + 
 						"RETURN DISTINCT collect([extract (rel in r | type(rel) ),extract (rel in r | rel.type ), properties(endNode)])";
 		
+		long startTime1 = System.nanoTime();
+		
 		listOfNodes = execGetQueryV2(query1);
+		
 		
 		if(listOfNodes.getSizeOfPropertiesList() != 0){
 			tempEventMeta = listOfNodes.getPropertyFromList(0).getPropertyJson();
@@ -602,6 +621,8 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 			
 			listOfNodes = execGetQueryV2(query2);
 			
+			long endTime1 = System.nanoTime();
+			elapsedTime = (endTime1 - startTime1);
 			
 			for(int c=0; c<listOfNodes.getSizeOfPropertiesList(); c++){
 				ArrayList<String> linkTypesList = stringToList(listOfNodes.getPropertyFromList(c).getLinkType());
@@ -721,10 +742,17 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 		Boolean isMeta = paramList.getParametersList().containsKey("meta");
 		
 		String query = createGetQuery(filterList, paramList, isMeta);
+		
+		long startTime1 = System.nanoTime();
+		
 		List<String> idList = execGetIdWithQueryV2(query, isMeta);
 		for(int i=0; i<idList.size(); i++){
 			tempArray.add(getEvent(idList.get(i)));
 		}
+		
+		long endTime1 = System.nanoTime();
+		elapsedTime = (endTime1 - startTime1);
+		
 		tempArray = sortJsonArray(tempArray, "meta_time", comparator);
 
 		int max = (skip+limit > tempArray.size()) ? tempArray.size() : skip+limit;
@@ -786,11 +814,18 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 						+ "', artifactId: '" + artifactId 
 						+ "', version: '" + version + "' }) "
 						+ "RETURN collect(n.specialKey)";
+		
+		long startTime2 = System.nanoTime();
+		
 		List<String> idList = execGetIdWithQueryV2(query, false);
 		for(int i=0; i<idList.size(); i++){
 			tempArray.add(getEvent(idList.get(i)));
 			count++;
 		}
+		
+		long endTime2 = System.nanoTime();
+		elapsedTime = (endTime2 - startTime2);
+		
 		result.setEventsArray(tempArray);
 		result.setCount(count);
 		return result.getEventFromEventsArray(0);
@@ -803,10 +838,16 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 		// TODO Auto-generated method stub
 		final List<Object> upstreamEvents = new ArrayList<>();
 		JSONObject startEvent = new JSONObject();
+		
+		long startTime2 = System.nanoTime();
+		
 		startEvent = getEvent(eventId);
 		if(!(startEvent == null)){
 			upstreamEvents.add(startEvent);
 			performUpstreamSearch(startEvent, linkTypes, visitedMap, limit, levels, upstreamEvents);
+			
+			long endTime2 = System.nanoTime();
+			elapsedTime = (endTime2 - startTime2);
 			
 			return upstreamEvents;
 		}else{
@@ -851,10 +892,16 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 		// TODO Auto-generated method stub
 		final List<Object> downstreamEvents = new ArrayList<>();
 		JSONObject startEvent = new JSONObject();
+		
+		long startTime2 = System.nanoTime();
+		
 		startEvent = getEvent(eventId);
 		if(!(startEvent == null)){
 			downstreamEvents.add(startEvent);
 			performDownstreamSearch(eventId, linkTypes, visitedMap, limit, levels, downstreamEvents);
+			
+			long endTime2 = System.nanoTime();
+			elapsedTime = (endTime2 - startTime2);
 			
 			return downstreamEvents;
 		}else{
@@ -895,6 +942,42 @@ public class Neo4jDatabaseHelperV2 implements AutoCloseable, DatabaseHelper {
 	public void removeAllNodes() {
 		// TODO Auto-generated method stub
 		execQuery("MATCH (n) DETACH DELETE n");
+	}
+	
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public long getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
+	public ArrayList<Long> getTimeRes() {
+		return timeRes;
+	}
+
+	public void setTimeRes(ArrayList<Long> timeRes) {
+		this.timeRes = timeRes;
+	}
+	
+	public void timeResClear() {
+		timeRes.clear();
+	}
+
+	public long getElapsedTime() {
+		return elapsedTime;
+	}
+
+	public void setElapsedTime(long elapsedTime) {
+		this.elapsedTime = elapsedTime;
 	}
 
 }

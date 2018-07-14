@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CyclicBarrier;
@@ -27,21 +26,22 @@ import org.json.simple.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.multimodel.ArangoDB.ArangoDBDatabaseHelperV1;
-import com.multimodel.ArangoDB.DataStoreResult;
-import com.multimodel.ArangoDB.FilterParameterList;
+import com.graphmodel.neo4j.DataStoreResult;
+import com.graphmodel.neo4j.FilterParameterList;
+import com.graphmodel.neo4j.Neo4jDatabaseHelperV2;
+
 
 //import java.lang.management.ManagementFactory.getThreadMXBean
 
-public class TestArangoDBImp1 {
-
-	public static TestArangoDBImp1 test = new TestArangoDBImp1();
-	public static ArangoDBDatabaseHelperV1 con;
+public class TestNeo4jImp2 {
+	
+	public static TestNeo4jImp2 test = new TestNeo4jImp2();
+	public static Neo4jDatabaseHelperV2 con;
 	
 	//Variables and datatypes
-	public static String DBMSName = "ArangoDB";
-	public static String imp = "Imp1"; 
-	public static String impFolder = "ArangoDB_IMP1";
+	public static String DBMSName = "Neo4j";
+	public static String imp = "Imp2"; 
+	public static String impFolder = "Neo4j_IMP2";
 	
 	public static List<String> linkTypes = Arrays.asList("CAUSE", "ELEMENT", "CONTEXT", "COMPOSITION", "BASE", "FLOW_CONTEXT","ACTIVITY_EXECUTION",
 			"PREVIOUS_ACTIVITY_EXECUTION", "PREVIOUS_VERSION", "ENVIRONMENT",
@@ -87,12 +87,11 @@ public class TestArangoDBImp1 {
 		test.setFilterParameters();
 		test.setGAVFilterParameters();
 		timePos = testSizes.get(0)/2;
-	    	
+	    
     	Thread thread = new Thread(new Runnable(){
     		public void run(){
     			try {
     				for(int i = 0; i < testSizes.size(); i++){
-		    			con.removeAllEvents();
 		    	    	int amount = testSizes.get(i);
 		    	    	System.out.println("Problem size : " + amount);
 		    	    	
@@ -103,7 +102,7 @@ public class TestArangoDBImp1 {
 		    		    //mainMetaTime = metaTimeList.get(timePos);
 		    		    long tempMainTime = (long) Double.parseDouble(metaTimeList.get(timePos));
 		    		    mainMetaTime = String.valueOf(tempMainTime);
-		    		    filterList2.addFilterParameter("meta_time", mainMetaTime, "!=");
+		    		    filterList2.addFilterParameter("meta_time", mainMetaTime, "<>");
 						
 		    		    //System.out.println(amount + " , " + mainMetaTime);
 		    		    
@@ -135,6 +134,7 @@ public class TestArangoDBImp1 {
 		    	    	test.testGetDownstreamEvents2("8", amount);
 		    	    	test.testGetDownstreamEvents3("8", amount);
 		    	    	
+		    	    	
 		    	    	test.testCombinations1("9_1", amount);
 		    	    	test.testCombinations2("9_1", amount);
 		    	    	test.testCombinations3("9_1", amount);
@@ -150,7 +150,7 @@ public class TestArangoDBImp1 {
 		    		    test.testCombinations9("9_5", amount);
 		    		    
 		    		    test.testCombinations10("9_6", amount);
-		    		    
+		    	    	
 		    		    test.testDiffAmountThreads1("10_1", amount);
 		    		    test.testDiffAmountThreads2("10_2", amount);
 		    		    test.testDiffAmountThreads3("10_3", amount);
@@ -170,9 +170,8 @@ public class TestArangoDBImp1 {
 		    		    test.testDiffAmountThreadsUD9("10_16", amount);
 		    		    test.testDiffAmountThreadsUD10("10_17", amount);
 		    		    
-		    	    	
 		    	    	test.resetVariables();
-		    	    	con.removeAllEvents();
+		    	    	con.removeAllNodes();
 	    				
 						}
     				System.out.println("Done");
@@ -184,21 +183,17 @@ public class TestArangoDBImp1 {
     	});
 	    	
     	thread.start();
-    	
 	}
-	    
-	 /*   ThreadMXBean mxBean = ManagementFactory.getThreadMXBean();
-	    System.out.println(mxBean.isThreadCpuTimeSupported());
-	    Thread thr = new Thread();
-	    System.out.println( mxBean.getThreadCpuTime(thr.getId()));*/
-	    
 	
 	
 	public void setUpImp() throws Exception{
-   
+		String url = "bolt://localhost:7687";
+        String user = "neo4j";
+        String password = "Dekret66";
+        
+        
         try {
-        	con = new ArangoDBDatabaseHelperV1();
-        	con.arangoDBSetUp();
+        	con = new Neo4jDatabaseHelperV2( url, user, password );
         	logDone("0", "Connection", 0);
         }catch (Exception e){
         	//System.out.println("Failed to connect : " + e);
@@ -209,18 +204,18 @@ public class TestArangoDBImp1 {
 	
 	public void setFilterParameters() throws Exception{
 		filterList.getFilterList().clear();
-		filterList.addFilterParameter("meta_type", "EiffelCompositionDefinedEvent", "==");
-        filterList.addFilterParameter("meta_version", "1.0.0", "==");
-        filterList.addFilterParameter("data_name", "Composition 3", "==");
-        filterList.addFilterParameter("data_version", "0", "==");
-        filterList.addFilterParameter("meta_time", "1.490777046669E12", "==");
+		filterList.addFilterParameter("meta_type", "EiffelCompositionDefinedEvent", "=");
+        filterList.addFilterParameter("meta_version", "1.0.0", "=");
+        filterList.addFilterParameter("data_name", "Composition 3", "=");
+        filterList.addFilterParameter("data_version", "0", "=");
+        filterList.addFilterParameter("meta_time", "1490777046669", "=");
 	}
 	
 	public void setGAVFilterParameters() throws Exception{
 		GAVFilterList.getFilterList().clear();
-		GAVFilterList.addFilterParameter("meta_type", "EiffelArtifactCreatedEvent", "==");
-		GAVFilterList.addFilterParameter("meta_version", "1.0.0", "==");
-		GAVFilterList.addFilterParameter("meta_time", "1.490777046672E12", "==");
+		GAVFilterList.addFilterParameter("meta_type", "EiffelArtifactCreatedEvent", "=");
+		GAVFilterList.addFilterParameter("meta_version", "1.0.0", "=");
+		GAVFilterList.addFilterParameter("meta_time", "1490777046672", "=");
 	}
 	
 	public void resetVariables() throws Exception{
@@ -377,7 +372,7 @@ public class TestArangoDBImp1 {
 	
 	public void testStore(String caseNr, int amount) throws Exception{
 		String functionName = "storeMany";
-		//ArrayList<Integer> resTime = new ArrayList<Integer>();
+		ArrayList<Integer> resTime = new ArrayList<Integer>();
 		
 		List<JSONObject> jsonArr = new ArrayList<JSONObject>();
 	    InputStream infile = new FileInputStream(eventsFilePath);
@@ -405,25 +400,25 @@ public class TestArangoDBImp1 {
 	    		long endTime = System.nanoTime();
 	    		
 	    		long elapsedTime = (endTime-startTime) / timeDivision;
-	    		sumWhole += elapsedTime;
-	    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Integer.toString(0),Integer.toString(0), timeFormatName);
+	    		sumWhole += (elapsedTime);
+	    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Integer.toString(0), Integer.toString(0), timeFormatName);
 	    		
 	    		int size = con.getTimeRes().size();
 	    		for(int i = 0; i < size; i++){
 	    			long conElapsedTime = con.getTimeRes().get(i) / timeDivision;
-	    			storeIterResInFile(iterationsResQuery, Integer.toString(i+1) , Long.toString(conElapsedTime), Integer.toString(0),Integer.toString(0), timeFormatName);
+	    			storeIterResInFile(iterationsResQuery, Integer.toString(i+1) , Long.toString(conElapsedTime), Integer.toString(0), Integer.toString(0), timeFormatName);
 	    			sumQuery += (conElapsedTime);
 	    		}
 	    		
 	    		storeIterResInFile(iterationsResQuery, "---" , "---", "---", "", "");
-	    		storeIterResInFile(averageResQuery, Integer.toString(c+1) , doubleToCSVValue(sumQuery/size), Integer.toString(0),Integer.toString(0), timeFormatName);
+	    		storeIterResInFile(averageResQuery, Integer.toString(c+1) , doubleToCSVValue(sumQuery/size), Integer.toString(0), Integer.toString(0), timeFormatName);
 	    		
 	    		con.timeResClear();
 	    		con.setStartTime(0);
 	    		con.setEndTime(0);
 	    		
 	    		if(c < (iterationsNumb -1)){
-	    			con.removeAllEvents();
+	    			con.removeAllNodes();
 	    		}
 	    	}
 	    	
@@ -490,12 +485,11 @@ public class TestArangoDBImp1 {
 		int skip = 0;
 		int limit = 1000;
 		long count = 0;
-		//String time1 = metaTimeList.get(timePos);
+		String time1 = metaTimeList.get(timePos);
 		String tempCaseNr = caseNr + "_" + 0;
 		
 		//tempFilterList.getFilterList().add(filterList.getParameterFromList(i-1));
-		//tempFilterList.addFilterParameter("meta_time", time1, "!=");
-		tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
+		tempFilterList.addFilterParameter("meta_time", time1, "<>");
 		//System.out.println(tempFilterList.getParameterFromList(i-1).getValue());
 
 		try{
@@ -520,32 +514,19 @@ public class TestArangoDBImp1 {
 	    		
 	    		long conElapsedTime = con.getElapsedTime() / timeDivision;
 	    		sumQuery += (conElapsedTime);
-	    		double conIPerEvent = 0;
-	    		if(count != 0){
-	    			conIPerEvent = conElapsedTime/count;
-	    		}
-	    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conIPerEvent), timeFormatName);
+	    		double conPerEvent = conElapsedTime/count;
+	    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conPerEvent), timeFormatName);
 	    		
 	    		long elapsedTime = (endTime-startTime) / timeDivision;
 	    		sumWhole += elapsedTime;
-	    		double wIPerEvent = 0;
-	    		if(count != 0){
-	    			wIPerEvent =	elapsedTime / count;
-	    		}
-	    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+	    		double wPerEvent = elapsedTime / count;
+	    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wPerEvent), timeFormatName);
 	    			    		    		
 	    		con.setElapsedTime(0);
 	    	}
 	    	
-	    	double conAPerEvent = 0;
-	    	double wAPerEvent = 0;
-	    	if(count != 0){
-	    		conAPerEvent = (sumQuery/iterationsNumb)/count;
-	    		wAPerEvent = (sumWhole/iterationsNumb)/count;
-	    	}
-	    	
-	    	storeAverResInFile(averageResQuery, Integer.toString(amount) , doubleToCSVValue(sumQuery/iterationsNumb), Long.toString(count), doubleToCSVValue(conAPerEvent), timeFormatName);
-	    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue(wAPerEvent), timeFormatName);
+	    	storeAverResInFile(averageResQuery, Integer.toString(amount) , doubleToCSVValue(sumQuery/iterationsNumb), Long.toString(count), doubleToCSVValue((sumQuery/iterationsNumb)/count), timeFormatName);
+	    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
 	    	
 	    	logDone(tempCaseNr, functionName, amount);
 		
@@ -589,14 +570,13 @@ public class TestArangoDBImp1 {
 		    		
 		    		long conElapsedTime = con.getElapsedTime() / timeDivision;
 		    		sumQuery += (conElapsedTime);
-		    		double conIPerEvent = conElapsedTime/count;
-		    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conIPerEvent), timeFormatName);
+		    		double conPerEvent = conElapsedTime/count;
+		    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conPerEvent), timeFormatName);
 		    		
 		    		long elapsedTime = (endTime-startTime) / timeDivision;
 		    		sumWhole += elapsedTime;
-		    		double wIPerEvent = elapsedTime / count;
-		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
-		    			
+		    		double wPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wPerEvent), timeFormatName);
 		    			    		    		
 		    		con.setElapsedTime(0);
 		    	}
@@ -645,15 +625,14 @@ public class TestArangoDBImp1 {
 		    		
 		    		long conElapsedTime = con.getElapsedTime() / timeDivision;
 		    		sumQuery += (conElapsedTime);
-		    		double conIPerEvent = conElapsedTime/count;
-		    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conIPerEvent), timeFormatName);
+		    		double conPerEvent = conElapsedTime/count;
+		    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conPerEvent), timeFormatName);
 		    		
 		    		long elapsedTime = (endTime-startTime) / timeDivision;
 		    		sumWhole += elapsedTime;
-		    		double wIPerEvent = elapsedTime / count;
-		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
-		    			
-		    		
+		    		double wPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wPerEvent), timeFormatName);
+		    			    		    		
 		    		con.setElapsedTime(0);
 		    	}
 		    	
@@ -715,14 +694,14 @@ public class TestArangoDBImp1 {
 		    		
 		    		long conElapsedTime = con.getElapsedTime() / timeDivision;
 		    		sumQuery += (conElapsedTime);
-		    		double conIPerEvent = conElapsedTime/count;
-		    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conIPerEvent), timeFormatName);
+		    		double conPerEvent = conElapsedTime/count;
+		    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conPerEvent), timeFormatName);
 		    		
 		    		long elapsedTime = (endTime-startTime) / timeDivision;
 		    		sumWhole += elapsedTime;
-		    		double wIPerEvent = elapsedTime / count;
-		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
-		    			
+		    		double wPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wPerEvent), timeFormatName);
+		    			    		    		
 		    		con.setElapsedTime(0);
 		    	}
 		    	
@@ -744,13 +723,13 @@ public class TestArangoDBImp1 {
 		int limit = 1000;
 		int size1 = timePos;
 		int size2 = size1/2 + size1;
-		//String time1 = metaTimeList.get(size1);
-		//String time2 = metaTimeList.get(size2);
-		
 		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
 		String time1 = String.valueOf(tempMainTime1);
+		//String time1 = metaTimeList.get(size1);
 		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
 		String time2 = String.valueOf(tempMainTime2);
+		//String time2 = metaTimeList.get(size2);
+		
 		//System.out.println(amount + " , " + time1);
 		//System.out.println(amount + " , " + time2);
 		long count = 0;
@@ -760,7 +739,7 @@ public class TestArangoDBImp1 {
 			
 			if(i == 16){
 				tempFilterList.getFilterList().clear();
-				tempFilterList.addFilterParameter("meta_time", time1, "==");
+				tempFilterList.addFilterParameter("meta_time", time1, "=");
 			}else if(i == 17){
 				tempFilterList.getFilterList().clear();
 				tempFilterList.addFilterParameter("meta_time", time1, ">");
@@ -775,7 +754,7 @@ public class TestArangoDBImp1 {
 				tempFilterList.addFilterParameter("meta_time", time1, "<=");
 			}else if(i == 21){
 				tempFilterList.getFilterList().clear();
-				tempFilterList.addFilterParameter("meta_time", time1, "!=");
+				tempFilterList.addFilterParameter("meta_time", time1, "<>");
 			}else if(i == 22){
 				tempFilterList.getFilterList().clear();
 				tempFilterList.addFilterParameter("meta_time", time1, ">");
@@ -804,14 +783,14 @@ public class TestArangoDBImp1 {
 		    		
 		    		long conElapsedTime = con.getElapsedTime() / timeDivision;
 		    		sumQuery += (conElapsedTime);
-		    		double conIPerEvent = conElapsedTime/count;
-		    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conIPerEvent), timeFormatName);
+		    		double conPerEvent = conElapsedTime/count;
+		    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conPerEvent), timeFormatName);
 		    		
 		    		long elapsedTime = (endTime-startTime) / timeDivision;
 		    		sumWhole += elapsedTime;
-		    		double wIPerEvent = elapsedTime / count;
-		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
-		    			
+		    		double wPerEvent = elapsedTime / count;
+		    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wPerEvent), timeFormatName);
+		    			    		    		
 		    		con.setElapsedTime(0);
 		    	}
 		    	
@@ -850,20 +829,19 @@ public class TestArangoDBImp1 {
 	    	for(int c = 0; c < iterationsNumb; c++) {
 	    		
 	    		long startTime = System.nanoTime();
-	    		
 	    		count = con.getArtifactsByGroup(groupId, tempFilterList, "<", skip, limit).getCount();
 	    		
 	    		long endTime = System.nanoTime();
 	    		
 	    		long conElapsedTime = con.getElapsedTime() / timeDivision;
 	    		sumQuery += (conElapsedTime);
-	    		double conIPerEvent = conElapsedTime/count;
-	    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conIPerEvent), timeFormatName);
+	    		double conPerEvent = conElapsedTime/count;
+	    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conPerEvent), timeFormatName);
 	    		
 	    		long elapsedTime = (endTime-startTime) / timeDivision;
 	    		sumWhole += elapsedTime;
-	    		double wIPerEvent = elapsedTime / count;
-	    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+	    		double wPerEvent = elapsedTime / count;
+	    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wPerEvent), timeFormatName);
 	    			    		    		
 	    		con.setElapsedTime(0);
 	    	}
@@ -1933,7 +1911,7 @@ public class TestArangoDBImp1 {
 		    		
 		    		long startTime = System.nanoTime();
 		    		
-		    		count = getEventGetDownstreamEvents(metaId, tempLinkTypes, limit, levels, visitedMap);
+		    		count = getEventGetUpstreamEvents(metaId, tempLinkTypes, limit, levels, visitedMap);
 		    				
 		    		long endTime = System.nanoTime();
 		    		
@@ -2242,6 +2220,7 @@ public class TestArangoDBImp1 {
 		int skip = 0;
 		long count = 0;
 		FilterParameterList tempFilterList = new FilterParameterList();
+		//String metaId = metaIdList.get(0);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		DataStoreResult ABGresult = new DataStoreResult();
 		
@@ -2268,9 +2247,8 @@ public class TestArangoDBImp1 {
 		    			JSONObject event = ABGresult.getEventFromEventsArray(d);
 		    			String eventId = ((Map) event.get("meta")).get("id").toString();
 		    			amountRecEvents += con.getUpstreamEvents(eventId, tempLinkTypes, visitedMap, limit, levels).size();
-		    			visitedMap.clear();	
 		    		}
-		    			
+		    				
 		    		long endTime = System.nanoTime();
 		    		
 		    		count = amountRecEvents;
@@ -2516,7 +2494,7 @@ public class TestArangoDBImp1 {
 						String tempCaseNr = caseNr + "_" + 1; 
 					    FilterParameterList tempFilterList = new FilterParameterList();
 						tempFilterList.getFilterList().clear();
-						tempFilterList.addFilterParameter("meta_time", time1, "==");
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
 						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
 						logDone(tempCaseNr, functionName, amount);
 					} catch (Exception e) {
@@ -2560,7 +2538,7 @@ public class TestArangoDBImp1 {
 						String tempCaseNr = caseNr + "_" + 1; 
 					    FilterParameterList tempFilterList = new FilterParameterList();
 						tempFilterList.getFilterList().clear();
-						tempFilterList.addFilterParameter("meta_time", time1, "==");
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
 						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
 						logDone(tempCaseNr, functionName, amount);
 					} catch (Exception e) {
@@ -2622,7 +2600,7 @@ public class TestArangoDBImp1 {
 						String tempCaseNr = caseNr + "_" + 1; 
 					    FilterParameterList tempFilterList = new FilterParameterList();
 						tempFilterList.getFilterList().clear();
-						tempFilterList.addFilterParameter("meta_time", time1, "==");
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
 						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
 						logDone(tempCaseNr, functionName, amount);
 					} catch (Exception e) {
@@ -2702,7 +2680,7 @@ public class TestArangoDBImp1 {
 						String tempCaseNr = caseNr + "_" + 1; 
 					    FilterParameterList tempFilterList = new FilterParameterList();
 						tempFilterList.getFilterList().clear();
-						tempFilterList.addFilterParameter("meta_time", time1, "==");
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
 						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
 						logDone(tempCaseNr, functionName, amount);
 					} catch (Exception e) {
@@ -2800,7 +2778,7 @@ public class TestArangoDBImp1 {
 						String tempCaseNr = caseNr + "_" + 1; 
 					    FilterParameterList tempFilterList = new FilterParameterList();
 						tempFilterList.getFilterList().clear();
-						tempFilterList.addFilterParameter("meta_time", time1, "==");
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
 						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
 						logDone(tempCaseNr, functionName, amount);
 					} catch (Exception e) {
@@ -2917,7 +2895,7 @@ public class TestArangoDBImp1 {
 						String tempCaseNr = caseNr + "_" + 1; 
 					    FilterParameterList tempFilterList = new FilterParameterList();
 						tempFilterList.getFilterList().clear();
-						tempFilterList.addFilterParameter("meta_time", time1, "==");
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
 						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
 						logDone(tempCaseNr, functionName, amount);
 					} catch (Exception e) {
@@ -2997,7 +2975,7 @@ public class TestArangoDBImp1 {
 						String tempCaseNr = caseNr + "_" + 6; 
 					    FilterParameterList tempFilterList = new FilterParameterList();
 						tempFilterList.getFilterList().clear();
-						tempFilterList.addFilterParameter("meta_time", time1, "!=");
+						tempFilterList.addFilterParameter("meta_time", time1, "<>");
 						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
 						logDone(tempCaseNr, functionName, amount);
 					} catch (Exception e) {
@@ -3051,7 +3029,7 @@ public class TestArangoDBImp1 {
 						String tempCaseNr = caseNr + "_" + 1; 
 					    FilterParameterList tempFilterList = new FilterParameterList();
 						tempFilterList.getFilterList().clear();
-						tempFilterList.addFilterParameter("meta_time", time1, "==");
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
 						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
 						logDone(tempCaseNr, functionName, amount);
 					} catch (Exception e) {
@@ -3131,7 +3109,7 @@ public class TestArangoDBImp1 {
 						String tempCaseNr = caseNr + "_" + 6; 
 					    FilterParameterList tempFilterList = new FilterParameterList();
 						tempFilterList.getFilterList().clear();
-						tempFilterList.addFilterParameter("meta_time", time1, "!=");
+						tempFilterList.addFilterParameter("meta_time", time1, "<>");
 						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
 						logDone(tempCaseNr, functionName, amount);
 					} catch (Exception e) {
@@ -3179,9 +3157,8 @@ public class TestArangoDBImp1 {
 		}
 	}
 	
-	
 	public void tempGetUpstreamThreads(String tempCaseNr, String functionName, int amount, List<String> tempLinkTypes) throws Exception{
-			
+		
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
@@ -3225,8 +3202,7 @@ public class TestArangoDBImp1 {
     	
     	storeAverResInFile(averageResQuery, Integer.toString(amount) , doubleToCSVValue(sumQuery/iterationsNumb), Long.toString(count), doubleToCSVValue((sumQuery/iterationsNumb)/count), timeFormatName);
     	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
-    	
-	
+
 	}
 
 	public void tempGetDownstreamThreads(String tempCaseNr, String functionName, int amount, List<String> tempLinkTypes) throws Exception{
@@ -3274,7 +3250,6 @@ public class TestArangoDBImp1 {
     	
     	storeAverResInFile(averageResQuery, Integer.toString(amount) , doubleToCSVValue(sumQuery/iterationsNumb), Long.toString(count), doubleToCSVValue((sumQuery/iterationsNumb)/count), timeFormatName);
     	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
-    	
 	
 	}
 	
@@ -4615,3 +4590,4 @@ public class TestArangoDBImp1 {
 	}
 
 }
+

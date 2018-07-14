@@ -36,6 +36,11 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 	private String dbName = "Eiffel";
 	private String collectionName = "Events";
 	
+	private long startTime = 0;
+	private long endTime = 0;
+	private long elapsedTime = 0;
+	private ArrayList<Long> timeRes = new ArrayList<Long>();
+	
 	/*public void arangoDBSetUp(){
 
 		try {
@@ -151,7 +156,7 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 	    		//work = store((JSONObject)jsonArr.get(i));	
 	    	}
     	}
-    	System.out.println(i);
+    	//System.out.println(i);
     	return work;
 	}
 	
@@ -165,6 +170,9 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 			String metaType = ((JSONObject) json.get("meta")).get("type").toString();
 			JSONArray links = (JSONArray) json.get("links");
 			json.put("_key", metaId);
+			
+			startTime = System.nanoTime();
+			
 			DocumentCreateEntity<String> entity = arangoDB.db(dbName).collection(collectionName).insertDocument(json.toString());
 			//VertexEntity node = createVertex(new Node(metaId, metaType));
 			for(int i = 0; i < links.size(); i++){
@@ -175,6 +183,11 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 				saveEdge(new NodeEdge(collectionName + "/" + metaId, target, false, true, linkType));
 
 			}
+			
+			endTime = System.nanoTime();
+			long time = (endTime - startTime);
+			timeRes.add(time);
+			
 			added = true;
 		} catch (ArangoDBException e) {
 			System.err.println("Failed to add JSONObject. " + e.getMessage());
@@ -188,7 +201,10 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 		JSONObject json = new JSONObject();
 		String query = "FOR document IN " + collectionName + " FILTER document.meta.id == '" + metaId + "' RETURN document";
 		//String query = "FOR document IN traversalGraph FILTER document.meta.id == '" + metaId + "' RETURN document";
-		try {	 
+		try {	
+			
+			long startTime1 = System.nanoTime();
+			
 			if(arangoDB.db(dbName).collection(collectionName).documentExists(metaId)){
 				  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
 				      BaseDocument.class);
@@ -198,6 +214,10 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 			}else{
 				throw new ArangoDBException("Document is not in Database");
 			}
+			
+			long endTime1 = System.nanoTime();
+			elapsedTime = (endTime1 - startTime1);
+			
 		} catch (ArangoDBException e) {
 			System.err.println("Failed to execute query. " + e.getMessage());
 		}
@@ -244,12 +264,19 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 						+ " LIMIT " + skip + ", " + limit 
 						+ " RETURN document";
 		//System.out.println(query);
-		try {	  
+		try {
+			
+			long startTime1 = System.nanoTime();
+			
 			  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
 			      BaseDocument.class);
 			  cursor.forEachRemaining(aDocument -> {
 			    jArr.add(new JSONObject(aDocument.getProperties()));
 			  });
+			  
+			  long endTime1 = System.nanoTime();
+			  elapsedTime = (endTime1 - startTime1);
+			  
 		} catch (ArangoDBException e) {
 			System.err.println("Failed to execute query. " + e.getMessage());
 		}
@@ -281,10 +308,16 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 		// TODO Auto-generated method stub
 		final List<Object> upstreamEvents = new ArrayList<>();
 		JSONObject startEvent = new JSONObject();
+		
+		long startTime2 = System.nanoTime();
+		
 		startEvent = getEvent(eventId);
 		if(!(startEvent == null)){
 			upstreamEvents.add(startEvent);
 			performUpstreamSearch(startEvent, linkTypes, visitedMap, limit-1, levels, upstreamEvents);
+			
+			long endTime2 = System.nanoTime();
+			elapsedTime = (endTime2 - startTime2);
 			
 			return upstreamEvents;
 		}else{
@@ -350,10 +383,16 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 		// TODO Auto-generated method stub
 		final List<Object> downstreamEvents = new ArrayList<>();
 		JSONObject startEvent = new JSONObject();
+		
+		long startTime2 = System.nanoTime();
+		
 		startEvent = getEvent(eventId);
 		if(!(startEvent == null)){
 			downstreamEvents.add(startEvent);
 			performDownstreamSearch(eventId, linkTypes, visitedMap, limit-1, levels, downstreamEvents);
+			
+			long endTime2 = System.nanoTime();
+			elapsedTime = (endTime2 - startTime2);
 			
 			return downstreamEvents;
 		}else{
@@ -419,11 +458,18 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 						+ " RETURN document";
 		//System.out.println(query);
 		try {	  
+			
+			long startTime1 = System.nanoTime();
+			
 			  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
 			      BaseDocument.class);
 			  cursor.forEachRemaining(aDocument -> {
 			    jArr.add(new JSONObject(aDocument.getProperties()));
 			  });
+			  
+			long endTime1 = System.nanoTime();
+			elapsedTime = (endTime1 - startTime1);
+				
 		} catch (ArangoDBException e) {
 			System.err.println("Failed to execute query. " + e.getMessage());
 		}
@@ -451,11 +497,18 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 						+ " RETURN document";
 		//System.out.println(query);
 		try {	  
+			
+			long startTime1 = System.nanoTime();
+			
 			  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
 			      BaseDocument.class);
 			  cursor.forEachRemaining(aDocument -> {
 			    jArr.add(new JSONObject(aDocument.getProperties()));
 			  });
+			  
+			long endTime1 = System.nanoTime();
+			elapsedTime = (endTime1 - startTime1);
+				
 		} catch (ArangoDBException e) {
 			System.err.println("Failed to execute query. " + e.getMessage());
 		}
@@ -473,16 +526,59 @@ public class ArangoDBDatabaseHelperV2 implements DatabaseHelper {
 						+ "' AND document.data.gav.artifactId == '" + artifactId 
 						+ "' AND document.data.gav.version == '" + version
 						+ "'  RETURN document";
-		try {	 
+		try {	
+			
+			long startTime1 = System.nanoTime();
+			
 			  ArangoCursor<BaseDocument> cursor = arangoDB.db(dbName).query(query, null, null,
 			      BaseDocument.class);
 			  cursor.forEachRemaining(aDocument -> {
 			    json.putAll(new JSONObject(aDocument.getProperties()));
 			  });
+			  
+			long endTime1 = System.nanoTime();
+			elapsedTime = (endTime1 - startTime1);
+			
 		} catch (ArangoDBException e) {
 			System.err.println("Failed to execute query. " + e.getMessage());
 		}
 		return json;
+	}
+	
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public long getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
+	public long getElapsedTime() {
+		return elapsedTime;
+	}
+
+	public void setElapsedTime(long elapsedTime) {
+		this.elapsedTime = elapsedTime;
+	}
+
+	public ArrayList<Long> getTimeRes() {
+		return timeRes;
+	}
+
+	public void setTimeRes(ArrayList<Long> timeRes) {
+		this.timeRes = timeRes;
+	}
+	
+	public void timeResClear() {
+		timeRes.clear();
 	}
 
 }

@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CyclicBarrier;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,7 +29,6 @@ import com.google.gson.stream.JsonReader;
 import com.graphmodel.neo4j.DataStoreResult;
 import com.graphmodel.neo4j.FilterParameterList;
 import com.graphmodel.neo4j.Neo4jDatabaseHelperV1;
-import com.graphmodel.neo4j.Neo4jDatabaseHelperV2;
 
 
 //import java.lang.management.ManagementFactory.getThreadMXBean
@@ -69,6 +69,9 @@ public class TestNeo4jImp1 {
 	public static String artifactId = "component-3";
 	public static String gavVersion = "1.0.0";
 	
+	public static int downstreamEventNr = 0;
+	public static int upstreamEventNr = 99;
+	
 	//Paths
 	public static String logDocPathWin = "";
 	public static String logDocPathMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Project/eiffel-persistence-technology-evaluation/TestResults/" + impFolder + "/Log/testLog_TestNr_"+ testNr + ".txt";
@@ -80,7 +83,7 @@ public class TestNeo4jImp1 {
 	
 	public static void main( String[] args ) throws Exception {
 		System.out.println("Start");
-		test.setUpImp1();
+		test.setUpImp();
 		test.setFilterParameters();
 		test.setGAVFilterParameters();
 		timePos = testSizes.get(0)/2;
@@ -94,7 +97,7 @@ public class TestNeo4jImp1 {
 		    	    	
 		    	    	test.testStore("1", amount);
 						
-		    	    	//test.testGetEvent("2", amount);
+		    	    	test.testGetEvent("2", amount);
 		    	    	
 		    		    //mainMetaTime = metaTimeList.get(timePos);
 		    		    long tempMainTime = (long) Double.parseDouble(metaTimeList.get(timePos));
@@ -103,7 +106,7 @@ public class TestNeo4jImp1 {
 						
 		    		    //System.out.println(amount + " , " + mainMetaTime);
 		    		    
-		    		/*    test.testGetEvents0("3", amount);
+		    		    test.testGetEvents0("3", amount);
 		    	    	test.testGetEvents1("3", amount);
 		    	    	test.testGetEvents2("3", amount);
 		    	    	test.testGetEvents3("3", amount);
@@ -124,9 +127,9 @@ public class TestNeo4jImp1 {
 		    	    	test.testGetUpstreamEvents0("7", amount);
 		    	    	test.testGetUpstreamEvents1("7", amount);
 		    	    	test.testGetUpstreamEvents2("7", amount);
-		    	    	test.testGetUpstreamEvents3("7", amount);*/
+		    	    	test.testGetUpstreamEvents3("7", amount);
 		    		    
-		    		   /* test.testGetDownstreamEvents0("8", amount);
+		    		    test.testGetDownstreamEvents0("8", amount);
 		    	    	test.testGetDownstreamEvents1("8", amount);
 		    	    	test.testGetDownstreamEvents2("8", amount);
 		    	    	test.testGetDownstreamEvents3("8", amount);
@@ -138,7 +141,7 @@ public class TestNeo4jImp1 {
 		    	    	
 		    	    	test.testCombinations4("9_2", amount);
 		    	    	test.testCombinations5("9_2", amount);
-		    	    	test.testCombinations6("9_2", amount);*/
+		    	    	test.testCombinations6("9_2", amount);
 		    		    
 		    		    test.testCombinations7("9_3", amount);
 		    		    
@@ -148,6 +151,25 @@ public class TestNeo4jImp1 {
 		    		    
 		    		    test.testCombinations10("9_6", amount);
 		    	    	
+		    		    test.testDiffAmountThreads1("10_1", amount);
+		    		    test.testDiffAmountThreads2("10_2", amount);
+		    		    test.testDiffAmountThreads3("10_3", amount);
+		    		    test.testDiffAmountThreads4("10_4", amount);
+		    		    test.testDiffAmountThreads5("10_5", amount);
+		    		    test.testDiffAmountThreads6("10_6", amount);
+		    		    test.testDiffAmountThreads7("10_7", amount);
+		    		    
+		    		    test.testDiffAmountThreadsUD1("10_8", amount);
+		    		    test.testDiffAmountThreadsUD2("10_9", amount);
+		    		    test.testDiffAmountThreadsUD3("10_10", amount);
+		    		    test.testDiffAmountThreadsUD4("10_11", amount);
+		    		    test.testDiffAmountThreadsUD5("10_12", amount);
+		    		    test.testDiffAmountThreadsUD6("10_13", amount);
+		    		    test.testDiffAmountThreadsUD7("10_14", amount);
+		    		    test.testDiffAmountThreadsUD8("10_15", amount);
+		    		    test.testDiffAmountThreadsUD9("10_16", amount);
+		    		    test.testDiffAmountThreadsUD10("10_17", amount);
+		    		    
 		    	    	test.resetVariables();
 		    	    	con.removeAllNodes();
 	    				
@@ -164,7 +186,7 @@ public class TestNeo4jImp1 {
 	}
 	
 	
-	public void setUpImp1() throws Exception{
+	public void setUpImp() throws Exception{
 		String url = "bolt://localhost:7687";
         String user = "neo4j";
         String password = "Dekret66";
@@ -1357,7 +1379,7 @@ public class TestNeo4jImp1 {
 		long count = 0;
 		int levels = 100;
 		int limit = 5000;
-		String metaId = metaIdList.get(99);
+		String metaId = metaIdList.get(upstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		String tempCaseNr = caseNr + "_" + 0;
@@ -1411,7 +1433,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
-		String metaId = metaIdList.get(99);
+		String metaId = metaIdList.get(upstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
@@ -1471,7 +1493,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
-		String metaId = metaIdList.get(99);
+		String metaId = metaIdList.get(upstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
@@ -1549,7 +1571,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 10;
 		long count = 0;
-		String metaId = metaIdList.get(99);
+		String metaId = metaIdList.get(upstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
@@ -1609,7 +1631,7 @@ public class TestNeo4jImp1 {
 		long count = 0;
 		int levels = 100;
 		int limit = 5000;
-		String metaId = metaIdList.get(0);
+		String metaId = metaIdList.get(downstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		String tempCaseNr = caseNr + "_" + 0;
@@ -1663,7 +1685,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
-		String metaId = metaIdList.get(0);
+		String metaId = metaIdList.get(downstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
@@ -1723,7 +1745,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
-		String metaId = metaIdList.get(0);
+		String metaId = metaIdList.get(downstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
@@ -1801,7 +1823,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 10;
 		long count = 0;
-		String metaId = metaIdList.get(0);
+		String metaId = metaIdList.get(downstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
@@ -1870,7 +1892,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
-		String metaId = metaIdList.get(99);
+		String metaId = metaIdList.get(upstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		
 		for(int i = 1; i < 6; i++){
@@ -1917,7 +1939,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
-		String metaId = metaIdList.get(99);
+		String metaId = metaIdList.get(upstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		
 		for(int i = 6; i < 11; i++){
@@ -1982,7 +2004,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 10;
 		long count = 0;
-		String metaId = metaIdList.get(99);
+		String metaId = metaIdList.get(upstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		
 		for(int i = 11; i < 16; i++){
@@ -2037,7 +2059,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
-		String metaId = metaIdList.get(0);
+		String metaId = metaIdList.get(downstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		
 		for(int i = 1; i < 6; i++){
@@ -2084,7 +2106,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 1000;
 		long count = 0;
-		String metaId = metaIdList.get(0);
+		String metaId = metaIdList.get(downstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		
 		for(int i = 6; i < 11; i++){
@@ -2149,7 +2171,7 @@ public class TestNeo4jImp1 {
 		int levels = 10;
 		int limit = 10;
 		long count = 0;
-		String metaId = metaIdList.get(0);
+		String metaId = metaIdList.get(downstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		
 		for(int i = 11; i < 16; i++){
@@ -2407,4 +2429,2164 @@ public class TestNeo4jImp1 {
 			}
 		}
 	}
+	
+	public void tempGetEventsThreads(String tempCaseNr, String functionName, int amount, FilterParameterList tempFilterList) throws Exception{
+		
+		String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+		String iterationsResQuery = createResFilePath("All_iterations/Connection", tempCaseNr, functionName + "_Connection_", amount);
+		String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+		String averageResQuery = createResFilePath("Average/Connection", tempCaseNr, functionName + "_Connection_", 0);
+		
+		int skip = 0;
+		int limit = 1000;
+		
+		long count = 0;
+		double sumWhole = 0;
+		double sumQuery = 0;
+		
+    	for(int c = 0; c < iterationsNumb; c++) {
+    		
+    		long startTime = System.nanoTime();
+    		
+    		count = con.getEvents(tempFilterList, "<", skip, limit, false).getCount();
+    		
+    		long endTime = System.nanoTime();
+    		
+    		long conElapsedTime = con.getElapsedTime() / timeDivision;
+    		sumQuery += (conElapsedTime);
+    		double conIPerEvent = conElapsedTime/count;
+    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conIPerEvent), timeFormatName);
+    		
+    		long elapsedTime = (endTime-startTime) / timeDivision;
+    		sumWhole += elapsedTime;
+    		double wIPerEvent = elapsedTime / count;
+    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+    			
+    		con.setElapsedTime(0);
+    	}
+    	
+    	storeAverResInFile(averageResQuery, Integer.toString(amount) , doubleToCSVValue(sumQuery/iterationsNumb), Long.toString(count), doubleToCSVValue((sumQuery/iterationsNumb)/count), timeFormatName);
+    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+    	
+	}
+	
+	public void testDiffAmountThreads1(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreads";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(2);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		        
+		    t1.start(); 
+		    gate.await();
+		    t1.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	public void testDiffAmountThreads2(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreads";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(3);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+			    Thread t2 = new Thread(){
+				    public void run(){
+				        try {
+							gate.await();
+							String tempCaseNr = caseNr + "_" + 2; 
+						    FilterParameterList tempFilterList = new FilterParameterList();
+							tempFilterList.getFilterList().clear();
+							tempFilterList.addFilterParameter("meta_time", time1, ">");
+							tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+							logDone(tempCaseNr, functionName, amount);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							logError(caseNr, functionName, amount, e);
+						}	
+				    }};
+			    
+		        
+		    t1.start(); 
+		    t2.start(); 
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+
+	public void testDiffAmountThreads3(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreads";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(4);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+			    Thread t2 = new Thread(){
+				    public void run(){
+				        try {
+							gate.await();
+							String tempCaseNr = caseNr + "_" + 2; 
+						    FilterParameterList tempFilterList = new FilterParameterList();
+							tempFilterList.getFilterList().clear();
+							tempFilterList.addFilterParameter("meta_time", time1, ">");
+							tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+							logDone(tempCaseNr, functionName, amount);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							logError(caseNr, functionName, amount, e);
+						}	
+				    }};
+			    
+				    Thread t3 = new Thread(){
+					    public void run(){
+					        try {
+								gate.await();
+								String tempCaseNr = caseNr + "_" + 3; 
+							    FilterParameterList tempFilterList = new FilterParameterList();
+								tempFilterList.getFilterList().clear();
+								tempFilterList.addFilterParameter("meta_time", time1, "<");
+								tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+								logDone(tempCaseNr, functionName, amount);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								logError(caseNr, functionName, amount, e);
+							}	
+					    }};
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	
+	public void testDiffAmountThreads4(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreads";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(5);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, ">");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		    
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "<");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+				    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, ">=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	
+	public void testDiffAmountThreads5(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreads";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(6);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, ">");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		    
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "<");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+				    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, ">=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t5 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 5; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "<=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    t5.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    t5.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	
+	
+	public void testDiffAmountThreads6(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreads";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(7);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, ">");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		    
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "<");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+				    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, ">=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t5 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 5; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "<=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t6 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 6; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "<>");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    t5.start();
+		    t6.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    t5.join();
+		    t6.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	
+	public void testDiffAmountThreads7(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreads";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(8);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, ">");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		    
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "<");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+				    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, ">=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t5 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 5; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "<=");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t6 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 6; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, "<>");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		        
+		    Thread t7 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 7; 
+					    FilterParameterList tempFilterList = new FilterParameterList();
+						tempFilterList.getFilterList().clear();
+						tempFilterList.addFilterParameter("meta_time", time1, ">");
+						tempFilterList.addFilterParameter("meta_time", time2, "<");
+						tempGetEventsThreads(tempCaseNr, functionName, amount, tempFilterList);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+				    
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    t5.start();
+		    t6.start();
+		    t7.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    t5.join();
+		    t6.join();
+		    t7.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	public void tempGetUpstreamThreads(String tempCaseNr, String functionName, int amount, List<String> tempLinkTypes) throws Exception{
+		
+		int levels = 10;
+		int limit = 1000;
+		long count = 0;
+		String metaId = metaIdList.get(upstreamEventNr);
+		
+		List<Object> res = new ArrayList<>();
+		
+		String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+		String iterationsResQuery = createResFilePath("All_iterations/Connection", tempCaseNr, functionName + "_Connection_", amount);
+		String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+		String averageResQuery = createResFilePath("Average/Connection", tempCaseNr, functionName + "_Connection_", 0);
+		
+		double sumWhole = 0;
+		double sumQuery = 0;
+		
+		
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+    	for(int c = 0; c < iterationsNumb; c++) {
+    		
+    		
+    		long startTime = System.nanoTime();
+    		
+    		res = con.getUpstreamEvents(metaId, tempLinkTypes, visitedMap, limit, levels); 
+    				
+    		long endTime = System.nanoTime();
+    		
+    		count = res.size();
+    		long conElapsedTime = con.getElapsedTime() / timeDivision;
+    		sumQuery += (conElapsedTime);
+    		double conIPerEvent = conElapsedTime/count;
+    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conIPerEvent), timeFormatName);
+    		
+    		long elapsedTime = (endTime-startTime) / timeDivision;
+    		sumWhole += elapsedTime;
+    		double wIPerEvent = elapsedTime / count;
+    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+    			
+    		visitedMap.clear();    		    		
+    		con.setElapsedTime(0);
+    	}
+    	
+    	storeAverResInFile(averageResQuery, Integer.toString(amount) , doubleToCSVValue(sumQuery/iterationsNumb), Long.toString(count), doubleToCSVValue((sumQuery/iterationsNumb)/count), timeFormatName);
+    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+
+	}
+
+	public void tempGetDownstreamThreads(String tempCaseNr, String functionName, int amount, List<String> tempLinkTypes) throws Exception{
+		
+		int levels = 10;
+		int limit = 1000;
+		long count = 0;
+		String metaId = metaIdList.get(downstreamEventNr);
+		
+		List<Object> res = new ArrayList<>();
+		
+		String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
+		String iterationsResQuery = createResFilePath("All_iterations/Connection", tempCaseNr, functionName + "_Connection_", amount);
+		String averageResWhole = createResFilePath("Average/Whole", tempCaseNr, functionName + "_Whole_", 0);
+		String averageResQuery = createResFilePath("Average/Connection", tempCaseNr, functionName + "_Connection_", 0);
+		
+		double sumWhole = 0;
+		double sumQuery = 0;
+		
+		
+		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
+    	for(int c = 0; c < iterationsNumb; c++) {
+    		
+    		
+    		long startTime = System.nanoTime();
+    		
+    		res = con.getDownstreamEvents(metaId, tempLinkTypes, visitedMap, limit, levels); 
+    				
+    		long endTime = System.nanoTime();
+    		
+    		count = res.size();
+    		long conElapsedTime = con.getElapsedTime() / timeDivision;
+    		sumQuery += (conElapsedTime);
+    		double conIPerEvent = conElapsedTime/count;
+    		storeIterResInFile(iterationsResQuery, Integer.toString(c+1) , Long.toString(conElapsedTime), Long.toString(count), doubleToCSVValue(conIPerEvent), timeFormatName);
+    		
+    		long elapsedTime = (endTime-startTime) / timeDivision;
+    		sumWhole += elapsedTime;
+    		double wIPerEvent = elapsedTime / count;
+    		storeIterResInFile(iterationsResWhole, Integer.toString(c+1) , Long.toString(elapsedTime), Long.toString(count), doubleToCSVValue(wIPerEvent), timeFormatName);
+    			
+    		visitedMap.clear();    		    		
+    		con.setElapsedTime(0);
+    	}
+    	
+    	storeAverResInFile(averageResQuery, Integer.toString(amount) , doubleToCSVValue(sumQuery/iterationsNumb), Long.toString(count), doubleToCSVValue((sumQuery/iterationsNumb)/count), timeFormatName);
+    	storeAverResInFile(averageResWhole, Integer.toString(amount) , doubleToCSVValue(sumWhole/iterationsNumb), Long.toString(count), doubleToCSVValue((sumWhole/iterationsNumb)/count), timeFormatName);
+	
+	}
+	
+	public void testDiffAmountThreadsUD1(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(2);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		        
+		    t1.start(); 
+		    gate.await();
+		    t1.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	public void testDiffAmountThreadsUD2(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(3);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		        
+		    t1.start(); 
+		    t2.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+
+	public void testDiffAmountThreadsUD3(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(4);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	public void testDiffAmountThreadsUD4(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(5);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	public void testDiffAmountThreadsUD5(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(6);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t5 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 5; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempLinkTypes.add(linkTypes.get(4));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    t5.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    t5.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	public void testDiffAmountThreadsUD6(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(7);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t5 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 5; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempLinkTypes.add(linkTypes.get(4));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t6 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 6; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    t5.start();
+		    t6.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    t5.join();
+		    t6.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	public void testDiffAmountThreadsUD7(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(8);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t5 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 5; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempLinkTypes.add(linkTypes.get(4));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t6 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 6; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t7 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 7; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    t5.start();
+		    t6.start();
+		    t7.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    t5.join();
+		    t6.join();
+		    t7.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+
+	public void testDiffAmountThreadsUD8(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(9);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t5 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 5; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempLinkTypes.add(linkTypes.get(4));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t6 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 6; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t7 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 7; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t8 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 8; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    t5.start();
+		    t6.start();
+		    t7.start();
+		    t8.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    t5.join();
+		    t6.join();
+		    t7.join();
+		    t8.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	public void testDiffAmountThreadsUD9(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(10);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t5 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 5; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempLinkTypes.add(linkTypes.get(4));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t6 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 6; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t7 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 7; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t8 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 8; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t9 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 9; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+		        
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    t5.start();
+		    t6.start();
+		    t7.start();
+		    t8.start();
+		    t9.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    t5.join();
+		    t6.join();
+		    t7.join();
+		    t8.join();
+		    t9.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+	
+	public void testDiffAmountThreadsUD10(String caseNr, int amount) {
+		
+		String functionName = "diffAmountThreadsUD";
+		
+		
+		int size1 = timePos;
+		int size2 = size1/2 + size1;
+		
+		long tempMainTime1 = (long) Double.parseDouble(metaTimeList.get(size1));
+		String time1 = String.valueOf(tempMainTime1);
+		long tempMainTime2 = (long) Double.parseDouble(metaTimeList.get(size2));
+		String time2 = String.valueOf(tempMainTime2);
+		
+		
+		
+		final CyclicBarrier gate = new CyclicBarrier(11);
+		try{
+			Thread t1 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 1; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t2 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 2; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			
+		    Thread t3 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 3; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t4 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 4; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t5 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 5; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempLinkTypes.add(linkTypes.get(4));
+						tempGetUpstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t6 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 6; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t7 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 7; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t8 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 8; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    Thread t9 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 9; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+	        
+		    Thread t10 = new Thread(){
+			    public void run(){
+			        try {
+						gate.await();
+						String tempCaseNr = caseNr + "_" + 10; 
+						List<String> tempLinkTypes = new ArrayList<String>();
+						tempLinkTypes.clear();
+						tempLinkTypes.add(linkTypes.get(0));
+						tempLinkTypes.add(linkTypes.get(1));
+						tempLinkTypes.add(linkTypes.get(2));
+						tempLinkTypes.add(linkTypes.get(3));
+						tempLinkTypes.add(linkTypes.get(4));
+						tempGetDownstreamThreads(tempCaseNr, functionName, amount, tempLinkTypes);
+						logDone(tempCaseNr, functionName, amount);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logError(caseNr, functionName, amount, e);
+					}	
+			    }};
+			    
+		    t1.start(); 
+		    t2.start();
+		    t3.start();
+		    t4.start();
+		    t5.start();
+		    t6.start();
+		    t7.start();
+		    t8.start();
+		    t9.start();
+		    t10.start();
+		    gate.await();
+		    t1.join();
+		    t2.join();
+		    t3.join();
+		    t4.join();
+		    t5.join();
+		    t6.join();
+		    t7.join();
+		    t8.join();
+		    t9.join();
+		    t10.join();
+		    System.out.println("all threads started");
+		    
+		}catch(Exception e){
+			logError(caseNr, functionName, amount, e);
+		}
+	}
+
 }

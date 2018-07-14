@@ -27,21 +27,21 @@ import org.json.simple.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.multimodel.ArangoDB.ArangoDBDatabaseHelperV1;
+import com.multimodel.ArangoDB.ArangoDBDatabaseHelperV2;
 import com.multimodel.ArangoDB.DataStoreResult;
 import com.multimodel.ArangoDB.FilterParameterList;
 
 //import java.lang.management.ManagementFactory.getThreadMXBean
 
-public class TestArangoDBImp1 {
+public class TestArangoDBImp2 {
 
-	public static TestArangoDBImp1 test = new TestArangoDBImp1();
-	public static ArangoDBDatabaseHelperV1 con;
+	public static TestArangoDBImp2 test = new TestArangoDBImp2();
+	public static ArangoDBDatabaseHelperV2 con;
 	
 	//Variables and datatypes
 	public static String DBMSName = "ArangoDB";
-	public static String imp = "Imp1"; 
-	public static String impFolder = "ArangoDB_IMP1";
+	public static String imp = "Imp2"; 
+	public static String impFolder = "ArangoDB_IMP2";
 	
 	public static List<String> linkTypes = Arrays.asList("CAUSE", "ELEMENT", "CONTEXT", "COMPOSITION", "BASE", "FLOW_CONTEXT","ACTIVITY_EXECUTION",
 			"PREVIOUS_ACTIVITY_EXECUTION", "PREVIOUS_VERSION", "ENVIRONMENT",
@@ -106,7 +106,7 @@ public class TestArangoDBImp1 {
 		    		    filterList2.addFilterParameter("meta_time", mainMetaTime, "!=");
 						
 		    		    //System.out.println(amount + " , " + mainMetaTime);
-		    		    
+		    		   
 		    		    test.testGetEvents0("3", amount);
 		    	    	test.testGetEvents1("3", amount);
 		    	    	test.testGetEvents2("3", amount);
@@ -195,10 +195,10 @@ public class TestArangoDBImp1 {
 	
 	
 	public void setUpImp() throws Exception{
-   
+        
         try {
-        	con = new ArangoDBDatabaseHelperV1();
-        	con.arangoDBSetUp();
+        	con = new ArangoDBDatabaseHelperV2();
+        	con.arangoDBGraphSetUp();
         	logDone("0", "Connection", 0);
         }catch (Exception e){
         	//System.out.println("Failed to connect : " + e);
