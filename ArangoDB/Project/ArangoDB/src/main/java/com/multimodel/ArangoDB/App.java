@@ -45,16 +45,20 @@ public class App
 	        return jsonArr;
 	}
 	
-	public static List<JSONObject> readJsonStream(InputStream in) throws IOException{
+	public static List<JSONObject> readJsonStream(int max, ArangoDBDatabaseHelperV1 dbV1, InputStream in) throws IOException, ParseException{
 		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
 		List<JSONObject> messages = new ArrayList<JSONObject>();
 		Gson gson = new Gson();
 		reader.beginArray();
-		while (reader.hasNext()) {
+		int i = 0;
+		while (reader.hasNext() && i < max) {
 			JSONObject message = gson.fromJson(reader, JSONObject.class);
-			messages.add(message);
+			JSONObject json = (JSONObject) new JSONParser().parse(message.toString());
+			dbV1.store(json);
+			i++;
+			//messages.add(message);
 		}
-		reader.endArray();
+		//reader.endArray();
 		reader.close();
 		return messages;
 		
@@ -421,21 +425,24 @@ public class App
         
         String filePath1 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events.json";
         String filePath2 = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events_test.json";
+        String filePath3 = "C:/Users/ebinjak/Documents/Exjobb/Default_events/default/events.json";
         String filePathMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/json_example/events.json";
         
         //JSONArray jsonArr = new JSONArray();
         int testNr = 2;
-        int amount = 100;
+        int amount = 100000;
         App temp = new App();
         //jsonArr = temp.readJSONFromFile(filePath1);
         List<JSONObject> jsonArr = new ArrayList<JSONObject>();
-        InputStream infile = new FileInputStream(filePathMac);
-        jsonArr = readJsonStream(infile);
-       
+        InputStream infile = new FileInputStream(filePath3);
+        dbV1.arangoDBSetUp();
+        dbV1.removeAllEvents();
+        jsonArr = readJsonStream(amount, dbV1, infile);
+       // System.out.println(jsonArr.size());
         
         String file = "C:/Users/ebinjak/Documents/Exjobb/TestsResults/ArangoDB_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
         String fileMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Test_Results/ArangoDB_temp_results_with_" + amount + "_events_testnr_" + testNr + ".txt";
-
+/*
         FileOutputStream out;
         PrintStream p;
         out = new FileOutputStream(fileMac);
@@ -487,6 +494,7 @@ public class App
         p.append("\r\n");
         p.append("Test ended \r\n");
         p.append("\r\n");
-    	p.close();
+    	p.close();*/
+        System.out.println("Stop");
     }
 }
