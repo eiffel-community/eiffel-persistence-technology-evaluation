@@ -23,6 +23,7 @@ import java.util.concurrent.CyclicBarrier;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -54,10 +55,11 @@ public class TestNeo4jImp2 {
 	public static FilterParameterList GAVFilterList = new FilterParameterList();
 	public static int iterationsNumb = 10;
 	public static int testNr = 0;
-	public static List<Integer> testSizes = Arrays.asList(100, 200);//Arrays.asList(10000, 100000, 1000000, 2000000);
+	public static List<Integer> testSizes = Arrays.asList(10000);//Arrays.asList(10000, 100000, 1000000, 2000000);
 	public static List<String> metaIdList = new ArrayList<String>(); 
 	public static List<String> metaTimeList = new ArrayList<String>(); 
 	public static int timePos = 0;
+	public static int amount2 = 10000;
 	public static String mainMetaTime = "";
 	public static String mainMetaTime1 = "";
 	public static String mainMetaTime2 = "";
@@ -66,19 +68,20 @@ public class TestNeo4jImp2 {
 	public static String timeFormatName = "Micro";
 	
 	public static String groupId = "com.mycompany.myproduct";
-	public static String artifactId = "component-3";
-	public static String gavVersion = "1.0.0";
+	public static String artifactId = "component-1";
+	public static String gavVersion = "1.1.0";
 	
 	public static int downstreamEventNr = 0;
-	public static int upstreamEventNr = 99;
+	public static int upstreamEventNr = 8000;
 	
 	//Paths
-	public static String logDocPathWin = "";
+	public static String logDocPathWin = "C:/Users/ebinjak/Documents/Exjobb/eiffel-persistence-technology-evaluation/TestResults/" + impFolder + "/Log/testLog_TestNr_"+ testNr + ".txt";
 	public static String logDocPathMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Project/eiffel-persistence-technology-evaluation/TestResults/" + impFolder + "/Log/testLog_TestNr_"+ testNr + ".txt";
-	public static String logDocPath = logDocPathMac;
+	public static String logDocPath = logDocPathWin;
 	public static String eventsFilePathWin = "C:/Users/ebinjak/Documents/Exjobb/DataSet/events.json";
 	public static String eventsFilePathMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/json_example/events.json";
-	public static String eventsFilePath = eventsFilePathMac;
+	public static String filePath3 = "C:/Users/ebinjak/Documents/Exjobb/Default_events/default/events.json";
+	public static String eventsFilePath = filePath3;
 	
 	
 	public static void main( String[] args ) throws Exception {
@@ -86,7 +89,9 @@ public class TestNeo4jImp2 {
 		test.setUpImp();
 		test.setFilterParameters();
 		test.setGAVFilterParameters();
-		timePos = testSizes.get(0)/2;
+		//timePos = testSizes.get(0)/2;
+		timePos = 5000;
+		upstreamEventNr = 504;
 	    
     	Thread thread = new Thread(new Runnable(){
     		public void run(){
@@ -94,6 +99,8 @@ public class TestNeo4jImp2 {
     				for(int i = 0; i < testSizes.size(); i++){
 		    	    	int amount = testSizes.get(i);
 		    	    	System.out.println("Problem size : " + amount);
+		    	    	
+		    	    	downstreamEventNr = (amount - 1956);
 		    	    	
 		    	    	test.testStore("1", amount);
 						
@@ -207,15 +214,15 @@ public class TestNeo4jImp2 {
 		filterList.addFilterParameter("meta_type", "EiffelCompositionDefinedEvent", "=");
         filterList.addFilterParameter("meta_version", "1.0.0", "=");
         filterList.addFilterParameter("data_name", "Composition 3", "=");
-        filterList.addFilterParameter("data_version", "0", "=");
-        filterList.addFilterParameter("meta_time", "1490777046669", "=");
+        filterList.addFilterParameter("data_version", "1", "=");
+        filterList.addFilterParameter("meta_time", "1532083206212", "=");
 	}
 	
 	public void setGAVFilterParameters() throws Exception{
 		GAVFilterList.getFilterList().clear();
 		GAVFilterList.addFilterParameter("meta_type", "EiffelArtifactCreatedEvent", "=");
 		GAVFilterList.addFilterParameter("meta_version", "1.0.0", "=");
-		GAVFilterList.addFilterParameter("meta_time", "1490777046672", "=");
+		GAVFilterList.addFilterParameter("meta_time", "1532083406212", "=");
 	}
 	
 	public void resetVariables() throws Exception{
@@ -255,7 +262,7 @@ public class TestNeo4jImp2 {
 		}
 	}
 	
-	public static List<JSONObject> readJsonStream(InputStream in) throws IOException{
+	/*public static List<JSONObject> readJsonStream(InputStream in) throws IOException{
 		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
 		List<JSONObject> messages = new ArrayList<JSONObject>();
 		Gson gson = new Gson();
@@ -270,16 +277,40 @@ public class TestNeo4jImp2 {
 		reader.close();
 		return messages;
 		
+	}*/
+	
+	public void readJsonStream(int max, int iteration) throws Exception{
+		InputStream infile = new FileInputStream(eventsFilePath);
+		JsonReader reader = new JsonReader(new InputStreamReader(infile, "UTF-8"));
+		Gson gson = new Gson();
+		reader.beginArray();
+		int i = 0;
+		while (reader.hasNext() && i < max) {
+			JSONObject message = gson.fromJson(reader, JSONObject.class);
+			JSONObject json = (JSONObject) new JSONParser().parse(message.toString());
+			long time = (long) (double) ((JSONObject) json.get("meta")).get("time");
+			((JSONObject) json.get("meta")).put("time", time);
+			con.store(json);
+			
+			if(iteration == 0) {
+				metaIdList.add(((Map) message.get("meta")).get("id").toString());
+				metaTimeList.add(((Map) message.get("meta")).get("time").toString());
+			}
+			i++;
+		}
+		//reader.endArray();
+		reader.close();
+		infile.close();
 	}
 	
 	public String createResFilePath(String folder, String testCaseNr, String functionName, int size){
 		String resPathMac = "/Users/Jakub1/Documents/Universitet/Exjobb/Imp/Project/eiffel-persistence-technology-evaluation/TestResults/";
-		String resPathWin = "";
+		String resPathWin = "C:/Users/ebinjak/Documents/Exjobb/eiffel-persistence-technology-evaluation/TestResults/";
 		String res = "";
 		if(size == 0){
-			res = resPathMac + impFolder + "/" + folder + "/" + DBMSName + "_" + imp + "_TestNr_" + testNr + "_TestCase_" + testCaseNr + "_" + functionName + ".csv";
+			res = resPathWin + impFolder + "/" + folder + "/" + DBMSName + "_" + imp + "_TestNr_" + testNr + "_TestCase_" + testCaseNr + "_" + functionName + ".csv";
 		}else{
-			res = resPathMac + impFolder + "/" + folder + "/" + DBMSName + "_" + imp + "_TestNr_" + testNr + "_TestCase_" + testCaseNr + "_" + functionName + "_" + size + ".csv";
+			res = resPathWin + impFolder + "/" + folder + "/" + DBMSName + "_" + imp + "_TestNr_" + testNr + "_TestCase_" + testCaseNr + "_" + functionName + "_" + size + ".csv";
 		}
 		
 		return res;
@@ -374,10 +405,10 @@ public class TestNeo4jImp2 {
 		String functionName = "storeMany";
 		ArrayList<Integer> resTime = new ArrayList<Integer>();
 		
-		List<JSONObject> jsonArr = new ArrayList<JSONObject>();
+		/*List<JSONObject> jsonArr = new ArrayList<JSONObject>();
 	    InputStream infile = new FileInputStream(eventsFilePath);
 	    jsonArr = readJsonStream(infile);
-	    infile.close();
+	    infile.close();*/
 	    
 
 	    
@@ -395,7 +426,8 @@ public class TestNeo4jImp2 {
 	    	for(int c = 0; c < iterationsNumb; c++) {
 	    		long startTime = System.nanoTime();
 	    		
-	    		con.storeManyEvents(jsonArr, amount);
+	    		//con.storeManyEvents(jsonArr, amount);
+	    		readJsonStream(amount, c);
 	    		
 	    		long endTime = System.nanoTime();
 	    		
@@ -406,11 +438,11 @@ public class TestNeo4jImp2 {
 	    		int size = con.getTimeRes().size();
 	    		for(int i = 0; i < size; i++){
 	    			long conElapsedTime = con.getTimeRes().get(i) / timeDivision;
-	    			storeIterResInFile(iterationsResQuery, Integer.toString(i+1) , Long.toString(conElapsedTime), Integer.toString(0), Integer.toString(0), timeFormatName);
+	    			//storeIterResInFile(iterationsResQuery, Integer.toString(i+1) , Long.toString(conElapsedTime), Integer.toString(0), Integer.toString(0), timeFormatName);
 	    			sumQuery += (conElapsedTime);
 	    		}
 	    		
-	    		storeIterResInFile(iterationsResQuery, "---" , "---", "---", "", "");
+	    		//storeIterResInFile(iterationsResQuery, "---" , "---", "---", "", "");
 	    		storeIterResInFile(averageResQuery, Integer.toString(c+1) , doubleToCSVValue(sumQuery/size), Integer.toString(0), Integer.toString(0), timeFormatName);
 	    		
 	    		con.timeResClear();
@@ -428,7 +460,7 @@ public class TestNeo4jImp2 {
 		}catch(Exception e){
 			logError(caseNr, functionName, amount, e);
 		}
-		jsonArr.clear();
+		//jsonArr.clear();
 		
 	}
 	
@@ -1324,8 +1356,8 @@ public class TestNeo4jImp2 {
 						break;
 					case 6:
 						tempGId = "com.mycompany.myproduct";
-						tempAId = "component-1";
-						tempVersion = "2.0.0";
+						tempAId = "sub-system";
+						tempVersion = "1.1.0";
 						break;
 					case 7:
 						tempGId = "com.mycompany.myproduct";
@@ -1377,7 +1409,7 @@ public class TestNeo4jImp2 {
 	public void testGetUpstreamEvents0(String caseNr, int amount) throws Exception{
 		String functionName = "getUpstreamEvents";
 		long count = 0;
-		int levels = 100;
+		int levels = 50;
 		int limit = 5000;
 		String metaId = metaIdList.get(upstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
@@ -1497,24 +1529,21 @@ public class TestNeo4jImp2 {
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
-		for(int i = 6; i < 11; i++){
+		for(int i = 6; i < 10; i++){
 			String tempCaseNr = caseNr + "_" + i;
 			//System.out.println(tempCaseNr);
 			switch (i) {
 				case 6:
-					levels = 10;
+					levels = 1;
 					break;
 				case 7:
-					levels = 50;
+					levels = 5;
 					break;
 				case 8:
-					levels = 100;
+					levels = 10;
 					break;
 				case 9:
-					levels = 1000;
-					break;
-				case 10:
-					levels = 10000;
+					levels = 25;
 					break;
 				default :
 					break;
@@ -1575,7 +1604,7 @@ public class TestNeo4jImp2 {
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
-		for(int i = 11; i < 16; i++){
+		for(int i = 10; i < 15; i++){
 			String tempCaseNr = caseNr + "_" + i;
 			//System.out.println(tempCaseNr);
 			try{
@@ -1622,14 +1651,14 @@ public class TestNeo4jImp2 {
 				logError(tempCaseNr, functionName, amount, e);
 			}
 			
-			limit = limit * 10;
+			limit = limit * 2;
 		}
 	}
 	
 	public void testGetDownstreamEvents0(String caseNr, int amount) throws Exception{
 		String functionName = "getDownstreamEvents";
 		long count = 0;
-		int levels = 100;
+		int levels = 50;
 		int limit = 5000;
 		String metaId = metaIdList.get(downstreamEventNr);
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
@@ -1749,24 +1778,21 @@ public class TestNeo4jImp2 {
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
-		for(int i = 6; i < 11; i++){
+		for(int i = 6; i < 10; i++){
 			String tempCaseNr = caseNr + "_" + i;
 			
 			switch (i) {
 				case 6:
-					levels = 10;
+					levels = 1;
 					break;
 				case 7:
-					levels = 50;
+					levels = 5;
 					break;
 				case 8:
-					levels = 100;
+					levels = 10;
 					break;
 				case 9:
-					levels = 1000;
-					break;
-				case 10:
-					levels = 10000;
+					levels = 25;
 					break;
 				default :
 					break;
@@ -1827,7 +1853,7 @@ public class TestNeo4jImp2 {
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
-		for(int i = 11; i < 16; i++){
+		for(int i = 10; i < 15; i++){
 			String tempCaseNr = caseNr + "_" + i;
 			
 			try{
@@ -1874,7 +1900,7 @@ public class TestNeo4jImp2 {
 				logError(tempCaseNr, functionName, amount, e);
 			}
 			
-			limit = limit * 10;
+			limit = limit * 2;
 		}
 	}
 	
@@ -1947,19 +1973,19 @@ public class TestNeo4jImp2 {
 			
 			switch (i) {
 			case 6:
-				levels = 10;
+				levels = 1;
 				break;
 			case 7:
-				levels = 50;
+				levels = 5;
 				break;
 			case 8:
-				levels = 100;
+				levels = 10;
 				break;
 			case 9:
-				levels = 1000;
+				levels = 25;
 				break;
 			case 10:
-				levels = 10000;
+				levels = 50;
 				break;
 			default :
 				break;
@@ -2041,14 +2067,14 @@ public class TestNeo4jImp2 {
 			}catch(Exception e){
 				logError(tempCaseNr, functionName, amount, e);
 			}
-			limit = limit * 10;
+			limit = limit * 2;
 		}
 	}
 	
 	public int getEventGetDownstreamEvents(String metaId, List<String> linkTypesList, int limit, int levels, ConcurrentMap<String, String> visitedMap){
 		List<Object> res = new ArrayList<>();
 		con.getEvent(metaId);
-		res = con.getUpstreamEvents(metaId, linkTypesList, visitedMap, limit, levels);
+		res = con.getDownstreamEvents(metaId, linkTypesList, visitedMap, limit, levels);
 		return res.size();	
 	}
 	
@@ -2114,19 +2140,19 @@ public class TestNeo4jImp2 {
 			
 			switch (i) {
 			case 6:
-				levels = 10;
+				levels = 1;
 				break;
 			case 7:
-				levels = 50;
+				levels = 5;
 				break;
 			case 8:
-				levels = 100;
+				levels = 10;
 				break;
 			case 9:
-				levels = 1000;
+				levels = 25;
 				break;
 			case 10:
-				levels = 10000;
+				levels = 50;
 				break;
 			default :
 				break;
@@ -2208,7 +2234,7 @@ public class TestNeo4jImp2 {
 			}catch(Exception e){
 				logError(tempCaseNr, functionName, amount, e);
 			}
-			limit = limit * 10;
+			limit = limit * 2;
 		}
 	}
 	
