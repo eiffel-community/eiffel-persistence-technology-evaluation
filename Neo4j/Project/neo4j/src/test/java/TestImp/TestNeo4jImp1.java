@@ -143,13 +143,13 @@ public class TestNeo4jImp1 {
 		    	    	test.testGetDownstreamEvents3("8", amount);
 		    	    	
 		    	    	
-		    	    	test.testCombinations1("9_1", amount);
+		    	    /*	test.testCombinations1("9_1", amount);
 		    	    	test.testCombinations2("9_1", amount);
 		    	    	test.testCombinations3("9_1", amount);
 		    	    	
 		    	    	test.testCombinations4("9_2", amount);
 		    	    	test.testCombinations5("9_2", amount);
-		    	    	test.testCombinations6("9_2", amount);
+		    	    	test.testCombinations6("9_2", amount);*/
 		    		    
 		    		    test.testCombinations7("9_3", amount);
 		    		    
