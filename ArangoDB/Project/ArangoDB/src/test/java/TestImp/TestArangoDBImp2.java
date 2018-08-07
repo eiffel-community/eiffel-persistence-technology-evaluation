@@ -56,7 +56,7 @@ public class TestArangoDBImp2 {
 	public static FilterParameterList GAVFilterList = new FilterParameterList();
 	public static int iterationsNumb = 10;
 	public static int testNr = 0;
-	public static List<Integer> testSizes = Arrays.asList(10000);//Arrays.asList(10000, 100000, 1000000, 2000000);
+	public static List<Integer> testSizes = Arrays.asList(100000);//Arrays.asList(10000, 100000, 1000000, 2000000);
 	public static List<String> metaIdList = new ArrayList<String>(); 
 	public static List<String> metaTimeList = new ArrayList<String>(); 
 	public static int timePos = 0;
@@ -102,7 +102,7 @@ public class TestArangoDBImp2 {
 		    	    	int amount = testSizes.get(i);
 		    	    	System.out.println("Problem size : " + amount);
 		    	    	
-		    	    	downstreamEventNr = (amount - 1956);
+		    	    	downstreamEventNr = (10000 - 1956);
 		    	    	
 		    	    	test.testStore("1", amount);
 						
@@ -2287,7 +2287,7 @@ public class TestArangoDBImp2 {
 		    		
 		    		long startTime = System.nanoTime();
 		    		
-		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, "<", skip, limit);
+		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, ">", skip, limit);
 
 		    		for(int d = 0; d < ABGresult.getCount(); d++){
 		    			JSONObject event = ABGresult.getEventFromEventsArray(d);
@@ -2347,7 +2347,7 @@ public class TestArangoDBImp2 {
 		    		
 		    		long startTime = System.nanoTime();
 		    		
-		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, "<", skip, limit);
+		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, ">", skip, limit);
 
 		    		for(int d = 0; d < ABGresult.getCount(); d++){
 		    			JSONObject event = ABGresult.getEventFromEventsArray(d);

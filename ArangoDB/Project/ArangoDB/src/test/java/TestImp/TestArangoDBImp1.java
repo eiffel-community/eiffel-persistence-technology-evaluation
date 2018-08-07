@@ -56,7 +56,7 @@ public class TestArangoDBImp1 {
 	public static FilterParameterList GAVFilterList = new FilterParameterList();
 	public static int iterationsNumb = 10;
 	public static int testNr = 0;
-	public static List<Integer> testSizes = Arrays.asList(10000);//Arrays.asList(10000, 100000, 1000000, 2000000);
+	public static List<Integer> testSizes = Arrays.asList(100000);//Arrays.asList(10000, 100000, 1000000, 2000000);
 	public static List<String> metaIdList = new ArrayList<String>(); 
 	public static List<String> metaTimeList = new ArrayList<String>(); 
 	public static int timePos = 0;
@@ -102,8 +102,8 @@ public class TestArangoDBImp1 {
 		    	    	int amount = testSizes.get(i);
 		    	    	System.out.println("Problem size : " + amount);
 		    	    	
-		    	    	downstreamEventNr = (amount - 1956);
-		    	    	
+		    	    	downstreamEventNr = (10000 - 1956);
+
 		    	    	test.testStore("1", amount);
 		    	    	
 		    	    	test.testGetEvent("2", amount);
@@ -143,13 +143,13 @@ public class TestArangoDBImp1 {
 		    	    	test.testGetDownstreamEvents2("8", amount);
 		    	    	test.testGetDownstreamEvents3("8", amount);
 		    	    	
-		    	    	test.testCombinations1("9_1", amount);
+		    	    /*	test.testCombinations1("9_1", amount);
 		    	    	test.testCombinations2("9_1", amount);
 		    	    	test.testCombinations3("9_1", amount);
 		    	    	
 		    	    	test.testCombinations4("9_2", amount);
 		    	    	test.testCombinations5("9_2", amount);
-		    	    	test.testCombinations6("9_2", amount);
+		    	    	test.testCombinations6("9_2", amount);*/
 		    		    
 		    		    test.testCombinations7("9_3", amount);
 		    		    
@@ -704,7 +704,7 @@ public class TestArangoDBImp1 {
 		String functionName = "getEvents";
 		FilterParameterList tempFilterList = new FilterParameterList();
 		int skip = 0;
-		int limit = 100000;
+		int limit = 10000;
 		tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
 		long count = 0;
 		
@@ -2286,7 +2286,7 @@ public class TestArangoDBImp1 {
 		    		
 		    		long startTime = System.nanoTime();
 		    		
-		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, "<", skip, limit);
+		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, ">", skip, limit);
 
 		    		for(int d = 0; d < ABGresult.getCount(); d++){
 		    			JSONObject event = ABGresult.getEventFromEventsArray(d);
@@ -2333,7 +2333,7 @@ public class TestArangoDBImp1 {
 			String tempCaseNr = caseNr + "_" + i;
 			
 			tempLinkTypes.add(linkTypes.get(i-1));
-
+			
 			try{
 			
 				String iterationsResWhole = createResFilePath("All_iterations/Whole", tempCaseNr, functionName + "_Whole_", amount);
@@ -2346,7 +2346,7 @@ public class TestArangoDBImp1 {
 		    		
 		    		long startTime = System.nanoTime();
 		    		
-		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, "<", skip, limit);
+		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, ">", skip, limit);
 
 		    		for(int d = 0; d < ABGresult.getCount(); d++){
 		    			JSONObject event = ABGresult.getEventFromEventsArray(d);
@@ -2375,6 +2375,7 @@ public class TestArangoDBImp1 {
 			}catch(Exception e){
 				logError(tempCaseNr, functionName, amount, e);
 			}
+			
 		}
 	}
 	
