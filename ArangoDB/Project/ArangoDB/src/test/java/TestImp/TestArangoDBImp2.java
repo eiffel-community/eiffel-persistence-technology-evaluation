@@ -105,7 +105,7 @@ public class TestArangoDBImp2 {
 		    	    	downstreamEventNr = (10000 - 1956);
 		    	    	
 		    	    	test.testStore("1", amount);
-						
+		    	    	
 		    	    	test.testGetEvent("2", amount);
 		    	    	
 		    		    //mainMetaTime = metaTimeList.get(timePos);
@@ -705,7 +705,7 @@ public class TestArangoDBImp2 {
 		String functionName = "getEvents";
 		FilterParameterList tempFilterList = new FilterParameterList();
 		int skip = 0;
-		int limit = 100000;
+		int limit = 10000;
 		tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
 		long count = 0;
 		
@@ -3459,7 +3459,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3540,7 +3540,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3554,7 +3554,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3644,7 +3644,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3658,7 +3658,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3672,7 +3672,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3772,7 +3772,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3786,7 +3786,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3800,7 +3800,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3815,7 +3815,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3921,7 +3921,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3935,7 +3935,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3949,7 +3949,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3964,7 +3964,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -3978,7 +3978,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4091,7 +4091,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4105,7 +4105,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4119,7 +4119,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4134,7 +4134,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4148,7 +4148,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4163,7 +4163,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4283,7 +4283,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4297,7 +4297,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4311,7 +4311,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4326,7 +4326,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4340,7 +4340,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4355,7 +4355,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4369,7 +4369,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4498,7 +4498,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4512,7 +4512,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4526,7 +4526,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4541,7 +4541,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4555,7 +4555,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4570,7 +4570,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4584,7 +4584,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4598,7 +4598,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4737,7 +4737,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4751,7 +4751,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4765,7 +4765,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4780,7 +4780,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4794,7 +4794,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4809,7 +4809,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4823,7 +4823,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4837,7 +4837,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
@@ -4851,7 +4851,7 @@ public class TestArangoDBImp2 {
 							FilterParameterList tempFilterList = new FilterParameterList();
 							tempFilterList.getFilterList().clear();
 							tempFilterList.addFilterParameter("meta_time", time1, "!=");
-							con.getEvents(tempFilterList, "<", 0, amount, false).getCount();
+							con.getEvents(tempFilterList, "<", 0, 10000, false).getCount();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logError(caseNr, functionName, amount, e);
