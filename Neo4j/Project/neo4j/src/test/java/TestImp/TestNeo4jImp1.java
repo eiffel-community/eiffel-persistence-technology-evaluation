@@ -56,7 +56,7 @@ public class TestNeo4jImp1 {
 	public static FilterParameterList GAVFilterList = new FilterParameterList();
 	public static int iterationsNumb = 10;
 	public static int testNr = 0;
-	public static List<Integer> testSizes = Arrays.asList(10000);//Arrays.asList(10000, 100000, 1000000, 2000000);
+	public static List<Integer> testSizes = Arrays.asList(100000);//Arrays.asList(10000, 100000, 1000000, 2000000);
 	public static List<String> metaIdList = new ArrayList<String>(); 
 	public static List<String> metaTimeList = new ArrayList<String>(); 
 	public static int timePos = 0;
@@ -101,10 +101,10 @@ public class TestNeo4jImp1 {
 		    	    	int amount = testSizes.get(i);
 		    	    	System.out.println("Problem size : " + amount);
 		    	    	
-		    	    	downstreamEventNr = (amount - 1956);
-		    	    	
+		    	    	downstreamEventNr = (10000 - 1956);
+		    	    	iterationsNumb = 1;
 		    	    	test.testStore("1", amount);
-						
+		    	    	iterationsNumb = 10;
 		    	    	test.testGetEvent("2", amount);
 		    	    	
 		    		    //mainMetaTime = metaTimeList.get(timePos);
@@ -113,7 +113,7 @@ public class TestNeo4jImp1 {
 		    		    filterList2.addFilterParameter("meta_time", mainMetaTime, "<>");
 						
 		    		    //System.out.println(amount + " , " + mainMetaTime);
-		    		    
+		    		    iterationsNumb = 3;
 		    		    test.testGetEvents0("3", amount);
 		    	    	test.testGetEvents1("3", amount);
 		    	    	test.testGetEvents2("3", amount);
@@ -129,7 +129,7 @@ public class TestNeo4jImp1 {
 		    	    	test.testGetArtifactsByGroupAndArtifactId1("5", amount);
 		    	    	test.testGetArtifactsByGroupAndArtifactId2("5", amount);
 		    	    	test.testGetArtifactsByGroupAndArtifactId3("5", amount);
-		    	    	
+		    	    	iterationsNumb = 10;
 		    	    	test.testGetArtifactByGAV("6", amount);
 		    	    	
 		    	    	test.testGetUpstreamEvents0("7", amount);
@@ -150,11 +150,11 @@ public class TestNeo4jImp1 {
 		    	    	test.testCombinations4("9_2", amount);
 		    	    	test.testCombinations5("9_2", amount);
 		    	    	test.testCombinations6("9_2", amount);*/
-		    		    
+		    	    	iterationsNumb = 1;
 		    		    test.testCombinations7("9_3", amount);
 		    		    
 		    		    test.testCombinations8("9_4", amount);
-		    		    
+		    		    iterationsNumb = 10;
 		    		    test.testCombinations9("9_5", amount);
 		    		    
 		    		    test.testCombinations10("9_6", amount);
@@ -686,7 +686,7 @@ public class TestNeo4jImp1 {
 		String functionName = "getEvents";
 		FilterParameterList tempFilterList = new FilterParameterList();
 		int skip = 0;
-		int limit = 100000;
+		int limit = 10000;
 		tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
 		long count = 0;
 		
@@ -2268,7 +2268,7 @@ public class TestNeo4jImp1 {
 		    		
 		    		long startTime = System.nanoTime();
 		    		
-		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, "<", skip, limit);
+		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, ">", skip, limit);
 
 		    		for(int d = 0; d < ABGresult.getCount(); d++){
 		    			JSONObject event = ABGresult.getEventFromEventsArray(d);
@@ -2327,7 +2327,7 @@ public class TestNeo4jImp1 {
 		    		
 		    		long startTime = System.nanoTime();
 		    		
-		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, "<", skip, limit);
+		    		ABGresult = con.getArtifactsByGroup(groupId, tempFilterList, ">", skip, limit);
 
 		    		for(int d = 0; d < ABGresult.getCount(); d++){
 		    			JSONObject event = ABGresult.getEventFromEventsArray(d);

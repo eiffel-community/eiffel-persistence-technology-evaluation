@@ -1,0 +1,4 @@
+Iterations;Exec_Time_Micro;Amount_Rec_events;Aver_R_Time_per_event
+1;259517;1000;259,0
+2;235207;1000;235,0
+3;234840;1000;234,0
