@@ -56,7 +56,7 @@ public class TestArangoDBImp2 {
 	public static FilterParameterList GAVFilterList = new FilterParameterList();
 	public static int iterationsNumb = 10;
 	public static int testNr = 0;
-	public static List<Integer> testSizes = Arrays.asList(100000);//Arrays.asList(10000, 100000, 1000000, 2000000);
+	public static List<Integer> testSizes = Arrays.asList(1000000);//Arrays.asList(10000, 100000, 1000000, 2000000);
 	public static List<String> metaIdList = new ArrayList<String>(); 
 	public static List<String> metaTimeList = new ArrayList<String>(); 
 	public static int timePos = 0;
@@ -1030,7 +1030,7 @@ public class TestArangoDBImp2 {
 		String functionName = "getArtifactsByGroup";
 		FilterParameterList tempFilterList = new FilterParameterList();
 		int skip = 0;
-		int limit = 100000;
+		int limit = 10000;
 		//tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
 		long count = 0;
 		
@@ -1266,7 +1266,7 @@ public class TestArangoDBImp2 {
 		String functionName = "getArtifactsByGroupAndArtifactId";
 		FilterParameterList tempFilterList = new FilterParameterList();
 		int skip = 0;
-		int limit = 100000;
+		int limit = 10000;
 		//tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
 		long count = 0;
 		

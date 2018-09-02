@@ -56,7 +56,7 @@ public class TestNeo4jImp1 {
 	public static FilterParameterList GAVFilterList = new FilterParameterList();
 	public static int iterationsNumb = 10;
 	public static int testNr = 0;
-	public static List<Integer> testSizes = Arrays.asList(100000);//Arrays.asList(10000, 100000, 1000000, 2000000);
+	public static List<Integer> testSizes = Arrays.asList(1000000);//Arrays.asList(10000, 100000, 1000000, 2000000);
 	public static List<String> metaIdList = new ArrayList<String>(); 
 	public static List<String> metaTimeList = new ArrayList<String>(); 
 	public static int timePos = 0;
@@ -103,7 +103,7 @@ public class TestNeo4jImp1 {
 		    	    	
 		    	    	downstreamEventNr = (10000 - 1956);
 		    	    	iterationsNumb = 1;
-		    	    	test.testStore("1", amount);
+		    	    	test.testStore("1", amount, 203034);
 		    	    	iterationsNumb = 10;
 		    	    	test.testGetEvent("2", amount);
 		    	    	
@@ -179,7 +179,7 @@ public class TestNeo4jImp1 {
 		    		    test.testDiffAmountThreadsUD10("10_17", amount);
 		    		    
 		    	    	test.resetVariables();
-		    	    	con.removeAllNodes();
+		    	    //	con.removeAllNodes();
 	    				
 						}
     				System.out.println("Done");
@@ -280,7 +280,7 @@ public class TestNeo4jImp1 {
 		
 	}*/
 	
-	public void readJsonStream(int max, int iteration) throws Exception{
+	public void readJsonStream(int max, int iteration, int additionStart) throws Exception{
 		InputStream infile = new FileInputStream(eventsFilePath);
 		JsonReader reader = new JsonReader(new InputStreamReader(infile, "UTF-8"));
 		Gson gson = new Gson();
@@ -291,7 +291,10 @@ public class TestNeo4jImp1 {
 			JSONObject json = (JSONObject) new JSONParser().parse(message.toString());
 			long time = (long) (double) ((JSONObject) json.get("meta")).get("time");
 			((JSONObject) json.get("meta")).put("time", time);
-			con.store(json);
+			
+			if(i > (additionStart-1)) {
+				con.store(json);
+			}
 			
 			if(iteration == 0) {
 				metaIdList.add(((Map) message.get("meta")).get("id").toString());
@@ -402,7 +405,7 @@ public class TestNeo4jImp1 {
 	}
 	
 	
-	public void testStore(String caseNr, int amount) throws Exception{
+	public void testStore(String caseNr, int amount, int additionStart) throws Exception{
 		String functionName = "storeMany";
 		ArrayList<Integer> resTime = new ArrayList<Integer>();
 		
@@ -428,7 +431,7 @@ public class TestNeo4jImp1 {
 	    		long startTime = System.nanoTime();
 	    		
 	    		//con.storeManyEvents(jsonArr, amount);
-	    		readJsonStream(amount, c);
+	    		readJsonStream(amount, c, additionStart);
 	    		
 	    		long endTime = System.nanoTime();
 	    		
@@ -1010,7 +1013,7 @@ public class TestNeo4jImp1 {
 		String functionName = "getArtifactsByGroup";
 		FilterParameterList tempFilterList = new FilterParameterList();
 		int skip = 0;
-		int limit = 100000;
+		int limit = 10000;
 		//tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
 		long count = 0;
 		
@@ -1246,7 +1249,7 @@ public class TestNeo4jImp1 {
 		String functionName = "getArtifactsByGroupAndArtifactId";
 		FilterParameterList tempFilterList = new FilterParameterList();
 		int skip = 0;
-		int limit = 100000;
+		int limit = 10000;
 		//tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
 		long count = 0;
 		

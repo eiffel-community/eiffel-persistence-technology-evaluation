@@ -56,7 +56,7 @@ public class TestArangoDBImp1 {
 	public static FilterParameterList GAVFilterList = new FilterParameterList();
 	public static int iterationsNumb = 10;
 	public static int testNr = 0;
-	public static List<Integer> testSizes = Arrays.asList(100000);//Arrays.asList(10000, 100000, 1000000, 2000000);
+	public static List<Integer> testSizes = Arrays.asList(1000000);//Arrays.asList(10000, 100000, 1000000, 2000000);
 	public static List<String> metaIdList = new ArrayList<String>(); 
 	public static List<String> metaTimeList = new ArrayList<String>(); 
 	public static int timePos = 0;
@@ -103,10 +103,10 @@ public class TestArangoDBImp1 {
 		    	    	System.out.println("Problem size : " + amount);
 		    	    	
 		    	    	downstreamEventNr = (10000 - 1956);
-
+		    	    	iterationsNumb = 1;
 		    	    	test.testStore("1", amount);
-		    	    	
-		    	    	test.testGetEvent("2", amount);
+		    	    	iterationsNumb = 10;
+		    	    //	test.testGetEvent("2", amount);
 		    	    	
 		    		    //mainMetaTime = metaTimeList.get(timePos);
 		    		    long tempMainTime = (long) Double.parseDouble(metaTimeList.get(timePos));
@@ -115,7 +115,7 @@ public class TestArangoDBImp1 {
 						
 		    		    //System.out.println(amount + " , " + mainMetaTime);
 		    		    
-		    		    test.testGetEvents0("3", amount);
+		    		/*    test.testGetEvents0("3", amount);
 		    	    	test.testGetEvents1("3", amount);
 		    	    	test.testGetEvents2("3", amount);
 		    	    	test.testGetEvents3("3", amount);
@@ -131,17 +131,27 @@ public class TestArangoDBImp1 {
 		    	    	test.testGetArtifactsByGroupAndArtifactId2("5", amount);
 		    	    	test.testGetArtifactsByGroupAndArtifactId3("5", amount);
 		    	    	
-		    	    	test.testGetArtifactByGAV("6", amount);
+		    	    	test.testGetArtifactByGAV("6", amount);*/
 		    	    	
-		    	    	test.testGetUpstreamEvents0("7", amount);
-		    	    	test.testGetUpstreamEvents1("7", amount);
-		    	    	test.testGetUpstreamEvents2("7", amount);
-		    	    	test.testGetUpstreamEvents3("7", amount);
+		    	 /*   	iterationsNumb = 1;
+		    	    	test.testGetUpstreamEvents0("7", amount);----------*/
+		    	  /*  	iterationsNumb = 10;
+		    	    	test.testGetUpstreamEvents1("7", amount);*/
+		    		    //To do 7_9
+		    	    	//iterationsNumb = 1;
+		    	    	//test.testGetUpstreamEvents2("7", amount);
+		    	    /*	iterationsNumb = 5;
+		    	    	test.testGetUpstreamEvents3("7", amount);*/
 		    		    
-		    		    test.testGetDownstreamEvents0("8", amount);
+		    	    	/*iterationsNumb = 1;
+		    		    test.testGetDownstreamEvents0("8", amount);-----------*/
+		    		  /*  iterationsNumb = 10;
 		    	    	test.testGetDownstreamEvents1("8", amount);
-		    	    	test.testGetDownstreamEvents2("8", amount);
-		    	    	test.testGetDownstreamEvents3("8", amount);
+		    	    	//To do 8_9
+		    	    	iterationsNumb = 1;
+		    	    	test.testGetDownstreamEvents2("8", amount);*/
+		    	    /*	iterationsNumb = 5;
+		    	    	test.testGetDownstreamEvents3("8", amount);*/
 		    	    	
 		    	    /*	test.testCombinations1("9_1", amount);
 		    	    	test.testCombinations2("9_1", amount);
@@ -150,11 +160,13 @@ public class TestArangoDBImp1 {
 		    	    	test.testCombinations4("9_2", amount);
 		    	    	test.testCombinations5("9_2", amount);
 		    	    	test.testCombinations6("9_2", amount);*/
-		    		    
+		    		
+		    		    //To do :
+		    	    	iterationsNumb = 1;
 		    		    test.testCombinations7("9_3", amount);
 		    		    
-		    		    test.testCombinations8("9_4", amount);
-		    		    
+		    		   // test.testCombinations8("9_4", amount);
+		    		 /*   iterationsNumb = 10;
 		    		    test.testCombinations9("9_5", amount);
 		    		    
 		    		    test.testCombinations10("9_6", amount);
@@ -176,7 +188,7 @@ public class TestArangoDBImp1 {
 		    		    test.testDiffAmountThreadsUD7("10_14", amount);
 		    		    test.testDiffAmountThreadsUD8("10_15", amount);
 		    		    test.testDiffAmountThreadsUD9("10_16", amount);
-		    		    test.testDiffAmountThreadsUD10("10_17", amount);
+		    		    test.testDiffAmountThreadsUD10("10_17", amount);*/
 		    		    
 		    	    	
 		    	    	test.resetVariables();
@@ -1029,7 +1041,7 @@ public class TestArangoDBImp1 {
 		String functionName = "getArtifactsByGroup";
 		FilterParameterList tempFilterList = new FilterParameterList();
 		int skip = 0;
-		int limit = 100000;
+		int limit = 10000;
 		//tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
 		long count = 0;
 		
@@ -1265,7 +1277,7 @@ public class TestArangoDBImp1 {
 		String functionName = "getArtifactsByGroupAndArtifactId";
 		FilterParameterList tempFilterList = new FilterParameterList();
 		int skip = 0;
-		int limit = 100000;
+		int limit = 10000;
 		//tempFilterList.addParameterToFilterList(filterList2.getParameterFromList(0));
 		long count = 0;
 		
@@ -1549,7 +1561,7 @@ public class TestArangoDBImp1 {
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		List<Object> res = new ArrayList<>();
 		
-		for(int i = 6; i < 10; i++){
+		for(int i = 9; i < 10; i++){
 			String tempCaseNr = caseNr + "_" + i;
 			//System.out.println(tempCaseNr);
 			switch (i) {
@@ -2269,7 +2281,12 @@ public class TestArangoDBImp1 {
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		DataStoreResult ABGresult = new DataStoreResult();
 		
-		for(int i = 1; i < 6; i++){
+		tempLinkTypes.add(linkTypes.get(0));
+		tempLinkTypes.add(linkTypes.get(1));
+		tempLinkTypes.add(linkTypes.get(2));
+		tempLinkTypes.add(linkTypes.get(3));
+		
+		for(int i = 5; i < 6; i++){
 			String tempCaseNr = caseNr + "_" + i;
 			
 			tempLinkTypes.add(linkTypes.get(i-1));
@@ -2329,7 +2346,12 @@ public class TestArangoDBImp1 {
 		ConcurrentMap<String, String> visitedMap = new ConcurrentHashMap<String,String>();
 		DataStoreResult ABGresult = new DataStoreResult();
 		
-		for(int i = 1; i < 6; i++){
+		tempLinkTypes.add(linkTypes.get(0));
+		tempLinkTypes.add(linkTypes.get(1));
+		tempLinkTypes.add(linkTypes.get(2));
+		
+		
+		for(int i = 4; i < 6; i++){
 			String tempCaseNr = caseNr + "_" + i;
 			
 			tempLinkTypes.add(linkTypes.get(i-1));
