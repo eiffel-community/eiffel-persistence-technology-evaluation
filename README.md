@@ -22,11 +22,10 @@ Repository for evaluation of database technologies for the purposes of storing a
 	3_0	:	param	:	meta.time !=; skip = 0; limit = 5000
 
 	3_1	:	param	: 	meta.type = ; limit 1000; skip = 0
-	3_2	:	param	:	  meta.type =; meta.version =  ; limit 1000; skip = 0
+	3_2	:	param	:	meta.type =; meta.version =  ; limit 1000; skip = 0
 	3_3	:	param	: 	meta.type =; meta.version =  ; data.name=; limit 1000; skip = 0
 	3_4	:	param	: 	meta.type = "EiffelConfidenceLevelModifiedEvent"; meta.version =  ; data.version =; data.name =; limit 1000; skip = 0
-	3_5	:	param	: 	meta.type = "EiffelConfidenceLevelModifiedEvent"; meta.version =  ; meta.time =; data.name =; data.version =; 
-                  limit = 1000; skip = 0
+	3_5	:	param	: 	meta.type = "EiffelConfidenceLevelModifiedEvent"; meta.version =  ; meta.time =; data.name =; data.version =; limit = 1000; skip = 0
 
 	3_6	:	param	: 	meta.time != ; limit 10; skip = 0
 	3_7	:	param	: 	meta.time != ; limit 100; skip = 0
@@ -52,7 +51,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	4_0	:	param	:	gav.groupid = ; skip = 0; limit = 1
 
 	4_1	:	param	: 	gav.groupid = ; limit 1000; skip = 0
-	4_2	:	param	:	  gav.groupid = ; meta.type = ; limit 1000; skip = 0
+	4_2	:	param	:	gav.groupid = ; meta.type = ; limit 1000; skip = 0
 	4_3	:	param	: 	gav.groupid = ; meta.type =; meta.version =  ; limit 1000; skip = 0
 	4_4	:	param	: 	gav.groupid = ; meta.type =; meta.version =  ; meta.time =; limit 1000; skip = 0
 
@@ -72,7 +71,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	5_0	:	param	:	gav.groupid = ; gav.artifactId() = ; skip = 0; limit = 5000
 
 	5_1	:	param	: 	gav.groupid = ; gav.artifactId() = ; limit 1000; skip = 0
-	5_2	:	param	:	  gav.groupid = ; gav.artifactId() = ; meta.type = ; limit 1000; skip = 0
+	5_2	:	param	:	gav.groupid = ; gav.artifactId() = ; meta.type = ; limit 1000; skip = 0
 	5_3	:	param	: 	gav.groupid = ; gav.artifactId() = ; meta.type =; meta.version =  ; limit 1000; skip = 0
 	5_4	:	param	: 	gav.groupid = ; gav.artifactId() = ; meta.type =; meta.version =  ; meta.time =; limit 1000; skip = 0
 
@@ -90,7 +89,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 
 6.  getArtifactByGAV()	:
 	6_1	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;
-	6_2	:	param	:	  gav.groupid = ; gav.artifactId() = ; gav.version = ;
+	6_2	:	param	:	gav.groupid = ; gav.artifactId() = ; gav.version = ;
 	6_3	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;
 	6_4	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;
 	6_5	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ;
@@ -102,7 +101,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	7_0	:	param	:	meta.id =; linkTypes : "ALL" ; levels = 50; limit = 5000
 
 	7_1	:	param	: 	meta.id =; linkTypes : CAUSE ; limit = 1000; levels = 10;
-	7_2	:	param	:	  meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
+	7_2	:	param	:	meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
 	7_3	:	param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;
 	7_4	:	param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;
 	7_5	:	param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
@@ -119,9 +118,9 @@ Repository for evaluation of database technologies for the purposes of storing a
 	7_14	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 160; levels = 10;
 
 8.  getDownstreamEvents()	:
-	8_0	:	param	:	  meta.id =; linkTypes : "ALL" ; levels = 50; limit = 5000
+	8_0	:	param	:	meta.id =; linkTypes : "ALL" ; levels = 50; limit = 5000
 	8_1	:	param	: 	meta.id =; linkTypes : CAUSE ; limit = 1000; levels = 10;
-	8_2	:	param	:	  meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
+	8_2	:	param	:	meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
 	8_3	:	param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;
 	8_4	:	param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;
 	8_5	:	param	: 	meta.id =; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
@@ -136,7 +135,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	8_11	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 20; levels = 10;
 	8_12	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 40; levels = 10;
 	8_13	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 80; levels = 10;
-	8_14  :	param	: 	meta.id =; linkTypes : "ALL" ; limit = 160; levels = 10;
+	8_14  	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 160; levels = 10;
 
 
 9.  Combinations	:
@@ -183,7 +182,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	getArtifactsByGroup() + getUpstreamEvents()	:
 
 	9_3_1	:	param	: 	gav.groupid = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
-	9_3_2	:	param	:	  gav.groupid = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
+	9_3_2	:	param	:	gav.groupid = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
 	9_3_3	:	param	: 	gav.groupid = ; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;
 	9_3_4	:	param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;
 	9_3_5	:	param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
@@ -191,7 +190,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	getArtifactsByGroup() + getDownstreamEvents():
 
 	9_4_1	:	param	: 	gav.groupid = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
-	9_4_2	:	param	:	  gav.groupid = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
+	9_4_2	:	param	:	gav.groupid = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
 	9_4_3	:	param	: 	gav.groupid = ; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;
 	9_4_4	:	param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;
 	9_4_5	:	param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
@@ -202,8 +201,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	9_5_2	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
 	9_5_3	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;
 	9_5_4	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000;                       levels = 10;
-	9_5_5	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; 
-                    limit = 1000; levels = 10;
+	9_5_5	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
 
   getArtifactByGAV() + getDownstreamEvents()	:
 
@@ -216,13 +214,13 @@ Repository for evaluation of database technologies for the purposes of storing a
 
 10. Different amount of threads	:
 	1 - 7 Threads 	:
-	10_1	:	3_16
-	10_2	:	3_16, 3_17
-	10_3	:	3_16, 3_17, 3_18
-	10_4	:	3_16, 3_17, 3_18, 3_19
-	10_5	:	3_16, 3_17, 3_18, 3_19, 3_20
-	10_6	:	3_16, 3_17, 3_18, 3_19, 3_20,3_21
-	10_7	:	3_16, 3_17, 3_18, 3_19, 3_20,3_21, 3_22
+	- 10_1	:	3_16
+	- 10_2	:	3_16, 3_17
+	- 10_3	:	3_16, 3_17, 3_18
+	- 10_4	:	3_16, 3_17, 3_18, 3_19
+	- 10_5	:	3_16, 3_17, 3_18, 3_19, 3_20
+	- 10_6	:	3_16, 3_17, 3_18, 3_19, 3_20,3_21
+	- 10_7	:	3_16, 3_17, 3_18, 3_19, 3_20,3_21, 3_22
 		
 	1-10 Threads	:
 	10_8	:	7_1
