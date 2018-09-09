@@ -165,7 +165,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 ```
 
 9.  Combinations	:
-	- getEvent() + getUpstreamEvents()	:
+- getEvent() + getUpstreamEvents() :
 ```
 	 9_1_1	:	param	: 	meta.id =; linkTypes : CAUSE ; limit = 1000; levels = 10;
 	 9_1_2	:	param	:	meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
@@ -188,7 +188,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 9_1_15	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 160; levels = 10;
 ```
 
-	- getEvent()  + getDownstreamEvents()	:
+- getEvent()  + getDownstreamEvents() :
 	
 ```
 	 9_2_1	:	param	: 	meta.id =; linkTypes : CAUSE ; limit = 1000; levels = 10;
@@ -212,7 +212,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 9_2_15	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 160; levels = 10;
 ```
 
-	- getArtifactsByGroup() + getUpstreamEvents()	:
+- getArtifactsByGroup() + getUpstreamEvents() :
 	
 ```
 	 9_3_1	:	param	: 	gav.groupid = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
@@ -222,7 +222,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 9_3_5	:	param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
 ```
 
-	- getArtifactsByGroup() + getDownstreamEvents():
+- getArtifactsByGroup() + getDownstreamEvents() :
 	
 ```
 	 9_4_1	:	param	: 	gav.groupid = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
@@ -232,7 +232,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 9_4_5	:	param	: 	gav.groupid = ;  linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
 ```
 
-	- getArtifactByGAV() + getUpstreamEvents()	:
+- getArtifactByGAV() + getUpstreamEvents() :
 	
 ```
 	 9_5_1	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
@@ -242,7 +242,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 9_5_5	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
 ```
 
-  	- getArtifactByGAV() + getDownstreamEvents()	:
+- getArtifactByGAV() + getDownstreamEvents() :
 	
 ```	
 	 9_6_1	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
@@ -253,7 +253,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 ```
 
 10. Different amount of threads	:
-	- 1 - 7 Threads 	:
+- 1 - 7 Threads :
 ```
 	 10_1	:	3_16
 	 10_2	:	3_16, 3_17
@@ -264,7 +264,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 10_7	:	3_16, 3_17, 3_18, 3_19, 3_20,3_21, 3_22
 ```
 
-- 1-10 Threads	:
+- 1-10 Threads :
 	
 ```
 	 10_8	:	7_1
