@@ -27,27 +27,27 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 3_3	:	param	: 	meta.type =; meta.version =  ; data.name=; limit 1000; skip = 0
 	 3_4	:	param	: 	meta.type = "EiffelConfidenceLevelModifiedEvent"; meta.version =  ; data.version =; data.name =; limit 1000; skip = 0
 	 3_5	:	param	: 	meta.type = "EiffelConfidenceLevelModifiedEvent"; meta.version =  ; meta.time =; data.name =; data.version =; limit = 1000; skip = 0
+	 
+	 3_6	:	param	: 	meta.time != ; limit 10; skip = 0
+	 3_7	:	param	: 	meta.time != ; limit 100; skip = 0
+	 3_8	:	param	: 	meta.time != ; limit 1000; skip = 0
+	 3_9	:	param	: 	meta.time != ; limit 10000; skip = 0
+	 3_10	:	param	: 	meta.time != ; limit 100000; skip = 0
+
+	 3_11	:	param	: 	meta.time != ; limit 10000; skip = 1
+	 3_12	:	param	: 	meta.time != ; limit 10000;; skip = 5
+	 3_13	:	param	: 	meta.time != ; limit 10000; skip = 10
+	 3_14	:	param	: 	meta.time != ; limit 10000; skip = 20
+	 3_15	:	param	: 	meta.time != ; limit 10000; skip = 50
+
+	 3_16	:	param	: 	meta.time = ; limit 1000; skip = 0
+	 3_17	:	param	: 	meta.time > ; limit 1000; skip = 0
+	 3_18	:	param	: 	meta.time < ; limit 1000; skip = 0
+	 3_19	:	param	: 	meta.time >= ; limit 1000; skip = 0
+	 3_20	:	param	: 	meta.time <= ; limit 1000; skip = 0
+	 3_21	:	param	: 	meta.time != ; limit 1000; skip = 0
+	 3_22	:	param	: 	meta.time > ; meta.time <; limit 1000; skip = 0
 ```
-	- 3_6	:	param	: 	meta.time != ; limit 10; skip = 0
-	- 3_7	:	param	: 	meta.time != ; limit 100; skip = 0
-	- 3_8	:	param	: 	meta.time != ; limit 1000; skip = 0
-	- 3_9	:	param	: 	meta.time != ; limit 10000; skip = 0
-	- 3_10	:	param	: 	meta.time != ; limit 100000; skip = 0
-
-	- 3_11	:	param	: 	meta.time != ; limit 10000; skip = 1
-	- 3_12	:	param	: 	meta.time != ; limit 10000;; skip = 5
-	- 3_13	:	param	: 	meta.time != ; limit 10000; skip = 10
-	- 3_14	:	param	: 	meta.time != ; limit 10000; skip = 20
-	- 3_15	:	param	: 	meta.time != ; limit 10000; skip = 50
-
-	- 3_16	:	param	: 	meta.time = ; limit 1000; skip = 0
-	- 3_17	:	param	: 	meta.time > ; limit 1000; skip = 0
-	- 3_18	:	param	: 	meta.time < ; limit 1000; skip = 0
-	- 3_19	:	param	: 	meta.time >= ; limit 1000; skip = 0
-	- 3_20	:	param	: 	meta.time <= ; limit 1000; skip = 0
-	- 3_21	:	param	: 	meta.time != ; limit 1000; skip = 0
-	- 3_22	:	param	: 	meta.time > ; meta.time <; limit 1000; skip = 0
-
 4.  getArtifactsByGroup()	:
 	- 4_0	:	param	:	gav.groupid = ; skip = 0; limit = 1
 
