@@ -238,7 +238,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 9_5_1	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
 	 9_5_2	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
 	 9_5_3	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;
-	 9_5_4	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000;                       levels = 10;
+	 9_5_4	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;
 	 9_5_5	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
 ```
 
@@ -248,7 +248,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 9_6_1	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
 	 9_6_2	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
 	 9_6_3	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT ; limit = 1000; levels = 10;
-	 9_6_4	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000;                       levels = 10;
+	 9_6_4	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION; limit = 1000; levels = 10;
 	 9_6_5	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT, CONTEXT, COMPOSITION, BASE; limit = 1000; levels = 10;
 ```
 
