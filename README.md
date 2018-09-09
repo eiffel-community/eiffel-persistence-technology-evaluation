@@ -278,7 +278,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 10_16	:	7_1, 7_2, 7_3, 7_4, 7_5, 8_1, 8_2, 8_3, 8_4
 	 10_17	:	7_1, 7_2, 7_3, 7_4, 7_5, 8_1, 8_2, 8_3, 8_4, 8_5
 ```	 
-```
+
 ## Results
 
 Some of the more important results.
