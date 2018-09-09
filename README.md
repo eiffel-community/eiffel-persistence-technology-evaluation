@@ -189,6 +189,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 ```
 
 	- getEvent()  + getDownstreamEvents()	:
+	
 ```
 	 9_2_1	:	param	: 	meta.id =; linkTypes : CAUSE ; limit = 1000; levels = 10;
 	 9_2_2	:	param	:	meta.id =; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
@@ -212,6 +213,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 ```
 
 	- getArtifactsByGroup() + getUpstreamEvents()	:
+	
 ```
 	 9_3_1	:	param	: 	gav.groupid = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
 	 9_3_2	:	param	:	gav.groupid = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
@@ -221,6 +223,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 ```
 
 	- getArtifactsByGroup() + getDownstreamEvents():
+	
 ```
 	 9_4_1	:	param	: 	gav.groupid = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
 	 9_4_2	:	param	:	gav.groupid = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
@@ -230,6 +233,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 ```
 
 	- getArtifactByGAV() + getUpstreamEvents()	:
+	
 ```
 	 9_5_1	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
 	 9_5_2	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
@@ -239,6 +243,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 ```
 
   	- getArtifactByGAV() + getDownstreamEvents()	:
+	
 ```	
 	 9_6_1	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE ; limit = 1000; levels = 10;
 	 9_6_2	:	param	: 	gav.groupid = ; gav.artifactId() = ; gav.version = ; linkTypes : CAUSE, ELEMENT ; limit = 1000; levels = 10;
