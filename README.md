@@ -21,13 +21,15 @@ Repository for evaluation of database technologies for the purposes of storing a
 3.  getEvents()	:
 ```
 	 3_0	:	param	:	meta.time !=; skip = 0; limit = 5000
-
+```
+```
 	 3_1	:	param	: 	meta.type = ; limit 1000; skip = 0
 	 3_2	:	param	:	meta.type =; meta.version =  ; limit 1000; skip = 0
 	 3_3	:	param	: 	meta.type =; meta.version =  ; data.name=; limit 1000; skip = 0
 	 3_4	:	param	: 	meta.type = "EiffelConfidenceLevelModifiedEvent"; meta.version =  ; data.version =; data.name =; limit 1000; skip = 0
 	 3_5	:	param	: 	meta.type = "EiffelConfidenceLevelModifiedEvent"; meta.version =  ; meta.time =; data.name =; data.version =; limit = 1000; skip = 0
-	 
+```
+```
 	 3_6	:	param	: 	meta.time != ; limit 10; skip = 0
 	 3_7	:	param	: 	meta.time != ; limit 100; skip = 0
 	 3_8	:	param	: 	meta.time != ; limit 1000; skip = 0
