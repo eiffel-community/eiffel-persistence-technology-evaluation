@@ -285,7 +285,7 @@ Some of the more important results.
 
 1.  store()
 
-|Average|
+|<td colspan=4> Average |
 | DBMS  | 10 000 | 100 000 | 1000 000 |
 | ------------- | ------------- | ------------- | ------------- |
 | MongoDB  |   |   |   |
