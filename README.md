@@ -264,7 +264,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 10_7	:	3_16, 3_17, 3_18, 3_19, 3_20,3_21, 3_22
 ```
 
-	- 1-10 Threads	:
+- 1-10 Threads	:
 	
 ```
 	 10_8	:	7_1
