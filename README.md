@@ -285,7 +285,18 @@ Some of the more important results.
 
 1.  store()
 
-|<td colspan=4> Average |
+- Average :
+
+| DBMS  | 10 000 | 100 000 | 1000 000 |
+| ------------- | ------------- | ------------- | ------------- |
+| MongoDB  |   |   |   |
+| Neo4j Imp1  |   |   |   |
+| Neo4j Imp2  |   |   |   |
+| ArangoDB Imp1  |   |   |   |
+| ArangoDB Imp1  |   |   |   |
+
+- Average per event :
+
 | DBMS  | 10 000 | 100 000 | 1000 000 |
 | ------------- | ------------- | ------------- | ------------- |
 | MongoDB  |   |   |   |
