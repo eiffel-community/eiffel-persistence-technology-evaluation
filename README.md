@@ -260,6 +260,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 ```
 
 	- 1-10 Threads	:
+	
 ```
 	 10_8	:	7_1
 	 10_9	:	7_1, 7_2
