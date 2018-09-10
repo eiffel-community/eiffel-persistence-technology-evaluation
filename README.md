@@ -436,24 +436,48 @@ Some of the more important results.
 
 - - - -
 
-8.  Combinations : getArtifactsByGroup() + getUpstreamEvents() : 9_3_5
+9.  Combinations : getArtifactsByGroup() + getUpstreamEvents() : 9_3_5
 
 - Average :
 
 | DBMS  | 10 000 | 100 000 | 1000 000 |
 | ------------- | ------------- | ------------- | ------------- |
-| MongoDB  |  |  |  |
-| Neo4j Imp1  |  |  |  |
-| Neo4j Imp2  |  |  |  |
-| ArangoDB Imp1  |   |   |   |
-| ArangoDB Imp1  |   |   |   |
+| MongoDB  | 8,31E+07 | 9,24E+08 | 9,45E+09 |
+| Neo4j Imp1  | 1,78E+08 | 1,43E+09 | - |
+| Neo4j Imp2  | - | - | - |
+| ArangoDB Imp1  | 2,17E+08 | 2,49E+09 | 2,48E+10 |
+| ArangoDB Imp1  | 2,99E+08 | 6,35E+08 | 3,46E+09 |
 
 - Average per event :
 
 | DBMS  | 10 000 | 100 000 | 1000 000 |
 | ------------- | ------------- | ------------- | ------------- |
-| MongoDB  |   |   |   |
-| Neo4j Imp1  |   |   |   |
-| Neo4j Imp2  |   |   |   |
-| ArangoDB Imp1  |   |   |   |
-| ArangoDB Imp1  |   |   |   |
+| MongoDB  | 1,31E+04 | 1,20E+05 | 1,27E+06 |
+| Neo4j Imp1  | 2,79E+04 | 1,85E+05 | - |
+| Neo4j Imp2  | - | -  | - |
+| ArangoDB Imp1  | 3,40E+04 | 3,22E+05 | 3,34E+06 |
+| ArangoDB Imp1  | 4,70E+04 | 8,23E+04 | 4,66E+05 |
+
+- - - -
+
+10.  Different amount of threads : 10_7 : 3_22
+
+- Average :
+
+| DBMS  | 10 000 | 100 000 | 1000 000 |
+| ------------- | ------------- | ------------- | ------------- |
+| MongoDB  | 1,67E+05 | 5,48E+05 | 3,53E+06 |
+| Neo4j Imp1  | 5,05E+07 | 3,61E+08 | - |
+| Neo4j Imp2  | - | - | - |
+| ArangoDB Imp1  | 1,04E+05 | 5,06E+05 | 3,30E+06 |
+| ArangoDB Imp1  | 1,34E+05 | 4,62E+05 | 4,00E+06 |
+
+- Average per event :
+
+| DBMS  | 10 000 | 100 000 | 1000 000 |
+| ------------- | ------------- | ------------- | ------------- |
+| MongoDB  | 167,1 | 548,2 | 3530,1 |
+| Neo4j Imp1  | 50514,7 | 360534,6 | - |
+| Neo4j Imp2  | - | -  | -  |
+| ArangoDB Imp1  | 103,9 | 505,8531 | 3303,3 |
+| ArangoDB Imp1  | 133,7 | 461,9 | 4004,1 |
