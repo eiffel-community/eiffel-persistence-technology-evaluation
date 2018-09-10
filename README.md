@@ -298,6 +298,8 @@ Some of the more important results.
 
 * Storing of 367 994 events took 88 hours 20 minutes 54 seconds
 
+- - - -
+
 2.  getEvent()
 
 - Average :
@@ -309,6 +311,8 @@ Some of the more important results.
 | Neo4j Imp2  | 313173,7 | - | - |
 | ArangoDB Imp1  | 13408,1 | 84845,2 | 818298 |
 | ArangoDB Imp1  | 13483,1 | 81983,8 | 811778,5 |
+
+- - - -
 
 3.  getEvents()	: 3_0
 
@@ -331,6 +335,8 @@ Some of the more important results.
 | Neo4j Imp2  | 2,37E+06 | - | - |
 | ArangoDB Imp1  | 84,9 | 596,0 | 6278,7 |
 | ArangoDB Imp1  | 83,8 | 564,5 | 6352,2 |
+
+- - - -
 
 3.  getEvents()	: 3_10
 
@@ -356,6 +362,8 @@ Some of the more important results.
 
 * MongoDB could not perform this test for 100 000 and 1000 000 events, because its built-in sort function has a max size limitation.
 
+- - - -
+
 7.  getUpstreamEvents()	: 7_0
 
 - Average :
@@ -378,6 +386,8 @@ Some of the more important results.
 | ArangoDB Imp1  | 2,01E+07 | 1,99E+08 | - |
 | ArangoDB Imp1  | 2,28E+05 | 2,46E+05 | 2,76E+05 |
 
+- - - -
+
 8.  getDownstreamEvents() : 8_0
 
 - Average :
@@ -399,6 +409,8 @@ Some of the more important results.
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 1,95E+06 | 1,94E+07 | - |
 | ArangoDB Imp1  | 9,51E+03 | 1,02E+04 | 1,30E+04 |
+
+- - - -
 
 8.  getDownstreamEvents() : 8_9
 
