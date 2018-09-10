@@ -15,6 +15,10 @@ Repository for evaluation of database technologies for the purposes of storing a
    
 ### Tests' description
 
+- Each test case is executed 10 times to get the average execution time.
+- Execution time is measured in microseconds.
+- Tests are performed on different amounts of events: 10 000, 100 000, 1000 000
+
 1.  store()
 
 2.  getEvent()
@@ -162,7 +166,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 8_11	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 20; levels = 10;
 	 8_12	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 40; levels = 10;
 	 8_13	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 80; levels = 10;
-	 8_14  :	param	: 	meta.id =; linkTypes : "ALL" ; limit = 160; levels = 10;
+	 8_14  	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 160; levels = 10;
 ```
 
 9.  Combinations	:
@@ -179,7 +183,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 	 9_1_7	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 5;
 	 9_1_8	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 10;
 	 9_1_9	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 25;
-	 9_1_10:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 50;
+	 9_1_10	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 1000; levels = 50;
 ```
 ```
 	 9_1_11	:	param	: 	meta.id =; linkTypes : "ALL" ; limit = 10; levels = 10;
