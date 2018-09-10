@@ -422,6 +422,8 @@ Some of the more important results.
 | ArangoDB Imp1  | 7,06E+05 | 7,59E+06 | - |
 | ArangoDB Imp1  | 4,00E+03 | 4,59E+03 | 1,11E+04 |
 
+Markup :  - - - -
+
 8.  Combinations : getArtifactsByGroup() + getUpstreamEvents() : 9_3_5
 
 - Average :
