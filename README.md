@@ -3,10 +3,12 @@ Repository for evaluation of database technologies for the purposes of storing a
 
 ## Tests
 
+### Implementations
+
 1. MongoDB - DBMS that supports document model
 2. Neo4j  - DBMS that supports graph model
-   - Imp1
-   - Imp2
+   - Imp1 - Each event is one node. Information from JSON object is adapted so that each key-value pair is a node property
+   - Imp2 - Each level of the JSON object is stored separately as a node. One event is divided into multiple nodes
 3. ArangoDB - DBMS that supports key, document and graph models
    - Imp1 - Pure document implementation, same as MongoDB
    - Imp2 - Multi-model implementation, combination of document and graph models
