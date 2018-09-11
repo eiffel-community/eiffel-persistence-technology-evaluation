@@ -300,7 +300,7 @@ Some of the more important results.
 | Neo4j Imp1  | 4,72E+08 | 3,17E+10 | * |
 | Neo4j Imp2  | 9,97E+09 | - | - |
 | ArangoDB Imp1  | 4,05E+06 | 3,82E+07 | 3,49E+08 |
-| ArangoDB Imp1  | 3,93E+07 | 3,89E+08 | 4,09E+09 |
+| ArangoDB Imp2  | 3,93E+07 | 3,89E+08 | 4,09E+09 |
 
 * Storing of 367 994 events took 88 hours 20 minutes 54 seconds
 
@@ -316,7 +316,7 @@ Some of the more important results.
 | Neo4j Imp1  | 56830,7 | 309152,8 | - |
 | Neo4j Imp2  | 313173,7 | - | - |
 | ArangoDB Imp1  | 13408,1 | 84845,2 | 818298 |
-| ArangoDB Imp1  | 13483,1 | 81983,8 | 811778,5 |
+| ArangoDB Imp2  | 13483,1 | 81983,8 | 811778,5 |
 
 - - - -
 
@@ -330,7 +330,7 @@ Some of the more important results.
 | Neo4j Imp1  | 2,00E+07 | 1,39E+08 | - |
 | Neo4j Imp2  | 2,37E+09 | - | - |
 | ArangoDB Imp1  | 8,49E+04 | 5,96e+05 | 6,28E+06 |
-| ArangoDB Imp1  | 8,38E+04 | 5,64E+05 | 6,35E+06 |
+| ArangoDB Imp2  | 8,38E+04 | 5,64E+05 | 6,35E+06 |
 
 - Average per event :
 
@@ -340,7 +340,7 @@ Some of the more important results.
 | Neo4j Imp1  | 19992,4 | 138617,5 | - |
 | Neo4j Imp2  | 2,37E+06 | - | - |
 | ArangoDB Imp1  | 84,9 | 596,0 | 6278,7 |
-| ArangoDB Imp1  | 83,8 | 564,5 | 6352,2 |
+| ArangoDB Imp2  | 83,8 | 564,5 | 6352,2 |
 
 - - - -
 
@@ -354,7 +354,7 @@ Some of the more important results.
 | Neo4j Imp1  | 2,08E+08 | 1,33E+10 | - |
 | Neo4j Imp2  | 2,37E+09 | - | - |
 | ArangoDB Imp1  | 3,07E+05 | 4,17E+06 | 1,06E+07 |
-| ArangoDB Imp1  | 3,25E+05 | 4,68E+06 | 1,09E+07 |
+| ArangoDB Imp2  | 3,25E+05 | 4,68E+06 | 1,09E+07 |
 
 - Average per event :
 
@@ -364,7 +364,7 @@ Some of the more important results.
 | Neo4j Imp1  | 20849,1 | 133290,5 | - |
 | Neo4j Imp2  | 237184,7 | - | - |
 | ArangoDB Imp1  | 30,7 | 41,7 | 105,6 |
-| ArangoDB Imp1  | 32,5 | 46,8 | 109,1 |
+| ArangoDB Imp2  | 32,5 | 46,8 | 109,1 |
 
 * MongoDB could not perform this test for 100 000 and 1000 000 events, because its built-in sort function has a max size limitation.
 
@@ -380,7 +380,7 @@ Some of the more important results.
 | Neo4j Imp1  | 7,47E+06 | 1,44E+07 | - |
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 1,21E+09 | 1,19E+10 | - |
-| ArangoDB Imp1  | 1,37E+07 | 1,48E+07 | 1,65E+07 |
+| ArangoDB Imp2  | 1,37E+07 | 1,48E+07 | 1,65E+07 |
 
 - Average per event :
 
@@ -390,7 +390,7 @@ Some of the more important results.
 | Neo4j Imp1  | 1,25E+05 | 2,40E+05 | - |
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 2,01E+07 | 1,99E+08 | - |
-| ArangoDB Imp1  | 2,28E+05 | 2,46E+05 | 2,76E+05 |
+| ArangoDB Imp2  | 2,28E+05 | 2,46E+05 | 2,76E+05 |
 
 - - - -
 
@@ -404,7 +404,7 @@ Some of the more important results.
 | Neo4j Imp1  | 2,18E+07 | 1,34E+08 | - |
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 1,70E+09 | 1,88E+10 | - |
-| ArangoDB Imp1  | 8,31E+06 | 9,93E+06 | 1,26E+07 |
+| ArangoDB Imp2  | 8,31E+06 | 9,93E+06 | 1,26E+07 |
 
 - Average per event :
 
@@ -414,7 +414,7 @@ Some of the more important results.
 | Neo4j Imp1  | 2,49E+04 | 1,38E+05 | - |
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 1,95E+06 | 1,94E+07 | - |
-| ArangoDB Imp1  | 9,51E+03 | 1,02E+04 | 1,30E+04 |
+| ArangoDB Imp2  | 9,51E+03 | 1,02E+04 | 1,30E+04 |
 
 - - - -
 
@@ -428,7 +428,7 @@ Some of the more important results.
 | Neo4j Imp1  | 1,03E+07 | 5,64E+07 | - |
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 2,96E+08 | 3,18E+09 | - |
-| ArangoDB Imp1  | 1,68E+06 | 1,92E+06 | 4,66E+06 |
+| ArangoDB Imp2  | 1,68E+06 | 1,92E+06 | 4,66E+06 |
 
 - Average per event :
 
@@ -438,7 +438,7 @@ Some of the more important results.
 | Neo4j Imp1  | 2,46E+04 | 1,35E+05 | - |
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 7,06E+05 | 7,59E+06 | - |
-| ArangoDB Imp1  | 4,00E+03 | 4,59E+03 | 1,11E+04 |
+| ArangoDB Imp2  | 4,00E+03 | 4,59E+03 | 1,11E+04 |
 
 - - - -
 
@@ -452,7 +452,7 @@ Some of the more important results.
 | Neo4j Imp1  | 1,78E+08 | 1,43E+09 | - |
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 2,17E+08 | 2,49E+09 | 2,48E+10 |
-| ArangoDB Imp1  | 2,99E+08 | 6,35E+08 | 3,46E+09 |
+| ArangoDB Imp2  | 2,99E+08 | 6,35E+08 | 3,46E+09 |
 
 - Average per event :
 
@@ -462,7 +462,7 @@ Some of the more important results.
 | Neo4j Imp1  | 2,79E+04 | 1,85E+05 | - |
 | Neo4j Imp2  | - | -  | - |
 | ArangoDB Imp1  | 3,40E+04 | 3,22E+05 | 3,34E+06 |
-| ArangoDB Imp1  | 4,70E+04 | 8,23E+04 | 4,66E+05 |
+| ArangoDB Imp2  | 4,70E+04 | 8,23E+04 | 4,66E+05 |
 
 - - - -
 
@@ -476,7 +476,7 @@ Some of the more important results.
 | Neo4j Imp1  | 5,05E+07 | 3,61E+08 | - |
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 1,04E+05 | 5,06E+05 | 3,30E+06 |
-| ArangoDB Imp1  | 1,34E+05 | 4,62E+05 | 4,00E+06 |
+| ArangoDB Imp2  | 1,34E+05 | 4,62E+05 | 4,00E+06 |
 
 - Average per event :
 
@@ -486,4 +486,4 @@ Some of the more important results.
 | Neo4j Imp1  | 50514,7 | 360534,6 | - |
 | Neo4j Imp2  | - | -  | -  |
 | ArangoDB Imp1  | 103,9 | 505,8531 | 3303,3 |
-| ArangoDB Imp1  | 133,7 | 461,9 | 4004,1 |
+| ArangoDB Imp2  | 133,7 | 461,9 | 4004,1 |
