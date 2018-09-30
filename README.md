@@ -466,7 +466,31 @@ Some of the more important results.
 
 - - - -
 
-10.  Different amount of threads : 10_7 : 3_22
+10.  Different amount of threads : One thread : 3_22
+
+- Average :
+
+| DBMS  | 10 000 | 100 000 | 1000 000 |
+| ------------- | ------------- | ------------- | ------------- |
+| MongoDB  | 5.91E+04 | 1.81E+05 | 1.34E+06 |
+| Neo4j Imp1  | 2.05E+07 | 1.32E+08 | - |
+| Neo4j Imp2  | - | - | - |
+| ArangoDB Imp1  | 4.43E+04 | 2.18E+05 | 1.24E+06 |
+| ArangoDB Imp2  | 4.68E+04 | 1.77E+05 | 1.25E+06 |
+
+- Average per event :
+
+| DBMS  | 10 000 | 100 000 | 1000 000 |
+| ------------- | ------------- | ------------- | ------------- |
+| MongoDB  | 59.1 | 181.0 | 1336.8 |
+| Neo4j Imp1  | 20515.4 | 131527.0 | - |
+| Neo4j Imp2  | - | - | - |
+| ArangoDB Imp1  | 44.3 | 217.8 | 1239.7 |
+| ArangoDB Imp2  | 46.8 | 176.9 | 1249.1 |
+
+- - - -
+
+10.  Different amount of threads : Seven threads : 10_7 : 3_22
 
 - Average :
 
