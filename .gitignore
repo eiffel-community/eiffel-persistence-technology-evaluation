@@ -6,6 +6,7 @@
 !/Test/Test/src/**
 !.gitignore
 !/TestResults/**
+!/Pictures/**
 
 /ArangoDB/Project/ArangoDB/src/main/java/com/multimodel/ArangoDB/.DS_Store
 /Neo4j/Project/neo4j/neo4j-community-3.3.5/
