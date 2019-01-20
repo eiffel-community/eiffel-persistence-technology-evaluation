@@ -304,6 +304,8 @@ Some of the more important results.
 
 * Storing of 367 994 events took 88 hours 20 minutes 54 seconds
 
+<img src="./Pictures/TL/store.png"/>
+
 - - - -
 
 2.  getEvent()
