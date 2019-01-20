@@ -289,6 +289,7 @@ Repository for evaluation of database technologies for the purposes of storing a
 Some of the more important results.
 * All results are in microseconds
 * All tests are done without using indexing
+* Graphs use logarithmic scale base 10
 
 1.  store()
 
@@ -320,6 +321,8 @@ Some of the more important results.
 | ArangoDB Imp1  | 13408.1 | 84845.2 | 818298 |
 | ArangoDB Imp2  | 13483.1 | 81983.8 | 811778.5 |
 
+<img src="./Pictures/TL/getEvent.png"/>
+
 - - - -
 
 3.  getEvents()	: 3_0
@@ -334,6 +337,8 @@ Some of the more important results.
 | ArangoDB Imp1  | 8.49E+04 | 5.96e+05 | 6.28E+06 |
 | ArangoDB Imp2  | 8.38E+04 | 5.64E+05 | 6.35E+06 |
 
+<img src="./Pictures/TL/getEvents_3_0.png"/>
+
 - Average per event :
 
 | DBMS  | 10 000 | 100 000 | 1000 000 |
@@ -343,6 +348,8 @@ Some of the more important results.
 | Neo4j Imp2  | 2.37E+06 | - | - |
 | ArangoDB Imp1  | 84.9 | 596.0 | 6278.7 |
 | ArangoDB Imp2  | 83.8 | 564.5 | 6352.2 |
+
+<img src="./Pictures/TL/getEvents_3_0_A.png"/>
 
 - - - -
 
@@ -384,6 +391,8 @@ Some of the more important results.
 | ArangoDB Imp1  | 1.21E+09 | 1.19E+10 | - |
 | ArangoDB Imp2  | 1.37E+07 | 1.48E+07 | 1.65E+07 |
 
+<img src="./Pictures/TL/Upstream_7_0.png"/>
+
 - Average per event :
 
 | DBMS  | 10 000 | 100 000 | 1000 000 |
@@ -393,6 +402,8 @@ Some of the more important results.
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 2.01E+07 | 1.99E+08 | - |
 | ArangoDB Imp2  | 2.28E+05 | 2.46E+05 | 2.76E+05 |
+
+<img src="./Pictures/TL/Upstream_7_0_A.png"/>
 
 - - - -
 
@@ -408,6 +419,8 @@ Some of the more important results.
 | ArangoDB Imp1  | 1.70E+09 | 1.88E+10 | - |
 | ArangoDB Imp2  | 8.31E+06 | 9.93E+06 | 1.26E+07 |
 
+<img src="./Pictures/TL/Downstream_8_0.png"/>
+
 - Average per event :
 
 | DBMS  | 10 000 | 100 000 | 1000 000 |
@@ -417,6 +430,8 @@ Some of the more important results.
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 1.95E+06 | 1.94E+07 | - |
 | ArangoDB Imp2  | 9.51E+03 | 1.02E+04 | 1.30E+04 |
+
+<img src="./Pictures/TL/Downstream_8_0_A.png"/>
 
 - - - -
 
@@ -432,6 +447,8 @@ Some of the more important results.
 | ArangoDB Imp1  | 2.96E+08 | 3.18E+09 | - |
 | ArangoDB Imp2  | 1.68E+06 | 1.92E+06 | 4.66E+06 |
 
+<img src="./Pictures/TL/Downstream_8_9.png"/>
+
 - Average per event :
 
 | DBMS  | 10 000 | 100 000 | 1000 000 |
@@ -441,6 +458,8 @@ Some of the more important results.
 | Neo4j Imp2  | - | - | - |
 | ArangoDB Imp1  | 7.06E+05 | 7.59E+06 | - |
 | ArangoDB Imp2  | 4.00E+03 | 4.59E+03 | 1.11E+04 |
+
+<img src="./Pictures/TL/Downstream_8_9_A.png"/>
 
 - - - -
 
