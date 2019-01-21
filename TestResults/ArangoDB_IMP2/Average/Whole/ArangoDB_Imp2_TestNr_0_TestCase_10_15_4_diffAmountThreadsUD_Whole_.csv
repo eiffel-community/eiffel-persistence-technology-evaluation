@@ -1,0 +1,4 @@
+Problem_Size;Exec_Time_Micro;Amount_Rec_events;Aver_R_Time_per_event
+10000;207358,2;1;207358,2
+100000;587505,7;1;587505,7
+1000000;5054626,1;1;5054626,1

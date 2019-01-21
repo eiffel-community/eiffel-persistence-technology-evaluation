@@ -1,0 +1,9 @@
+#MongoDB
+mongodb:
+  host: localhost
+  port: 27017
+  database: testeiffel
+  collection: eiffelEvents
+  user: newUser
+  password: newPwd
+  externalERs: 
