@@ -1,3 +1,5 @@
+[![Sandbox badge](https://img.shields.io/badge/Stage-Sandbox-yellow)](https://github.com/eiffel-community/community/blob/master/PROJECT_LIFECYCLE.md#stage-sandbox)
+
 # eiffel-persistence-technology-evaluation
 Repository for evaluation of database technologies for the purposes of storing and retrieving Eiffel events.
 
